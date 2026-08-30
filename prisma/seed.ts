@@ -34,10 +34,37 @@ async function main() {
           email: "dr.demo@homeorx.health",
           phone: "+92 300 1234567",
           role: "DOCTOR",
+          status: "APPROVED",
         },
       },
     },
     include: { doctors: true },
+  });
+
+  // Seed Super Administrator (Doctor Admin with full platform authority)
+  await prisma.tenant.upsert({
+    where: { id: "tenant-superadmin" },
+    update: {},
+    create: {
+      id: "tenant-superadmin",
+      name: "HomeoRx SaaS Central Administration",
+      clinicName: "HomeoRx Central Administration",
+      email: "admin@homeorx.health",
+      phone: "+92 300 1234567",
+      currency: "PKR",
+      doctors: {
+        create: {
+          id: "doc-superadmin-001",
+          name: "Dr. Qamar (Super Admin / سسٹم ایڈمن)",
+          qualification: "Chief Medical Officer & Platform Admin",
+          registrationNumber: "HOM-ADMIN-001",
+          email: "admin@homeorx.health",
+          role: "SUPER_ADMIN",
+          status: "APPROVED",
+          active: true,
+        },
+      },
+    },
   });
 
   const doctorId = tenant.doctors[0]?.id || "doc-demo-001";

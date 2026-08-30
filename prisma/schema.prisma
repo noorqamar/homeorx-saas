@@ -51,6 +51,7 @@ model Doctor {
   phone              String?
   avatar             String?  // Personal doctor avatar, strictly separated from clinic logo
   role               String   @default("DOCTOR") // SUPER_ADMIN, DOCTOR, ASSISTANT, RECEPTIONIST
+  status             String   @default("APPROVED") // APPROVED, PENDING, SUSPENDED, REJECTED
   active             Boolean  @default(true)
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt

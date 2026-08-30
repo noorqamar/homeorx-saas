@@ -14,6 +14,7 @@ import {
   Sliders,
   HeartPulse,
   LogOut,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logoutDoctor } from "@/app/actions/auth";
@@ -26,6 +27,7 @@ const navigationItems = [
   { name: "New Prescription", href: "/prescriptions/new", icon: PlusCircle, highlight: true },
   { name: "Medicine Database", href: "/medicines", icon: Database },
   { name: "Repertory", href: "/repertory", icon: BookOpen },
+  { name: "Super Admin Portal", href: "/admin", icon: ShieldCheck, highlight: true },
   { name: "Clinic Profile", href: "/clinic", icon: Building2 },
   { name: "Settings", href: "/settings", icon: Sliders },
 ];

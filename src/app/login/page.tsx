@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
+  Crown,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -64,6 +65,26 @@ export default function LoginPage() {
     }
   };
 
+  const handleSuperAdminLogin = async () => {
+    setEmail("admin@homeorx.health");
+    setPassword("admin123456");
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await loginDoctor({
+        email: "admin@homeorx.health",
+        password: "admin123456",
+      });
+      router.push("/admin");
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message || "Failed to log in as Super Admin.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4 relative overflow-hidden">
       {/* Ambient background glows */}
@@ -88,10 +109,10 @@ export default function LoginPage() {
         <Card className="bg-slate-900/90 border-slate-800 backdrop-blur-xl shadow-2xl">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-lg text-white font-bold">
-              Doctor Sign In (لاگ ان)
+              Doctor / Admin Sign In (لاگ ان)
             </CardTitle>
             <CardDescription className="text-slate-400 text-xs">
-              Enter your clinic credentials to access your isolated patient database
+              Enter your credentials to access your clinical workspace or admin portal
             </CardDescription>
           </CardHeader>
 
@@ -106,7 +127,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1">
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Doctor Official Email
+                  Email Address
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
@@ -147,13 +168,13 @@ export default function LoginPage() {
                 isLoading={isLoading}
                 className="w-full font-bold shadow-lg text-sm bg-emerald-600 hover:bg-emerald-500 text-white"
               >
-                Sign In to Clinic Workspace
+                Sign In to Platform
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </form>
 
-            {/* Quick Demo Access Button */}
-            <div className="pt-2 border-t border-slate-800">
+            {/* Quick 1-Click Helper Buttons */}
+            <div className="pt-2 border-t border-slate-800 space-y-2">
               <Button
                 type="button"
                 variant="outline"
@@ -162,7 +183,18 @@ export default function LoginPage() {
                 className="w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 text-xs font-semibold"
               >
                 <Sparkles className="h-3.5 w-3.5 mr-1.5" />
-                1-Click Sign In as Demo Doctor (Dr. Demo Hahnemann)
+                1-Click Doctor Login (Dr. Demo Hahnemann)
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="md"
+                onClick={handleSuperAdminLogin}
+                className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/10 text-xs font-bold"
+              >
+                <Crown className="h-3.5 w-3.5 mr-1.5 text-amber-400" />
+                1-Click Super Admin Login (سپر ایڈمن کنٹرول)
               </Button>
             </div>
           </CardContent>
@@ -183,7 +215,7 @@ export default function LoginPage() {
         {/* Security badge */}
         <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500">
           <ShieldCheck className="h-4 w-4 text-emerald-500" />
-          <span>Tenant Isolated • HIPAA & Data Safety Ready</span>
+          <span>Tenant Isolated • Super Admin Protected • HIPAA Ready</span>
         </div>
       </div>
     </div>
