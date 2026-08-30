@@ -1,0 +1,248 @@
+// Prisma Schema for HomeoRx - Multi-Tenant Homeopathic SaaS
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id                 String   @id @default(cuid())
+  name               String
+  clinicName         String?
+  tagline            String?
+  address            String?
+  phone              String?
+  whatsapp           String?
+  email              String?
+  website            String?
+  timings            String?
+  logo               String?  // Independent clinic logo asset
+  digitalSignature   String?  // Digital doctor signature asset
+  accentColor        String?  @default("#059669")
+  templatePreset     String   @default("sage") // sage, clinical, floral, minimal
+  showQrCode         Boolean  @default(true)
+  currency           String   @default("PKR")
+  prescriptionHeader String?
+  prescriptionFooter String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  doctors       Doctor[]
+  patients      Patient[]
+  visits        Visit[]
+  prescriptions Prescription[]
+
+  @@index([name])
+}
+
+model Doctor {
+  id                 String   @id @default(cuid())
+  tenantId           String
+  tenant             Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name               String
+  qualification      String?
+  registrationNumber String?
+  email              String   @unique
+  passwordHash       String?
+  phone              String?
+  avatar             String?  // Personal doctor avatar, strictly separated from clinic logo
+  role               String   @default("DOCTOR") // SUPER_ADMIN, DOCTOR, ASSISTANT, RECEPTIONIST
+  active             Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  visits        Visit[]
+  prescriptions Prescription[]
+  sessions      Session[]
+
+  @@index([tenantId])
+  @@index([email])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  doctorId  String
+  doctor    Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  tenantId  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([doctorId])
+  @@index([token])
+  @@index([tenantId])
+}
+
+model Patient {
+  id                String    @id @default(cuid())
+  tenantId          String
+  tenant            Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  patientNumber     String    // e.g. PAT-2026-0001
+  name              String
+  fatherName        String?
+  gender            String    // Male, Female, Other
+  dateOfBirth       DateTime?
+  age               Int?
+  phone             String?
+  whatsapp          String?
+  email             String?
+  address           String?
+  city              String?
+  occupation        String?
+  chiefComplaint    String?
+  medicalHistory    String?
+  familyHistory     String?
+  allergies         String?
+  currentMedicines  String?
+  previousTreatment String?
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  visits        Visit[]
+  prescriptions Prescription[]
+
+  @@unique([tenantId, patientNumber])
+  @@index([tenantId, name])
+  @@index([tenantId, phone])
+  @@index([tenantId, whatsapp])
+}
+
+model Visit {
+  id             String   @id @default(cuid())
+  tenantId       String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  patientId      String
+  patient        Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId       String
+  doctor         Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  visitNumber    Int      @default(1)
+  visitDate      DateTime @default(now())
+  chiefComplaint String?
+  symptoms       String?
+  diagnosis      String?
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  prescriptions Prescription[]
+
+  @@index([tenantId, patientId])
+  @@index([tenantId, visitDate])
+}
+
+model Prescription {
+  id                  String   @id @default(cuid())
+  tenantId            String
+  tenant              Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  patientId           String
+  patient             Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId            String
+  doctor              Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  visitId             String?
+  visit               Visit?   @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  prescriptionNumber  String   // e.g. RX-2026-000001
+  prescriptionDate    DateTime @default(now())
+  chiefComplaint      String?
+  symptoms            String?
+  clinicalNotes       String?
+  generalInstructions String?
+  followUpDays        Int?
+  followUpDate        DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  items PrescriptionItem[]
+
+  @@unique([tenantId, prescriptionNumber])
+  @@index([tenantId, patientId])
+  @@index([tenantId, prescriptionDate])
+}
+
+model PrescriptionItem {
+  id             String       @id @default(cuid())
+  prescriptionId String
+  prescription   Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  medicineId     String?
+  medicine       Medicine?    @relation(fields: [medicineId], references: [id], onDelete: SetNull)
+  medicineName   String
+  potency        String       // e.g. 30C, 200C, 1M, LM1
+  form           String?      // Globules, Liquid, Dilution, Tablets
+  dose           String?      // 4 pills, 10 drops
+  frequency      String?      // Three times daily (TDS), Once daily
+  duration       String?      // 7 days, 14 days
+  instructions   String?      // Dissolve in mouth, Before meals
+  notes          String?
+  sortOrder      Int          @default(0)
+
+  @@index([prescriptionId])
+  @@index([medicineName])
+}
+
+model Medicine {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  latinName    String?
+  commonName   String?
+  synonyms     String?
+  abbreviation String?
+  category     String?  // Plant, Mineral, Animal, Nosode, Sarcode
+  description  String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  prescriptionItems PrescriptionItem[]
+
+  @@index([name])
+  @@index([abbreviation])
+}
+
+model Potency {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  system    String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+}
+
+model MedicineForm {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  active Boolean @default(true)
+}
+
+model Dose {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  active Boolean @default(true)
+}
+
+model Frequency {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  active Boolean @default(true)
+}
+
+model Instruction {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  active Boolean @default(true)
+}
+
+model RepertoryRubric {
+  id               String  @id @default(cuid())
+  section          String
+  rubric           String
+  parentId         String?
+  source           String?
+  relatedMedicines String?
+  active           Boolean @default(true)
+
+  @@index([section])
+  @@index([rubric])
+}
