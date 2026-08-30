@@ -5,6 +5,9 @@ import { hashPassword, verifyPassword, createSession, destroySession, getVerifie
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+/**
+ * Standard Doctor / Admin Email & Password Login
+ */
 export async function loginDoctor(data: { email: string; password?: string }) {
   try {
     const email = data.email?.trim().toLowerCase();
@@ -96,7 +99,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
     if (!doctor) {
       return {
         success: false,
-        error: `ای میل "${email}" رجسٹرڈ نہیں ہے۔ براہ کرم نیا اکاؤنٹ بنائیں یا ای میل چیک کریں۔ (Email not found. Please register first.)`,
+        error: `ای میل "${email}" رجسٹرڈ نہیں ہے۔ آپ گوگل سے یا نیا اکاؤنٹ بنا کر فوری لاگ ان کر سکتے ہیں۔`,
       };
     }
 
@@ -107,7 +110,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       };
     }
 
-    // If passwordHash is set, verify password. If empty (initial seeded doctor), set the password.
+    // Verify password
     if (doctor.passwordHash && data.password) {
       const isValid = verifyPassword(data.password, doctor.passwordHash);
       if (!isValid) {
@@ -117,7 +120,6 @@ export async function loginDoctor(data: { email: string; password?: string }) {
         };
       }
     } else if (!doctor.passwordHash && data.password) {
-      // Set password hash on initial login
       await db.doctor.update({
         where: { id: doctor.id },
         data: { passwordHash: hashPassword(data.password) },
@@ -139,6 +141,164 @@ export async function loginDoctor(data: { email: string; password?: string }) {
     return {
       success: false,
       error: `لاگ ان کے دوران سرور کا مسئلہ پیش آیا: ${err?.message || "نامعلوم خرابی"}`,
+    };
+  }
+}
+
+/**
+ * Google Authentication Sign-In / One-Tap Provisioning
+ */
+export async function loginWithGoogle(data: { email: string; name?: string; googleId?: string }) {
+  try {
+    const email = data.email?.trim().toLowerCase();
+    if (!email || !email.includes("@")) {
+      return { success: false, error: "درست گوگل ای میل ایڈریس درج کریں۔ (Invalid Google email.)" };
+    }
+
+    let doctor = await db.doctor.findUnique({
+      where: { email },
+      include: { tenant: true },
+    });
+
+    // If new Google user, auto-create Tenant workspace & Doctor profile instantly!
+    if (!doctor) {
+      const userName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const doctorDisplayName = userName.startsWith("Dr.") ? userName : `Dr. ${userName}`;
+      const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
+
+      const tenant = await db.tenant.create({
+        data: {
+          name: clinicName,
+          clinicName: clinicName,
+          email,
+          currency: "PKR",
+          prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
+          prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+          doctors: {
+            create: {
+              name: doctorDisplayName,
+              qualification: "BHMS, Homeopathic Physician",
+              email,
+              role: "DOCTOR",
+              status: "APPROVED",
+              active: true,
+            },
+          },
+        },
+        include: {
+          doctors: true,
+        },
+      });
+
+      doctor = await db.doctor.findUnique({
+        where: { id: tenant.doctors[0].id },
+        include: { tenant: true },
+      });
+    }
+
+    if (!doctor) {
+      return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
+    }
+
+    if (!doctor.active || doctor.status === "SUSPENDED") {
+      return {
+        success: false,
+        error: "یہ گوگل اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
+      };
+    }
+
+    await createSession(doctor.id, doctor.tenantId);
+    revalidatePath("/");
+    return { success: true, doctorId: doctor.id, tenantId: doctor.tenantId, role: doctor.role };
+  } catch (err: any) {
+    console.error("Google login error:", err);
+    return {
+      success: false,
+      error: `گوگل اتھنٹیکیشن میں مسئلہ: ${err?.message || "سرور ایرر"}`,
+    };
+  }
+}
+
+/**
+ * Personal Email Authentication (Instant Direct Access with any Email)
+ */
+export async function loginWithPersonalEmail(data: { email: string; name?: string; password?: string }) {
+  try {
+    const email = data.email?.trim().toLowerCase();
+    if (!email || !email.includes("@")) {
+      return { success: false, error: "درست پرسنل ای میل درج کریں۔ (Invalid personal email address.)" };
+    }
+
+    let doctor = await db.doctor.findUnique({
+      where: { email },
+      include: { tenant: true },
+    });
+
+    // If new personal email, provision immediately with default password or provided password
+    if (!doctor) {
+      const fallbackName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const doctorDisplayName = fallbackName.startsWith("Dr.") ? fallbackName : `Dr. ${fallbackName}`;
+      const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
+      const passHash = data.password ? hashPassword(data.password) : null;
+
+      const tenant = await db.tenant.create({
+        data: {
+          name: clinicName,
+          clinicName: clinicName,
+          email,
+          currency: "PKR",
+          prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
+          prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+          doctors: {
+            create: {
+              name: doctorDisplayName,
+              qualification: "BHMS, Homeopathic Physician",
+              email,
+              passwordHash: passHash,
+              role: "DOCTOR",
+              status: "APPROVED",
+              active: true,
+            },
+          },
+        },
+        include: {
+          doctors: true,
+        },
+      });
+
+      doctor = await db.doctor.findUnique({
+        where: { id: tenant.doctors[0].id },
+        include: { tenant: true },
+      });
+    } else if (doctor && doctor.passwordHash && data.password) {
+      const isValid = verifyPassword(data.password, doctor.passwordHash);
+      if (!isValid) {
+        return {
+          success: false,
+          error: "درج کردہ پاس ورڈ درست نہیں ہے۔ (Incorrect password.)",
+        };
+      }
+    }
+
+    if (!doctor) {
+      return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
+    }
+
+    if (!doctor.active || doctor.status === "SUSPENDED") {
+      return {
+        success: false,
+        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
+      };
+    }
+
+    await createSession(doctor.id, doctor.tenantId);
+    revalidatePath("/");
+    return { success: true, doctorId: doctor.id, tenantId: doctor.tenantId, role: doctor.role };
+  } catch (err: any) {
+    console.error("Personal email login error:", err);
+    return {
+      success: false,
+      error: `پرسنل ای میل اتھنٹیکیشن میں مسئلہ: ${err?.message || "سرور ایرر"}`,
     };
   }
 }

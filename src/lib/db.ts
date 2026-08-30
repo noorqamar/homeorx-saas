@@ -1,23 +1,32 @@
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+import { SEED_DB_BASE64 } from "./db-seed-binary";
 
 function resolveDatabaseUrl(): string {
   if (process.env.VERCEL) {
     try {
       const tmpDbPath = path.join("/tmp", "dev.db");
-      const localDbPath = path.join(process.cwd(), "prisma", "dev.db");
-      const rootDbPath = path.join(process.cwd(), "dev.db");
 
-      if (!fs.existsSync(tmpDbPath)) {
-        const srcPath = fs.existsSync(localDbPath)
-          ? localDbPath
-          : fs.existsSync(rootDbPath)
-          ? rootDbPath
-          : null;
+      // Check if /tmp/dev.db is already present and valid
+      let needsInit = true;
+      if (fs.existsSync(tmpDbPath)) {
+        const stats = fs.statSync(tmpDbPath);
+        if (stats.size > 100000) {
+          needsInit = false;
+        }
+      }
 
-        if (srcPath) {
-          fs.copyFileSync(srcPath, tmpDbPath);
+      if (needsInit) {
+        // Try copying from workspace if present
+        const localDbPath = path.join(process.cwd(), "prisma", "dev.db");
+        if (fs.existsSync(localDbPath)) {
+          fs.copyFileSync(localDbPath, tmpDbPath);
+        } else if (SEED_DB_BASE64) {
+          // Write directly from embedded binary bundle
+          const buffer = Buffer.from(SEED_DB_BASE64, "base64");
+          fs.writeFileSync(tmpDbPath, buffer);
+          console.log(`[HomeoRx DB] Initialized /tmp/dev.db from embedded binary (${buffer.length} bytes)`);
         }
       }
 
@@ -26,7 +35,7 @@ function resolveDatabaseUrl(): string {
         return `file:${tmpDbPath}`;
       }
     } catch (err) {
-      console.error("Vercel SQLite init notice:", err);
+      console.error("[HomeoRx DB] Vercel SQLite init notice:", err);
     }
   }
   return process.env.DATABASE_URL || "file:./prisma/dev.db";
