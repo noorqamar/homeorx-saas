@@ -9,6 +9,7 @@ import {
   Save,
   Search,
   User,
+  Users,
   ArrowLeft,
   Sparkles,
   FileText,
@@ -594,13 +595,28 @@ export function PrescriptionFormClient({
         )}
 
         {/* 1. COMPACT PATIENT & CONSULTATION BAR */}
-        <Card className="border-slate-200 shadow-xs">
-          <CardContent className="p-4 space-y-3">
+        <Card className="border-indigo-200 shadow-md overflow-hidden">
+          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-3.5 text-white flex items-center justify-between border-b border-indigo-500/20">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold text-xs">
+                1
+              </div>
+              <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                <Users className="h-4 w-4 text-indigo-400" />
+                Patient Selection & Consultation (<span className="urdu-text text-xs text-indigo-200">مریض کا انتخاب و علامات</span>)
+              </h2>
+            </div>
+            <span className="text-[10px] bg-indigo-500/20 text-indigo-200 px-2.5 py-0.5 rounded-full border border-indigo-400/30">
+              Required Step
+            </span>
+          </div>
+
+          <CardContent className="p-4 sm:p-5 space-y-4">
             {/* Top row: Patient selector + Date */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
               <div className="md:col-span-8 relative">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                  1. Patient Details (مریض کی تفصیلات) <span className="text-rose-500">*</span>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Select Patient (<span className="urdu-text text-[11px]">مریض منتخب کریں</span>) <span className="text-rose-500">*</span>
                 </label>
 
                 {selectedPatient ? (
@@ -714,16 +730,21 @@ export function PrescriptionFormClient({
         </Card>
 
         {/* 2. HIGH-PRODUCTIVITY PRESCRIBED MEDICINES SECTION */}
-        <Card className="border-slate-200 shadow-xs overflow-visible">
-          <CardHeader className="py-3 px-4 border-b border-slate-100 flex flex-row items-center justify-between bg-slate-50/60">
-            <div>
-              <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-emerald-600" />
-                2. Prescribed Homeopathic Medicines ({medicines.length} {medicines.length === 1 ? "Remedy" : "Remedies"})
-              </CardTitle>
-              <CardDescription className="text-xs text-slate-500 pt-0.5">
-                Use <strong>↑ / ↓ Arrow keys</strong> to preview remedy names live. Press <strong>Enter</strong> to select.
-              </CardDescription>
+        <Card className="border-emerald-200 shadow-md overflow-visible">
+          <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 p-3.5 text-white flex items-center justify-between border-b border-emerald-500/20">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-xs">
+                2
+              </div>
+              <div>
+                <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-emerald-400" />
+                  Prescribed Homeopathic Medicines (<span className="urdu-text text-xs text-emerald-200">تجویز کردہ ادویات و مقدار</span>)
+                </h2>
+                <span className="text-[10px] text-emerald-200/70 hidden sm:inline">
+                  {medicines.length} {medicines.length === 1 ? "Remedy" : "Remedies"} selected • Use ↑↓ Arrow keys to preview
+                </span>
+              </div>
             </div>
 
             <Button
@@ -731,12 +752,12 @@ export function PrescriptionFormClient({
               variant="primary"
               size="sm"
               onClick={addMedicineRow}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xs"
+              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
               + Add Medicine (مزید دوائی)
             </Button>
-          </CardHeader>
+          </div>
 
           <CardContent className="p-4 space-y-3 overflow-visible">
             {medicines.map((row, idx) => {
@@ -1004,23 +1025,31 @@ export function PrescriptionFormClient({
         </Card>
 
         {/* 3. MULTIPLE GENERAL INSTRUCTIONS & DIETARY ADVICE (ملٹیپل پرہیز و ہدایات مع ایموجیز اور نوری نستعلیق) */}
-        <Card className="border-slate-200 shadow-xs">
-          <CardHeader className="py-3 px-4 border-b border-slate-100 bg-slate-50/60 flex flex-row items-center justify-between">
-            <div className="space-y-0.5">
-              <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <ListPlus className="h-4 w-4 text-emerald-600" />
-                3. General Patient Advice & Dietary Precautions (عمومی پرہیز و ہدایات)
-              </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
-                Click any of the pre-set advice tags below to toggle them on their own line with emojis in authentic Noori Nastaleeq font.
-              </CardDescription>
+        <Card className="border-amber-200 shadow-md overflow-hidden">
+          <div className="bg-gradient-to-r from-slate-900 via-amber-950 to-slate-900 p-3.5 text-white flex items-center justify-between border-b border-amber-500/20">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs">
+                3
+              </div>
+              <div>
+                <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                  <ListPlus className="h-4 w-4 text-amber-400" />
+                  General Patient Advice & Dietary Precautions (<span className="urdu-text text-xs text-amber-200">عمومی پرہیز و ہدایات</span>)
+                </h2>
+                <span className="text-[10px] text-amber-200/70 hidden sm:inline">
+                  Click any tag below to toggle advice with emojis in Noori Nastaleeq
+                </span>
+              </div>
             </div>
-          </CardHeader>
+            <span className="text-[10px] bg-amber-500/20 text-amber-200 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+              Noori Nastaleeq
+            </span>
+          </div>
 
-          <CardContent className="p-4 space-y-4">
+          <CardContent className="p-4 sm:p-5 space-y-4">
             {/* Quick-Select Advice Chips (Clickable Badges with Emojis) */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
                 Quick Select Advice Tags (فوری ہدایات منتخب کریں):
               </label>
               <div className="flex flex-wrap gap-2">
@@ -1031,13 +1060,13 @@ export function PrescriptionFormClient({
                       key={opt.id}
                       type="button"
                       onClick={() => toggleQuickAdvice(opt.text)}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all urdu-font ${
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all urdu-font ${
                         isSelected
-                          ? "bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-500/30"
+                          ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm ring-2 ring-emerald-500/30 scale-[1.02]"
                           : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/80"
                       }`}
                     >
-                      {isSelected && <Check className="h-3.5 w-3.5 shrink-0" />}
+                      {isSelected && <Check className="h-3.5 w-3.5 shrink-0 text-white" />}
                       <span>{opt.label}</span>
                     </button>
                   );
@@ -1045,16 +1074,16 @@ export function PrescriptionFormClient({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-start">
               {/* Editable Multi-line Text Area for Instructions (Nastaliq Typography) */}
               <div className="md:col-span-9 space-y-1">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
                   Detailed Advice & Precautions (ہر ہدایت الگ سطر پر مع ایموجی):
                 </label>
                 <textarea
                   value={generalInstructions}
                   onChange={(e) => setGeneralInstructions(e.target.value)}
-                  rows={6}
+                  rows={5}
                   dir="rtl"
                   placeholder="🌿 تیز خوشبو سے پرہیز..."
                   className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none urdu-font leading-loose shadow-2xs"
@@ -1062,8 +1091,8 @@ export function PrescriptionFormClient({
               </div>
 
               {/* Follow-up Days */}
-              <div className="md:col-span-3 space-y-1 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="md:col-span-3 space-y-1.5 bg-gradient-to-b from-teal-50/60 to-emerald-50/40 p-4 rounded-xl border border-teal-200/80">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
                   Follow-up In (Days)
                 </label>
                 <input
@@ -1077,7 +1106,7 @@ export function PrescriptionFormClient({
                   placeholder="e.g. 14"
                   className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-900 focus:border-emerald-500 focus:outline-none font-bold"
                 />
-                <span className="text-xs text-emerald-800 font-semibold block pt-2 urdu-font">
+                <span className="text-xs text-emerald-900 font-bold block pt-1 urdu-font">
                   اگلی ملاقات: {followUpDays ? `${followUpDays} دن بعد` : "ضرورت پڑنے پر"}
                 </span>
               </div>
@@ -1085,10 +1114,10 @@ export function PrescriptionFormClient({
           </CardContent>
         </Card>
 
-        {/* Save Bar */}
-        <div className="flex items-center justify-between pt-2">
+        {/* Floating Gradient Save Bar */}
+        <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-900 text-white shadow-xl border border-slate-800">
           <Link href={isEditMode ? `/prescriptions/${initialData?.id}` : "/prescriptions"}>
-            <Button type="button" variant="outline" size="md">
+            <Button type="button" variant="outline" size="md" className="border-slate-700 text-slate-300 hover:bg-slate-800">
               Cancel
             </Button>
           </Link>
@@ -1098,10 +1127,10 @@ export function PrescriptionFormClient({
             variant="primary"
             size="lg"
             isLoading={isSubmitting}
-            className="px-8 font-bold shadow-lg text-sm bg-emerald-600 hover:bg-emerald-500 text-white"
+            className="px-8 font-black shadow-lg text-sm bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 rounded-xl h-11 ring-2 ring-emerald-400/30"
           >
             <Save className="h-4 w-4 mr-2" />
-            {isEditMode ? "UPDATE PRESCRIPTION (تبدیلی محفوظ کریں)" : "SAVE PRESCRIPTION (نسخہ محفوظ کریں)"}
+            {isEditMode ? "UPDATE PRESCRIPTION (تبدیلی محفوظ کریں)" : "SAVE & PRINT PRESCRIPTION (نسخہ محفوظ و پرنٹ کریں)"}
           </Button>
         </div>
       </form>

@@ -6,35 +6,66 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function loginDoctor(data: { email: string; password?: string }) {
-  const email = data.email.trim().toLowerCase();
+  try {
+    const email = data.email?.trim().toLowerCase();
 
-  const doctor = await db.doctor.findUnique({
-    where: { email },
-    include: { tenant: true },
-  });
-
-  if (!doctor || !doctor.active) {
-    throw new Error("Invalid email or password. Please try again.");
-  }
-
-  // If passwordHash is set, verify password. If empty (demo doctor), allow initial access and set password
-  if (doctor.passwordHash && data.password) {
-    const isValid = verifyPassword(data.password, doctor.passwordHash);
-    if (!isValid) {
-      throw new Error("Invalid email or password. Please try again.");
+    if (!email) {
+      return { success: false, error: "براہ کرم اپنا ای میل درج کریں۔ (Please enter your email address.)" };
     }
-  } else if (!doctor.passwordHash && data.password) {
-    // Set password hash on initial login for demo doctor
-    await db.doctor.update({
-      where: { id: doctor.id },
-      data: { passwordHash: hashPassword(data.password) },
+
+    const doctor = await db.doctor.findUnique({
+      where: { email },
+      include: { tenant: true },
     });
+
+    if (!doctor) {
+      return {
+        success: false,
+        error: `ای میل "${email}" رجسٹرڈ نہیں ہے۔ براہ کرم نیا اکاؤنٹ بنائیں یا ای میل چیک کریں۔ (Email not found. Please register first.)`,
+      };
+    }
+
+    if (!doctor.active || doctor.status === "SUSPENDED") {
+      return {
+        success: false,
+        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔ (This account has been suspended or is pending approval.)",
+      };
+    }
+
+    // If passwordHash is set, verify password. If empty (initial seeded doctor), set the password.
+    if (doctor.passwordHash && data.password) {
+      const isValid = verifyPassword(data.password, doctor.passwordHash);
+      if (!isValid) {
+        return {
+          success: false,
+          error: "درج کردہ پاس ورڈ درست نہیں ہے۔ (Incorrect password. Please try again.)",
+        };
+      }
+    } else if (!doctor.passwordHash && data.password) {
+      // Set password hash on initial login
+      await db.doctor.update({
+        where: { id: doctor.id },
+        data: { passwordHash: hashPassword(data.password) },
+      });
+    }
+
+    await createSession(doctor.id, doctor.tenantId);
+
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return {
+      success: true,
+      doctorId: doctor.id,
+      tenantId: doctor.tenantId,
+      role: doctor.role,
+    };
+  } catch (err: any) {
+    console.error("Login Server Action error:", err);
+    return {
+      success: false,
+      error: "لاگ ان کے دوران سرور کا مسئلہ پیش آیا۔ براہ کرم دوبارہ کوشش کریں۔",
+    };
   }
-
-  await createSession(doctor.id, doctor.tenantId);
-
-  revalidatePath("/");
-  return { success: true, doctorId: doctor.id, tenantId: doctor.tenantId };
 }
 
 export async function registerDoctor(data: {
@@ -46,51 +77,71 @@ export async function registerDoctor(data: {
   password?: string;
   phone?: string;
 }) {
-  const email = data.email.trim().toLowerCase();
+  try {
+    const email = data.email?.trim().toLowerCase();
 
-  const existingDoctor = await db.doctor.findUnique({
-    where: { email },
-  });
+    if (!email || !data.name || !data.clinicName) {
+      return {
+        success: false,
+        error: "براہ کرم تمام لازمی فیلڈز مکمل کریں۔ (Please fill all required fields.)",
+      };
+    }
 
-  if (existingDoctor) {
-    throw new Error("An account with this email address already exists.");
-  }
+    const existingDoctor = await db.doctor.findUnique({
+      where: { email },
+    });
 
-  const passwordHash = data.password ? hashPassword(data.password) : null;
+    if (existingDoctor) {
+      return {
+        success: false,
+        error: "یہ ای میل پہلے سے رجسٹرڈ ہے۔ براہ کرم لاگ ان کریں۔ (An account with this email already exists.)",
+      };
+    }
 
-  // Create isolated Tenant workspace & Doctor record atomically
-  const tenant = await db.tenant.create({
-    data: {
-      name: data.clinicName || `${data.name}'s Homeopathic Clinic`,
-      clinicName: data.clinicName || `${data.name}'s Homeopathic Clinic`,
-      phone: data.phone || null,
-      whatsapp: data.phone || null,
-      email,
-      currency: "PKR",
-      prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE & CLINICAL SUITE",
-      prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
-      doctors: {
-        create: {
-          name: data.name,
-          qualification: data.qualification || "MD (Homeopathy), BHMS",
-          registrationNumber: data.registrationNumber || null,
-          email,
-          passwordHash,
-          phone: data.phone || null,
-          role: "DOCTOR",
+    const passwordHash = data.password ? hashPassword(data.password) : null;
+
+    // Create isolated Tenant workspace & Doctor record atomically
+    const tenant = await db.tenant.create({
+      data: {
+        name: data.clinicName || `${data.name}'s Homeopathic Clinic`,
+        clinicName: data.clinicName || `${data.name}'s Homeopathic Clinic`,
+        phone: data.phone || null,
+        whatsapp: data.phone || null,
+        email,
+        currency: "PKR",
+        prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE & CLINICAL SUITE",
+        prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+        doctors: {
+          create: {
+            name: data.name,
+            qualification: data.qualification || "MD (Homeopathy), BHMS",
+            registrationNumber: data.registrationNumber || null,
+            email,
+            passwordHash,
+            phone: data.phone || null,
+            role: "DOCTOR",
+            status: "APPROVED",
+            active: true,
+          },
         },
       },
-    },
-    include: {
-      doctors: true,
-    },
-  });
+      include: {
+        doctors: true,
+      },
+    });
 
-  const newDoctor = tenant.doctors[0];
-  await createSession(newDoctor.id, tenant.id);
+    const newDoctor = tenant.doctors[0];
+    await createSession(newDoctor.id, tenant.id);
 
-  revalidatePath("/");
-  return { success: true, doctorId: newDoctor.id, tenantId: tenant.id };
+    revalidatePath("/");
+    return { success: true, doctorId: newDoctor.id, tenantId: tenant.id };
+  } catch (err: any) {
+    console.error("Register Server Action error:", err);
+    return {
+      success: false,
+      error: "رجسٹریشن کے دوران مسئلہ پیش آیا۔ براہ کرم دوبارہ کوشش کریں۔",
+    };
+  }
 }
 
 export async function logoutDoctor() {
