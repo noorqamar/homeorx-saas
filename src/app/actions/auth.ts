@@ -13,10 +13,85 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       return { success: false, error: "براہ کرم اپنا ای میل درج کریں۔ (Please enter your email address.)" };
     }
 
-    const doctor = await db.doctor.findUnique({
+    let doctor = await db.doctor.findUnique({
       where: { email },
       include: { tenant: true },
     });
+
+    // Auto-heal / Auto-provision Super Admin or Demo Doctor if missing in new container
+    if (!doctor) {
+      if (email === "admin@homeorx.health") {
+        const tenant = await db.tenant.upsert({
+          where: { id: "tenant-superadmin" },
+          update: {},
+          create: {
+            id: "tenant-superadmin",
+            name: "HomeoRx SaaS Central Administration",
+            clinicName: "HomeoRx Central Administration",
+            email: "admin@homeorx.health",
+            phone: "+92 300 1234567",
+            currency: "PKR",
+          },
+        });
+
+        doctor = await db.doctor.upsert({
+          where: { email: "admin@homeorx.health" },
+          update: {
+            status: "APPROVED",
+            active: true,
+            role: "SUPER_ADMIN",
+          },
+          create: {
+            id: "doc-superadmin-001",
+            tenantId: tenant.id,
+            name: "Dr. Qamar (Super Admin / سسٹم ایڈمن)",
+            qualification: "Chief Medical Officer & Platform Admin",
+            registrationNumber: "HOM-ADMIN-001",
+            email: "admin@homeorx.health",
+            passwordHash: hashPassword("admin123456"),
+            role: "SUPER_ADMIN",
+            status: "APPROVED",
+            active: true,
+          },
+          include: { tenant: true },
+        });
+      } else if (email === "dr.demo@homeorx.health") {
+        const tenant = await db.tenant.upsert({
+          where: { id: "tenant-demo-001" },
+          update: {},
+          create: {
+            id: "tenant-demo-001",
+            name: "Dr. Demo Homeopathic Clinic & Research Centre",
+            clinicName: "HomeoRx Wellness & Cure Clinic",
+            address: "Suite 402, Medical Arts Building, Health Avenue",
+            phone: "+92 300 1234567",
+            email: "clinic@homeorx.health",
+            currency: "PKR",
+          },
+        });
+
+        doctor = await db.doctor.upsert({
+          where: { email: "dr.demo@homeorx.health" },
+          update: {
+            status: "APPROVED",
+            active: true,
+          },
+          create: {
+            id: "doc-demo-001",
+            tenantId: tenant.id,
+            name: "Dr. Demo Hahnemann, MD (Hom)",
+            qualification: "MD (Homeopathy), BHMS, Gold Medalist",
+            registrationNumber: "HOM-REG-2026-8942",
+            email: "dr.demo@homeorx.health",
+            passwordHash: hashPassword("demo12345"),
+            role: "DOCTOR",
+            status: "APPROVED",
+            active: true,
+          },
+          include: { tenant: true },
+        });
+      }
+    }
 
     if (!doctor) {
       return {
@@ -63,7 +138,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
     console.error("Login Server Action error:", err);
     return {
       success: false,
-      error: "لاگ ان کے دوران سرور کا مسئلہ پیش آیا۔ براہ کرم دوبارہ کوشش کریں۔",
+      error: `لاگ ان کے دوران سرور کا مسئلہ پیش آیا: ${err?.message || "نامعلوم خرابی"}`,
     };
   }
 }
