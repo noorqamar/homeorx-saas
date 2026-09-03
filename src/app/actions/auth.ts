@@ -116,7 +116,11 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       };
     }
 
-    await createSession(doctor.id, doctor.tenantId);
+    await createSession(doctor.id, doctor.tenantId, {
+      role: doctor.role,
+      email: doctor.email,
+      name: doctor.name,
+    });
 
     revalidatePath("/");
     revalidatePath("/admin");
@@ -187,7 +191,11 @@ export async function loginAsDemoDoctor() {
       include: { tenant: true },
     });
 
-    await createSession(demoDoc.id, demoDoc.tenantId);
+    await createSession(demoDoc.id, demoDoc.tenantId, {
+      role: "DOCTOR",
+      email: demoDoc.email,
+      name: demoDoc.name,
+    });
 
     revalidatePath("/");
     return {

@@ -22,8 +22,8 @@ export async function getTenantContext(): Promise<TenantContext> {
   if (session && session.doctor) {
     return {
       tenantId: session.doctor.tenantId,
-      tenantName: session.doctor.tenant.name,
-      clinicName: session.doctor.tenant.clinicName,
+      tenantName: session.doctor.tenant?.name || session.doctor.tenant?.clinicName || "HomeoRx Clinic",
+      clinicName: session.doctor.tenant?.clinicName || session.doctor.tenant?.name || "HomeoRx Clinic",
       doctorId: session.doctor.id,
       doctorName: session.doctor.name,
       doctorEmail: session.doctor.email,
