@@ -112,11 +112,13 @@ export async function getPatientById(id: string) {
 }
 
 export async function createPatient(rawData: PatientFormData) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
   const validated = patientSchema.parse(rawData);
 
   // Auto-generate next patient sequence
-  const count = await db.patient.count({ where: { tenantId } });
+  const count = await db.patient.count({
+    where: doctorRole === "SUPER_ADMIN" ? {} : { tenantId },
+  });
   const patientNumber = generatePatientNumber(count + 1);
 
   const patient = await db.patient.create({
@@ -146,15 +148,21 @@ export async function createPatient(rawData: PatientFormData) {
 
   revalidatePath("/patients");
   revalidatePath("/dashboard");
+  revalidatePath("/");
   return patient;
 }
 
 export async function updatePatient(id: string, rawData: PatientFormData) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
   const validated = patientSchema.parse(rawData);
 
+  const existingWhere: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    existingWhere.tenantId = tenantId;
+  }
+
   const existing = await db.patient.findFirst({
-    where: { id, tenantId },
+    where: existingWhere,
   });
 
   if (!existing) {
@@ -187,14 +195,20 @@ export async function updatePatient(id: string, rawData: PatientFormData) {
 
   revalidatePath(`/patients/${id}`);
   revalidatePath("/patients");
+  revalidatePath("/");
   return updated;
 }
 
 export async function deletePatient(id: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const existingWhere: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    existingWhere.tenantId = tenantId;
+  }
 
   const existing = await db.patient.findFirst({
-    where: { id, tenantId },
+    where: existingWhere,
   });
 
   if (!existing) {
@@ -207,5 +221,6 @@ export async function deletePatient(id: string) {
 
   revalidatePath("/patients");
   revalidatePath("/dashboard");
+  revalidatePath("/");
   return { success: true };
 }

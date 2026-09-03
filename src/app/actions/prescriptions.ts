@@ -13,14 +13,12 @@ export async function getPrescriptionQuotaStatus() {
 }
 
 export async function getNextPrescriptionNumber(): Promise<string> {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
   const currentYear = new Date().getFullYear();
 
-  // Find latest prescription for current year in this tenant
+  // Find latest prescription for current year in this tenant (or all if super admin)
   const count = await db.prescription.count({
-    where: {
-      tenantId,
-    },
+    where: doctorRole === "SUPER_ADMIN" ? {} : { tenantId },
   });
 
   return generatePrescriptionNumber(count + 1, currentYear);
@@ -120,36 +118,44 @@ export async function getPrescriptionById(id: string) {
 }
 
 export async function createPrescription(rawData: PrescriptionFormData) {
-  const { tenantId, doctorId } = await getTenantContext();
+  const { tenantId, doctorId, doctorRole } = await getTenantContext();
 
-  // Enforce demo account limits and feature gating
-  const quota = await verifyPrescriptionCreationQuota(tenantId);
-  if (!quota.allowed) {
-    throw new Error(quota.error || "ڈیمو اکاؤنٹ کی یومیہ حد مکمل ہو چکی ہے۔");
+  // Enforce demo account limits for non-superadmin
+  if (doctorRole !== "SUPER_ADMIN") {
+    const quota = await verifyPrescriptionCreationQuota(tenantId);
+    if (!quota.allowed) {
+      throw new Error(quota.error || "ڈیمو اکاؤنٹ کی یومیہ حد مکمل ہو چکی ہے۔");
+    }
   }
 
   const validated = prescriptionSchema.parse(rawData);
 
-  // Validate patient belongs to tenant
+  // Validate patient
+  const patientWhere: any = { id: validated.patientId };
+  if (doctorRole !== "SUPER_ADMIN") {
+    patientWhere.tenantId = tenantId;
+  }
   const patient = await db.patient.findFirst({
-    where: { id: validated.patientId, tenantId },
+    where: patientWhere,
   });
 
   if (!patient) {
     throw new Error("Patient not found in active clinic workspace.");
   }
 
+  const targetTenantId = patient.tenantId || tenantId;
+
   // Calculate prescription number
   const nextPrescriptionNumber = await getNextPrescriptionNumber();
 
   // Create a visit record to track this consultation
   const totalVisits = await db.visit.count({
-    where: { tenantId, patientId: patient.id },
+    where: { patientId: patient.id },
   });
 
   const visit = await db.visit.create({
     data: {
-      tenantId,
+      tenantId: targetTenantId,
       patientId: patient.id,
       doctorId,
       visitNumber: totalVisits + 1,
@@ -170,7 +176,7 @@ export async function createPrescription(rawData: PrescriptionFormData) {
   // Create prescription
   const prescription = await db.prescription.create({
     data: {
-      tenantId,
+      tenantId: targetTenantId,
       patientId: patient.id,
       doctorId,
       visitId: visit.id,
@@ -213,12 +219,17 @@ export async function updatePrescription(
   id: string,
   rawData: PrescriptionFormData
 ) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
   const validated = prescriptionSchema.parse(rawData);
 
-  // Ensure prescription exists in this tenant
+  // Ensure prescription exists in this tenant (or all if super admin)
+  const existingWhere: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    existingWhere.tenantId = tenantId;
+  }
+
   const existing = await db.prescription.findFirst({
-    where: { id, tenantId },
+    where: existingWhere,
     include: { items: true },
   });
 
@@ -297,10 +308,15 @@ export async function updatePrescription(
 }
 
 export async function duplicatePrescription(sourcePrescriptionId: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const sourceWhere: any = { id: sourcePrescriptionId };
+  if (doctorRole !== "SUPER_ADMIN") {
+    sourceWhere.tenantId = tenantId;
+  }
 
   const source = await db.prescription.findFirst({
-    where: { id: sourcePrescriptionId, tenantId },
+    where: sourceWhere,
     include: { items: true },
   });
 
@@ -332,10 +348,15 @@ export async function duplicatePrescription(sourcePrescriptionId: string) {
 }
 
 export async function deletePrescription(id: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const existingWhere: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    existingWhere.tenantId = tenantId;
+  }
 
   const existing = await db.prescription.findFirst({
-    where: { id, tenantId },
+    where: existingWhere,
   });
 
   if (!existing) {
