@@ -25,6 +25,7 @@ async function main() {
       currency: "PKR",
       prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE & RESEARCH CENTRE",
       prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ، مستقل اور بے ضرر",
+      accountStatus: "demo",
       doctors: {
         create: {
           id: "doc-demo-001",
@@ -35,6 +36,7 @@ async function main() {
           phone: "+92 300 1234567",
           role: "DOCTOR",
           status: "APPROVED",
+          accountStatus: "demo",
         },
       },
     },
@@ -44,7 +46,9 @@ async function main() {
   // Seed Super Administrator (Doctor Admin with full platform authority)
   await prisma.tenant.upsert({
     where: { id: "tenant-superadmin" },
-    update: {},
+    update: {
+      accountStatus: "active",
+    },
     create: {
       id: "tenant-superadmin",
       name: "HomeoRx SaaS Central Administration",
@@ -52,6 +56,7 @@ async function main() {
       email: "admin@homeorx.health",
       phone: "+92 300 1234567",
       currency: "PKR",
+      accountStatus: "active",
       doctors: {
         create: {
           id: "doc-superadmin-001",
@@ -61,6 +66,7 @@ async function main() {
           email: "admin@homeorx.health",
           role: "SUPER_ADMIN",
           status: "APPROVED",
+          accountStatus: "active",
           active: true,
         },
       },

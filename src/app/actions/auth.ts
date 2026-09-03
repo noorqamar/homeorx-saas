@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword, createSession, destroySession, getVerifiedSession } from "@/lib/auth";
+import { requestTenantUpgrade, AccountStatus } from "@/lib/account-lifecycle";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -21,12 +22,14 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       include: { tenant: true },
     });
 
-    // Auto-heal / Auto-provision Super Admin or Demo Doctor if missing in new container
+    // Auto-heal / Auto-provision Super Admin or Demo Doctor if missing
     if (!doctor) {
       if (email === "admin@homeorx.health") {
         const tenant = await db.tenant.upsert({
           where: { id: "tenant-superadmin" },
-          update: {},
+          update: {
+            accountStatus: "active",
+          },
           create: {
             id: "tenant-superadmin",
             name: "HomeoRx SaaS Central Administration",
@@ -34,6 +37,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             email: "admin@homeorx.health",
             phone: "+92 300 1234567",
             currency: "PKR",
+            accountStatus: "active",
           },
         });
 
@@ -43,6 +47,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             status: "APPROVED",
             active: true,
             role: "SUPER_ADMIN",
+            accountStatus: "active",
           },
           create: {
             id: "doc-superadmin-001",
@@ -54,6 +59,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             passwordHash: hashPassword("admin123456"),
             role: "SUPER_ADMIN",
             status: "APPROVED",
+            accountStatus: "active",
             active: true,
           },
           include: { tenant: true },
@@ -61,7 +67,9 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       } else if (email === "dr.demo@homeorx.health") {
         const tenant = await db.tenant.upsert({
           where: { id: "tenant-demo-001" },
-          update: {},
+          update: {
+            accountStatus: "demo",
+          },
           create: {
             id: "tenant-demo-001",
             name: "Dr. Demo Homeopathic Clinic & Research Centre",
@@ -70,6 +78,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             phone: "+92 300 1234567",
             email: "clinic@homeorx.health",
             currency: "PKR",
+            accountStatus: "demo",
           },
         });
 
@@ -78,6 +87,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
           update: {
             status: "APPROVED",
             active: true,
+            accountStatus: "demo",
           },
           create: {
             id: "doc-demo-001",
@@ -89,6 +99,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             passwordHash: hashPassword("demo12345"),
             role: "DOCTOR",
             status: "APPROVED",
+            accountStatus: "demo",
             active: true,
           },
           include: { tenant: true },
@@ -103,10 +114,10 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       };
     }
 
-    if (!doctor.active || doctor.status === "SUSPENDED") {
+    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
       return {
         success: false,
-        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔ (This account has been suspended or is pending approval.)",
+        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔ (Account suspended.)",
       };
     }
 
@@ -135,6 +146,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       doctorId: doctor.id,
       tenantId: doctor.tenantId,
       role: doctor.role,
+      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
     };
   } catch (err: any) {
     console.error("Login Server Action error:", err);
@@ -146,7 +158,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
 }
 
 /**
- * Google Authentication Sign-In / One-Tap Provisioning
+ * Google Authentication Sign-In / Demo Account Provisioning
  */
 export async function loginWithGoogle(data: { email: string; name?: string; googleId?: string }) {
   try {
@@ -160,11 +172,14 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
       include: { tenant: true },
     });
 
-    // If new Google user, auto-create Tenant workspace & Doctor profile instantly!
+    // If new Google user, auto-create Demo Tenant workspace & Doctor profile instantly!
     if (!doctor) {
       const userName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
       const doctorDisplayName = userName.startsWith("Dr.") ? userName : `Dr. ${userName}`;
       const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
+
+      const now = new Date();
+      const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days demo trial
 
       const tenant = await db.tenant.create({
         data: {
@@ -174,6 +189,9 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
           currency: "PKR",
           prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
           prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+          accountStatus: "demo",
+          demoStartedAt: now,
+          demoExpiresAt: expiresAt,
           doctors: {
             create: {
               name: doctorDisplayName,
@@ -181,6 +199,9 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
               email,
               role: "DOCTOR",
               status: "APPROVED",
+              accountStatus: "demo",
+              demoStartedAt: now,
+              demoExpiresAt: expiresAt,
               active: true,
             },
           },
@@ -200,7 +221,7 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
       return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
     }
 
-    if (!doctor.active || doctor.status === "SUSPENDED") {
+    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
       return {
         success: false,
         error: "یہ گوگل اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
@@ -209,7 +230,13 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
 
     await createSession(doctor.id, doctor.tenantId);
     revalidatePath("/");
-    return { success: true, doctorId: doctor.id, tenantId: doctor.tenantId, role: doctor.role };
+    return {
+      success: true,
+      doctorId: doctor.id,
+      tenantId: doctor.tenantId,
+      role: doctor.role,
+      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
+    };
   } catch (err: any) {
     console.error("Google login error:", err);
     return {
@@ -220,7 +247,7 @@ export async function loginWithGoogle(data: { email: string; name?: string; goog
 }
 
 /**
- * Personal Email Authentication (Instant Direct Access with any Email)
+ * Personal Email Authentication (Direct Demo/Active Access with any Email)
  */
 export async function loginWithPersonalEmail(data: { email: string; name?: string; password?: string }) {
   try {
@@ -234,12 +261,15 @@ export async function loginWithPersonalEmail(data: { email: string; name?: strin
       include: { tenant: true },
     });
 
-    // If new personal email, provision immediately with default password or provided password
+    // If new personal email, provision Demo Account immediately
     if (!doctor) {
       const fallbackName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
       const doctorDisplayName = fallbackName.startsWith("Dr.") ? fallbackName : `Dr. ${fallbackName}`;
       const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
       const passHash = data.password ? hashPassword(data.password) : null;
+
+      const now = new Date();
+      const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
 
       const tenant = await db.tenant.create({
         data: {
@@ -249,6 +279,9 @@ export async function loginWithPersonalEmail(data: { email: string; name?: strin
           currency: "PKR",
           prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
           prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+          accountStatus: "demo",
+          demoStartedAt: now,
+          demoExpiresAt: expiresAt,
           doctors: {
             create: {
               name: doctorDisplayName,
@@ -257,6 +290,9 @@ export async function loginWithPersonalEmail(data: { email: string; name?: strin
               passwordHash: passHash,
               role: "DOCTOR",
               status: "APPROVED",
+              accountStatus: "demo",
+              demoStartedAt: now,
+              demoExpiresAt: expiresAt,
               active: true,
             },
           },
@@ -284,7 +320,7 @@ export async function loginWithPersonalEmail(data: { email: string; name?: strin
       return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
     }
 
-    if (!doctor.active || doctor.status === "SUSPENDED") {
+    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
       return {
         success: false,
         error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
@@ -293,7 +329,13 @@ export async function loginWithPersonalEmail(data: { email: string; name?: strin
 
     await createSession(doctor.id, doctor.tenantId);
     revalidatePath("/");
-    return { success: true, doctorId: doctor.id, tenantId: doctor.tenantId, role: doctor.role };
+    return {
+      success: true,
+      doctorId: doctor.id,
+      tenantId: doctor.tenantId,
+      role: doctor.role,
+      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
+    };
   } catch (err: any) {
     console.error("Personal email login error:", err);
     return {
@@ -334,8 +376,9 @@ export async function registerDoctor(data: {
     }
 
     const passwordHash = data.password ? hashPassword(data.password) : null;
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
 
-    // Create isolated Tenant workspace & Doctor record atomically
     const tenant = await db.tenant.create({
       data: {
         name: data.clinicName || `${data.name}'s Homeopathic Clinic`,
@@ -346,6 +389,9 @@ export async function registerDoctor(data: {
         currency: "PKR",
         prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE & CLINICAL SUITE",
         prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+        accountStatus: "demo",
+        demoStartedAt: now,
+        demoExpiresAt: expiresAt,
         doctors: {
           create: {
             name: data.name,
@@ -356,6 +402,9 @@ export async function registerDoctor(data: {
             phone: data.phone || null,
             role: "DOCTOR",
             status: "APPROVED",
+            accountStatus: "demo",
+            demoStartedAt: now,
+            demoExpiresAt: expiresAt,
             active: true,
           },
         },
@@ -369,13 +418,38 @@ export async function registerDoctor(data: {
     await createSession(newDoctor.id, tenant.id);
 
     revalidatePath("/");
-    return { success: true, doctorId: newDoctor.id, tenantId: tenant.id };
+    return { success: true, doctorId: newDoctor.id, tenantId: tenant.id, accountStatus: "demo" };
   } catch (err: any) {
     console.error("Register Server Action error:", err);
     return {
       success: false,
       error: "رجسٹریشن کے دوران مسئلہ پیش آیا۔ براہ کرم دوبارہ کوشش کریں۔",
     };
+  }
+}
+
+/**
+ * Doctor submits an upgrade request from demo to full account with payment reference
+ */
+export async function requestAccountUpgradeAction(paymentReference: string, note?: string) {
+  try {
+    const session = await getVerifiedSession();
+    if (!session) {
+      return { success: false, error: "سیشن ختم ہو چکا ہے۔ براہ کرم دوبارہ لاگ ان کریں۔" };
+    }
+
+    const updatedTenant = await requestTenantUpgrade(session.doctor.tenantId, paymentReference, note);
+
+    revalidatePath("/");
+    revalidatePath("/clinic");
+    return {
+      success: true,
+      accountStatus: updatedTenant.accountStatus,
+      message: "آپ کی اپ گریڈ کی درخواست کامیابی سے جمع ہو چکی ہے۔ ایڈمن کی تصدیق کے بعد اکاؤنٹ ایکٹو ہو جائے گا۔",
+    };
+  } catch (err: any) {
+    console.error("Upgrade request error:", err);
+    return { success: false, error: err?.message || "اپ گریڈ کی درخواست جمع کرنے میں خرابی۔" };
   }
 }
 
@@ -398,5 +472,11 @@ export async function getCurrentDoctor() {
     role: session.doctor.role,
     tenantId: session.doctor.tenant.id,
     clinicName: session.doctor.tenant.clinicName || session.doctor.tenant.name,
+    accountStatus: (session.doctor.accountStatus || session.doctor.tenant.accountStatus || "demo") as AccountStatus,
+    demoStartedAt: session.doctor.demoStartedAt || session.doctor.tenant.demoStartedAt,
+    demoExpiresAt: session.doctor.demoExpiresAt || session.doctor.tenant.demoExpiresAt,
+    upgradeRequestedAt: session.doctor.upgradeRequestedAt || session.doctor.tenant.upgradeRequestedAt,
+    paymentReference: session.doctor.paymentReference || session.doctor.tenant.paymentReference,
+    rejectionReason: session.doctor.rejectionReason || session.doctor.tenant.rejectionReason,
   };
 }

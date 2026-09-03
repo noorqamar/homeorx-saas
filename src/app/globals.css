@@ -17,13 +17,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Unified Urdu Nastaliq Typography Token */
+/* ================= UNIFIED URDU NASTALIQ TYPOGRAPHY TOKEN ================= */
 .urdu-text,
 .urdu-font,
 .font-nastaliq {
   font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", "Nafees Web Naskh", Tahoma, Arial, sans-serif !important;
-  line-height: 1.8 !important;
+  line-height: 2.1 !important;
   letter-spacing: 0px !important;
+  direction: rtl;
+}
+
+/* For bilingual headers/labels where Urdu inherits heading size */
+.urdu-inline {
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", sans-serif !important;
+  line-height: 1.6 !important;
+  direction: rtl;
+}
+
+/* Mobile font-size floor for Urdu text to maintain legibility */
+@media (max-width: 480px) {
+  .urdu-text {
+    font-size: max(14px, 0.85rem) !important;
+  }
+}
+
+/* Touch-friendly controls */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* Custom scrollbars */
@@ -42,7 +63,7 @@ body {
   background: #94a3b8;
 }
 
-/* STRICT SINGLE-PAGE A4 MEDICAL PRESCRIPTION PRINT RULES */
+/* STRICT SINGLE-PAGE A4 & LETTER MEDICAL PRESCRIPTION PRINT RULES */
 @media print {
   html, body {
     background: #ffffff !important;

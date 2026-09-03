@@ -4,7 +4,13 @@ import { db } from "@/lib/db";
 import { getTenantContext } from "@/lib/tenant";
 import { generatePrescriptionNumber } from "@/lib/utils";
 import { prescriptionSchema, type PrescriptionFormData } from "@/lib/validations";
+import { verifyPrescriptionCreationQuota } from "@/lib/feature-gate";
 import { revalidatePath } from "next/cache";
+
+export async function getPrescriptionQuotaStatus() {
+  const { tenantId } = await getTenantContext();
+  return await verifyPrescriptionCreationQuota(tenantId);
+}
 
 export async function getNextPrescriptionNumber(): Promise<string> {
   const { tenantId } = await getTenantContext();
@@ -110,6 +116,13 @@ export async function getPrescriptionById(id: string) {
 
 export async function createPrescription(rawData: PrescriptionFormData) {
   const { tenantId, doctorId } = await getTenantContext();
+
+  // Enforce demo account limits and feature gating
+  const quota = await verifyPrescriptionCreationQuota(tenantId);
+  if (!quota.allowed) {
+    throw new Error(quota.error || "ڈیمو اکاؤنٹ کی یومیہ حد مکمل ہو چکی ہے۔");
+  }
+
   const validated = prescriptionSchema.parse(rawData);
 
   // Validate patient belongs to tenant

@@ -28,6 +28,14 @@ model Tenant {
   currency           String   @default("PKR")
   prescriptionHeader String?
   prescriptionFooter String?
+  accountStatus      String   @default("demo") // demo, pending_approval, active, rejected, suspended
+  accountStatusUpdatedAt DateTime?
+  accountStatusUpdatedBy String?
+  demoStartedAt      DateTime? @default(now())
+  demoExpiresAt      DateTime?
+  paymentReference   String?
+  upgradeRequestedAt DateTime?
+  rejectionReason    String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
@@ -37,6 +45,7 @@ model Tenant {
   prescriptions Prescription[]
 
   @@index([name])
+  @@index([accountStatus])
 }
 
 model Doctor {
@@ -52,6 +61,14 @@ model Doctor {
   avatar             String?  // Personal doctor avatar, strictly separated from clinic logo
   role               String   @default("DOCTOR") // SUPER_ADMIN, DOCTOR, ASSISTANT, RECEPTIONIST
   status             String   @default("APPROVED") // APPROVED, PENDING, SUSPENDED, REJECTED
+  accountStatus      String   @default("demo") // demo, pending_approval, active, rejected, suspended
+  accountStatusUpdatedAt DateTime?
+  accountStatusUpdatedBy String?
+  demoStartedAt      DateTime? @default(now())
+  demoExpiresAt      DateTime?
+  paymentReference   String?
+  upgradeRequestedAt DateTime?
+  rejectionReason    String?
   active             Boolean  @default(true)
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
@@ -62,6 +79,7 @@ model Doctor {
 
   @@index([tenantId])
   @@index([email])
+  @@index([accountStatus])
 }
 
 model Session {
