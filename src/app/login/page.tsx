@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { loginDoctor } from "@/app/actions/auth";
+import { loginDoctor, loginAsDemoDoctor } from "@/app/actions/auth";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import {
   Sun,
   Moon,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -31,6 +32,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -82,6 +84,26 @@ export default function LoginPage() {
     } catch (err: any) {
       setError(err?.message || "لاگ ان کے دوران مسئلہ پیش آیا۔");
       setIsLoading(false);
+    }
+  };
+
+  const handleDemoClick = async () => {
+    setIsDemoLoading(true);
+    setError(null);
+
+    try {
+      const res = await loginAsDemoDoctor();
+      if (!res.success) {
+        setError(res.error || "ڈیمو لاگ ان میں خرابی پیش آئی۔");
+        setIsDemoLoading(false);
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch (err: any) {
+      setError(err?.message || "ڈیمو لاگ ان میں خرابی پیش آئی۔");
+      setIsDemoLoading(false);
     }
   };
 
@@ -304,7 +326,7 @@ export default function LoginPage() {
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-4 pt-5">
+            <CardContent className="space-y-4 pt-4">
               {/* Error Alert Display */}
               {error && (
                 <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5 shadow-sm">
@@ -316,8 +338,39 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* Clean Single Email & Password Form */}
-              <form onSubmit={handleSubmit} className="space-y-4">
+              {/* 🌟 1-CLICK INSTANT DEMO LOGIN BUTTON */}
+              <button
+                type="button"
+                onClick={handleDemoClick}
+                disabled={isDemoLoading || isLoading}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-xs font-bold transition-all shadow-md group ${
+                  isDarkMode
+                    ? "bg-gradient-to-r from-emerald-900/60 to-teal-900/60 hover:from-emerald-800/70 hover:to-teal-800/70 border-emerald-500/50 text-white"
+                    : "bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border-emerald-300 text-emerald-950"
+                }`}
+              >
+                <span className="flex items-center gap-2.5">
+                  <Sparkles className="h-4 w-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
+                  <span>
+                    1-Click Instant Demo (<span className="urdu-text font-bold">ڈیمو لاگ ان</span>)
+                  </span>
+                </span>
+                <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                  {isDemoLoading ? "Loading..." : "Test Free ⚡"}
+                </span>
+              </button>
+
+              {/* Divider */}
+              <div className="relative flex py-1 items-center">
+                <div className={`flex-grow border-t ${isDarkMode ? "border-slate-800" : "border-slate-200"}`} />
+                <span className={`flex-shrink mx-3 text-[10px] uppercase font-bold tracking-wider ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>
+                  or registered credentials
+                </span>
+                <div className={`flex-grow border-t ${isDarkMode ? "border-slate-800" : "border-slate-200"}`} />
+              </div>
+
+              {/* Clean Email & Password Form */}
+              <form onSubmit={handleSubmit} className="space-y-3.5">
                 {/* Email Field */}
                 <div className="space-y-1">
                   <label
@@ -334,7 +387,7 @@ export default function LoginPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="e.g. admin@homeorx.health"
-                      className={`w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
+                      className={`w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
                         isDarkMode
                           ? "bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
                           : "bg-slate-50/80 border-slate-300 text-slate-900 placeholder:text-slate-400"
@@ -362,7 +415,7 @@ export default function LoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className={`w-full pl-9 pr-11 py-2.5 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
+                      className={`w-full pl-9 pr-11 py-2 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
                         isDarkMode
                           ? "bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
                           : "bg-slate-50/80 border-slate-300 text-slate-900 placeholder:text-slate-400"
@@ -390,7 +443,7 @@ export default function LoginPage() {
                   variant="primary"
                   size="lg"
                   isLoading={isLoading}
-                  className="w-full font-black shadow-lg text-xs sm:text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl h-11 mt-2"
+                  className="w-full font-black shadow-lg text-xs sm:text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl h-10 mt-1"
                 >
                   Sign In to Workspace (داخل ہوں)
                   <ArrowRight className="h-4 w-4 ml-1.5" />
@@ -399,7 +452,7 @@ export default function LoginPage() {
             </CardContent>
 
             <CardFooter
-              className={`pt-3 pb-4 border-t justify-center ${
+              className={`pt-2.5 pb-3.5 border-t justify-center ${
                 isDarkMode
                   ? "border-slate-800 bg-slate-950/50 text-slate-400"
                   : "border-slate-100 bg-slate-50/80 text-slate-600"
