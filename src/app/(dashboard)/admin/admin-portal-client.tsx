@@ -64,8 +64,12 @@ export function AdminPortalClient({
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Filter for Pending Upgrades tab
-  const pendingUpgrades = doctors.filter((doc) => doc.accountStatus === "pending_approval");
+  // Filter for Pending Upgrades / Registrations tab
+  const pendingUpgrades = doctors.filter(
+    (doc) =>
+      doc.role !== "SUPER_ADMIN" &&
+      (doc.accountStatus === "pending_approval" || doc.status === "PENDING" || !doc.active)
+  );
 
   // Filter for All Doctors tab
   const filteredDoctors = doctors.filter((doc) => {
@@ -84,11 +88,7 @@ export function AdminPortalClient({
   });
 
   const handleApproveUpgrade = async (doctorId: string, doctorName: string) => {
-    const pRef = (paymentRefs[doctorId] || "").trim();
-    if (!pRef) {
-      alert(`براہ کرم ${doctorName} کے لیے پیمنٹ ٹرانزیکشن ریفرنس درج کریں۔`);
-      return;
-    }
+    const pRef = (paymentRefs[doctorId] || "").trim() || "Approved by Super Admin";
 
     setLoadingId(doctorId);
     setMessage(null);
@@ -104,7 +104,7 @@ export function AdminPortalClient({
         );
         setMessage({
           type: "success",
-          text: `ڈاکٹر ${doctorName} کا اکاؤنٹ کامیابی سے ایکٹو کر دیا گیا ہے اور تمام ڈیمو پابندیاں ختم ہو گئی ہیں۔`,
+          text: `ڈاکٹر ${doctorName} کا اکاؤنٹ کامیابی سے منظور اور فعال (Activated) کر دیا گیا ہے۔`,
         });
         setTimeout(() => setMessage(null), 5000);
       }

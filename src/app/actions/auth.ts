@@ -4,7 +4,6 @@ import { db } from "@/lib/db";
 import { hashPassword, verifyPassword, createSession, destroySession, getVerifiedSession } from "@/lib/auth";
 import { requestTenantUpgrade, AccountStatus } from "@/lib/account-lifecycle";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 /**
  * Standard Doctor / Admin Email & Password Login
@@ -12,9 +11,13 @@ import { redirect } from "next/navigation";
 export async function loginDoctor(data: { email: string; password?: string }) {
   try {
     const email = data.email?.trim().toLowerCase();
+    const password = data.password?.trim();
 
     if (!email) {
       return { success: false, error: "براہ کرم اپنا ای میل درج کریں۔ (Please enter your email address.)" };
+    }
+    if (!password) {
+      return { success: false, error: "براہ کرم پاس ورڈ درج کریں۔ (Please enter your password.)" };
     }
 
     let doctor = await db.doctor.findUnique({
@@ -22,14 +25,12 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       include: { tenant: true },
     });
 
-    // Auto-heal / Auto-provision Super Admin or Demo Doctor if missing
+    // Auto-seed admin or demo doctor if missing on fresh database initialization
     if (!doctor) {
       if (email === "admin@homeorx.health") {
         const tenant = await db.tenant.upsert({
           where: { id: "tenant-superadmin" },
-          update: {
-            accountStatus: "active",
-          },
+          update: { accountStatus: "active" },
           create: {
             id: "tenant-superadmin",
             name: "HomeoRx SaaS Central Administration",
@@ -48,6 +49,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             active: true,
             role: "SUPER_ADMIN",
             accountStatus: "active",
+            passwordHash: hashPassword("admin123456"),
           },
           create: {
             id: "doc-superadmin-001",
@@ -67,9 +69,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       } else if (email === "dr.demo@homeorx.health") {
         const tenant = await db.tenant.upsert({
           where: { id: "tenant-demo-001" },
-          update: {
-            accountStatus: "demo",
-          },
+          update: { accountStatus: "demo" },
           create: {
             id: "tenant-demo-001",
             name: "Dr. Demo Homeopathic Clinic & Research Centre",
@@ -88,6 +88,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
             status: "APPROVED",
             active: true,
             accountStatus: "demo",
+            passwordHash: hashPassword("demo12345"),
           },
           create: {
             id: "doc-demo-001",
@@ -110,30 +111,41 @@ export async function loginDoctor(data: { email: string; password?: string }) {
     if (!doctor) {
       return {
         success: false,
-        error: `ای میل "${email}" رجسٹرڈ نہیں ہے۔ آپ گوگل سے یا نیا اکاؤنٹ بنا کر فوری لاگ ان کر سکتے ہیں۔`,
+        error: `ای میل "${email}" سسٹم میں موجود نہیں ہے۔ اگر آپ نئے ڈاکٹر ہیں تو براہ کرم نیچے دیے گئے لنک سے رجسٹریشن کریں۔`,
       };
     }
 
-    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
-      return {
-        success: false,
-        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔ (Account suspended.)",
-      };
+    // Check Approval Status for Doctors (Super Admin always has access)
+    if (doctor.role !== "SUPER_ADMIN") {
+      if (doctor.status === "PENDING" || !doctor.active || doctor.accountStatus === "pending_approval") {
+        return {
+          success: false,
+          error: "آپ کا اکاؤنٹ کامیابی سے رجسٹرڈ ہے، لیکن ابھی سپر ایڈمن کی منظوری (Approval) کے انتظار میں ہے۔ ایڈمن کی جانب سے منظوری کے بعد آپ لاگ ان کر سکیں گے۔ (Your account is pending Admin approval.)",
+        };
+      }
+
+      if (doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
+        return {
+          success: false,
+          error: "یہ اکاؤنٹ معطل (Suspended) کر دیا گیا ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔",
+        };
+      }
     }
 
-    // Verify password
-    if (doctor.passwordHash && data.password) {
-      const isValid = verifyPassword(data.password, doctor.passwordHash);
+    // Verify Password
+    if (doctor.passwordHash) {
+      const isValid = verifyPassword(password, doctor.passwordHash);
       if (!isValid) {
         return {
           success: false,
           error: "درج کردہ پاس ورڈ درست نہیں ہے۔ (Incorrect password. Please try again.)",
         };
       }
-    } else if (!doctor.passwordHash && data.password) {
+    } else {
+      // First time setting password on legacy accounts
       await db.doctor.update({
         where: { id: doctor.id },
-        data: { passwordHash: hashPassword(data.password) },
+        data: { passwordHash: hashPassword(password) },
       });
     }
 
@@ -146,205 +158,22 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       doctorId: doctor.id,
       tenantId: doctor.tenantId,
       role: doctor.role,
-      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
+      isSuperAdmin: doctor.role === "SUPER_ADMIN",
+      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "active",
     };
   } catch (err: any) {
     console.error("Login Server Action error:", err);
     return {
       success: false,
-      error: `لاگ ان کے دوران سرور کا مسئلہ پیش آیا: ${err?.message || "نامعلوم خرابی"}`,
+      error: `لاگ ان کے دوران خرابی پیش آئی: ${err?.message || "سرور کا مسئلہ"}`,
     };
   }
 }
 
 /**
- * Google Authentication Sign-In / Demo Account Provisioning
+ * Doctor Registration Flow:
+ * Registers new clinic & doctor in "PENDING" state awaiting Super Admin Approval.
  */
-export async function loginWithGoogle(data: { email: string; name?: string; googleId?: string }) {
-  try {
-    const email = data.email?.trim().toLowerCase();
-    if (!email || !email.includes("@")) {
-      return { success: false, error: "درست گوگل ای میل ایڈریس درج کریں۔ (Invalid Google email.)" };
-    }
-
-    let doctor = await db.doctor.findUnique({
-      where: { email },
-      include: { tenant: true },
-    });
-
-    // If new Google user, auto-create Demo Tenant workspace & Doctor profile instantly!
-    if (!doctor) {
-      const userName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-      const doctorDisplayName = userName.startsWith("Dr.") ? userName : `Dr. ${userName}`;
-      const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
-
-      const now = new Date();
-      const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days demo trial
-
-      const tenant = await db.tenant.create({
-        data: {
-          name: clinicName,
-          clinicName: clinicName,
-          email,
-          currency: "PKR",
-          prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
-          prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
-          accountStatus: "demo",
-          demoStartedAt: now,
-          demoExpiresAt: expiresAt,
-          doctors: {
-            create: {
-              name: doctorDisplayName,
-              qualification: "BHMS, Homeopathic Physician",
-              email,
-              role: "DOCTOR",
-              status: "APPROVED",
-              accountStatus: "demo",
-              demoStartedAt: now,
-              demoExpiresAt: expiresAt,
-              active: true,
-            },
-          },
-        },
-        include: {
-          doctors: true,
-        },
-      });
-
-      doctor = await db.doctor.findUnique({
-        where: { id: tenant.doctors[0].id },
-        include: { tenant: true },
-      });
-    }
-
-    if (!doctor) {
-      return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
-    }
-
-    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
-      return {
-        success: false,
-        error: "یہ گوگل اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
-      };
-    }
-
-    await createSession(doctor.id, doctor.tenantId);
-    revalidatePath("/");
-    return {
-      success: true,
-      doctorId: doctor.id,
-      tenantId: doctor.tenantId,
-      role: doctor.role,
-      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
-    };
-  } catch (err: any) {
-    console.error("Google login error:", err);
-    return {
-      success: false,
-      error: `گوگل اتھنٹیکیشن میں مسئلہ: ${err?.message || "سرور ایرر"}`,
-    };
-  }
-}
-
-/**
- * Personal Email Authentication (Direct Demo/Active Access with any Email)
- */
-export async function loginWithPersonalEmail(data: { email: string; name?: string; password?: string }) {
-  try {
-    const email = data.email?.trim().toLowerCase();
-    if (!email || !email.includes("@")) {
-      return { success: false, error: "درست پرسنل ای میل درج کریں۔ (Invalid personal email address.)" };
-    }
-
-    let doctor = await db.doctor.findUnique({
-      where: { email },
-      include: { tenant: true },
-    });
-
-    // If new personal email, provision Demo Account immediately
-    if (!doctor) {
-      const fallbackName = data.name?.trim() || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-      const doctorDisplayName = fallbackName.startsWith("Dr.") ? fallbackName : `Dr. ${fallbackName}`;
-      const clinicName = `${doctorDisplayName}'s Homeopathic Clinic`;
-      const passHash = data.password ? hashPassword(data.password) : null;
-
-      const now = new Date();
-      const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-
-      const tenant = await db.tenant.create({
-        data: {
-          name: clinicName,
-          clinicName: clinicName,
-          email,
-          currency: "PKR",
-          prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE CLINIC",
-          prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
-          accountStatus: "demo",
-          demoStartedAt: now,
-          demoExpiresAt: expiresAt,
-          doctors: {
-            create: {
-              name: doctorDisplayName,
-              qualification: "BHMS, Homeopathic Physician",
-              email,
-              passwordHash: passHash,
-              role: "DOCTOR",
-              status: "APPROVED",
-              accountStatus: "demo",
-              demoStartedAt: now,
-              demoExpiresAt: expiresAt,
-              active: true,
-            },
-          },
-        },
-        include: {
-          doctors: true,
-        },
-      });
-
-      doctor = await db.doctor.findUnique({
-        where: { id: tenant.doctors[0].id },
-        include: { tenant: true },
-      });
-    } else if (doctor && doctor.passwordHash && data.password) {
-      const isValid = verifyPassword(data.password, doctor.passwordHash);
-      if (!isValid) {
-        return {
-          success: false,
-          error: "درج کردہ پاس ورڈ درست نہیں ہے۔ (Incorrect password.)",
-        };
-      }
-    }
-
-    if (!doctor) {
-      return { success: false, error: "ڈاکٹر پروفائل بنانے میں ناکامی۔" };
-    }
-
-    if (!doctor.active || doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
-      return {
-        success: false,
-        error: "یہ اکاؤنٹ معطل ہے۔ براہ کرم ایڈمن سے رابطہ کریں۔",
-      };
-    }
-
-    await createSession(doctor.id, doctor.tenantId);
-    revalidatePath("/");
-    return {
-      success: true,
-      doctorId: doctor.id,
-      tenantId: doctor.tenantId,
-      role: doctor.role,
-      accountStatus: doctor.accountStatus || doctor.tenant.accountStatus || "demo",
-    };
-  } catch (err: any) {
-    console.error("Personal email login error:", err);
-    return {
-      success: false,
-      error: `پرسنل ای میل اتھنٹیکیشن میں مسئلہ: ${err?.message || "سرور ایرر"}`,
-    };
-  }
-}
-
 export async function registerDoctor(data: {
   name: string;
   qualification?: string;
@@ -356,11 +185,14 @@ export async function registerDoctor(data: {
 }) {
   try {
     const email = data.email?.trim().toLowerCase();
+    const name = data.name?.trim();
+    const clinicName = data.clinicName?.trim();
+    const password = data.password?.trim();
 
-    if (!email || !data.name || !data.clinicName) {
+    if (!email || !name || !clinicName || !password) {
       return {
         success: false,
-        error: "براہ کرم تمام لازمی فیلڈز مکمل کریں۔ (Please fill all required fields.)",
+        error: "تمام لازمی فیلڈز (نام، کلینک، ای میل، پاس ورڈ) درج کریں۔ (All required fields must be filled.)",
       };
     }
 
@@ -371,41 +203,36 @@ export async function registerDoctor(data: {
     if (existingDoctor) {
       return {
         success: false,
-        error: "یہ ای میل پہلے سے رجسٹرڈ ہے۔ براہ کرم لاگ ان کریں۔ (An account with this email already exists.)",
+        error: "یہ ای میل پہلے سے سسٹم میں رجسٹرڈ ہے۔ براہ کرم لاگ ان کریں۔ (An account with this email already exists.)",
       };
     }
 
-    const passwordHash = data.password ? hashPassword(data.password) : null;
+    const passwordHash = hashPassword(password);
     const now = new Date();
-    const expiresAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
 
     const tenant = await db.tenant.create({
       data: {
-        name: data.clinicName || `${data.name}'s Homeopathic Clinic`,
-        clinicName: data.clinicName || `${data.name}'s Homeopathic Clinic`,
-        phone: data.phone || null,
-        whatsapp: data.phone || null,
+        name: clinicName,
+        clinicName: clinicName,
+        phone: data.phone?.trim() || null,
+        whatsapp: data.phone?.trim() || null,
         email,
         currency: "PKR",
-        prescriptionHeader: "HOLISTIC HOMEOPATHIC HEALTHCARE & CLINICAL SUITE",
+        prescriptionHeader: `${clinicName.toUpperCase()} — HOMEOPATHIC HEALTHCARE`,
         prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
-        accountStatus: "demo",
-        demoStartedAt: now,
-        demoExpiresAt: expiresAt,
+        accountStatus: "pending_approval",
         doctors: {
           create: {
-            name: data.name,
-            qualification: data.qualification || "MD (Homeopathy), BHMS",
-            registrationNumber: data.registrationNumber || null,
+            name,
+            qualification: data.qualification?.trim() || "MD (Homeopathy), BHMS",
+            registrationNumber: data.registrationNumber?.trim() || null,
             email,
             passwordHash,
-            phone: data.phone || null,
+            phone: data.phone?.trim() || null,
             role: "DOCTOR",
-            status: "APPROVED",
-            accountStatus: "demo",
-            demoStartedAt: now,
-            demoExpiresAt: expiresAt,
-            active: true,
+            status: "PENDING",
+            accountStatus: "pending_approval",
+            active: false, // Awaiting Super Admin manual approval
           },
         },
       },
@@ -415,15 +242,20 @@ export async function registerDoctor(data: {
     });
 
     const newDoctor = tenant.doctors[0];
-    await createSession(newDoctor.id, tenant.id);
 
-    revalidatePath("/");
-    return { success: true, doctorId: newDoctor.id, tenantId: tenant.id, accountStatus: "demo" };
+    revalidatePath("/admin");
+    return {
+      success: true,
+      pendingApproval: true,
+      doctorId: newDoctor.id,
+      tenantId: tenant.id,
+      message: "آپ کا اکاؤنٹ کامیابی سے رجسٹر ہو گیا ہے۔ سپر ایڈمن کی منظوری کے بعد آپ لاگ ان کر سکیں گے۔",
+    };
   } catch (err: any) {
     console.error("Register Server Action error:", err);
     return {
       success: false,
-      error: "رجسٹریشن کے دوران مسئلہ پیش آیا۔ براہ کرم دوبارہ کوشش کریں۔",
+      error: `رجسٹریشن کے دوران مسئلہ پیش آیا: ${err?.message || "سرور خرابی"}`,
     };
   }
 }
@@ -448,35 +280,37 @@ export async function requestAccountUpgradeAction(paymentReference: string, note
       message: "آپ کی اپ گریڈ کی درخواست کامیابی سے جمع ہو چکی ہے۔ ایڈمن کی تصدیق کے بعد اکاؤنٹ ایکٹو ہو جائے گا۔",
     };
   } catch (err: any) {
-    console.error("Upgrade request error:", err);
-    return { success: false, error: err?.message || "اپ گریڈ کی درخواست جمع کرنے میں خرابی۔" };
+    console.error("requestAccountUpgradeAction error:", err);
+    return {
+      success: false,
+      error: err?.message || "درخواست جمع کرانے میں خرابی پیش آئی۔",
+    };
   }
 }
 
+/**
+ * Get the currently authenticated doctor profile
+ */
+export async function getCurrentDoctor() {
+  const session = await getVerifiedSession();
+  if (!session || !session.doctor) return null;
+  return {
+    id: session.doctor.id,
+    name: session.doctor.name,
+    email: session.doctor.email,
+    role: session.doctor.role,
+    qualification: session.doctor.qualification,
+    clinicName: session.doctor.tenant?.name || session.doctor.tenant?.clinicName,
+    tenantId: session.doctor.tenantId,
+    accountStatus: session.doctor.accountStatus || session.doctor.tenant?.accountStatus || "active",
+  };
+}
+
+/**
+ * Current user logout
+ */
 export async function logoutDoctor() {
   await destroySession();
   revalidatePath("/");
-  redirect("/login");
-}
-
-export async function getCurrentDoctor() {
-  const session = await getVerifiedSession();
-  if (!session) return null;
-
-  return {
-    doctorId: session.doctor.id,
-    doctorName: session.doctor.name,
-    doctorEmail: session.doctor.email,
-    qualification: session.doctor.qualification,
-    registrationNumber: session.doctor.registrationNumber,
-    role: session.doctor.role,
-    tenantId: session.doctor.tenant.id,
-    clinicName: session.doctor.tenant.clinicName || session.doctor.tenant.name,
-    accountStatus: (session.doctor.accountStatus || session.doctor.tenant.accountStatus || "demo") as AccountStatus,
-    demoStartedAt: session.doctor.demoStartedAt || session.doctor.tenant.demoStartedAt,
-    demoExpiresAt: session.doctor.demoExpiresAt || session.doctor.tenant.demoExpiresAt,
-    upgradeRequestedAt: session.doctor.upgradeRequestedAt || session.doctor.tenant.upgradeRequestedAt,
-    paymentReference: session.doctor.paymentReference || session.doctor.tenant.paymentReference,
-    rejectionReason: session.doctor.rejectionReason || session.doctor.tenant.rejectionReason,
-  };
+  return { success: true };
 }

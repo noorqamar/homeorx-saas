@@ -1,9 +1,19 @@
 import { PrismaClient } from "@prisma/client";
+import crypto from "crypto";
 
 const prisma = new PrismaClient();
 
+function hashPassword(password: string): string {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const derivedKey = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${derivedKey}`;
+}
+
 async function main() {
   console.log("🌱 Starting HomeoRx Expanded Master Seeding (600+ Remedies & Urdu Support)...");
+
+  const adminPassHash = hashPassword("admin123456");
+  const demoPassHash = hashPassword("demo12345");
 
   // 1. Tenant & Doctor
   const tenant = await prisma.tenant.upsert({
@@ -33,18 +43,45 @@ async function main() {
           qualification: "MD (Homeopathy), BHMS, Gold Medalist",
           registrationNumber: "HOM-REG-2026-8942",
           email: "dr.demo@homeorx.health",
+          passwordHash: demoPassHash,
           phone: "+92 300 1234567",
           role: "DOCTOR",
           status: "APPROVED",
           accountStatus: "demo",
+          active: true,
         },
       },
     },
     include: { doctors: true },
   });
 
+  // Ensure demo doctor passwordHash is updated if existing
+  await prisma.doctor.upsert({
+    where: { email: "dr.demo@homeorx.health" },
+    update: {
+      passwordHash: demoPassHash,
+      status: "APPROVED",
+      active: true,
+      accountStatus: "demo",
+    },
+    create: {
+      id: "doc-demo-001",
+      tenantId: tenant.id,
+      name: "Dr. Demo Hahnemann, MD (Hom)",
+      qualification: "MD (Homeopathy), BHMS, Gold Medalist",
+      registrationNumber: "HOM-REG-2026-8942",
+      email: "dr.demo@homeorx.health",
+      passwordHash: demoPassHash,
+      phone: "+92 300 1234567",
+      role: "DOCTOR",
+      status: "APPROVED",
+      accountStatus: "demo",
+      active: true,
+    },
+  });
+
   // Seed Super Administrator (Doctor Admin with full platform authority)
-  await prisma.tenant.upsert({
+  const superAdminTenant = await prisma.tenant.upsert({
     where: { id: "tenant-superadmin" },
     update: {
       accountStatus: "active",
@@ -57,19 +94,30 @@ async function main() {
       phone: "+92 300 1234567",
       currency: "PKR",
       accountStatus: "active",
-      doctors: {
-        create: {
-          id: "doc-superadmin-001",
-          name: "Dr. Qamar (Super Admin / سسٹم ایڈمن)",
-          qualification: "Chief Medical Officer & Platform Admin",
-          registrationNumber: "HOM-ADMIN-001",
-          email: "admin@homeorx.health",
-          role: "SUPER_ADMIN",
-          status: "APPROVED",
-          accountStatus: "active",
-          active: true,
-        },
-      },
+    },
+  });
+
+  await prisma.doctor.upsert({
+    where: { email: "admin@homeorx.health" },
+    update: {
+      passwordHash: adminPassHash,
+      status: "APPROVED",
+      accountStatus: "active",
+      active: true,
+      role: "SUPER_ADMIN",
+    },
+    create: {
+      id: "doc-superadmin-001",
+      tenantId: superAdminTenant.id,
+      name: "Dr. Qamar (Super Admin / سسٹم ایڈمن)",
+      qualification: "Chief Medical Officer & Platform Admin",
+      registrationNumber: "HOM-ADMIN-001",
+      email: "admin@homeorx.health",
+      passwordHash: adminPassHash,
+      role: "SUPER_ADMIN",
+      status: "APPROVED",
+      accountStatus: "active",
+      active: true,
     },
   });
 

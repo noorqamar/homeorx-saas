@@ -54,8 +54,8 @@ export async function getAllDoctorsAndClinics() {
     qualification: doc.qualification,
     registrationNumber: doc.registrationNumber,
     role: doc.role,
-    status: doc.status || "APPROVED",
-    accountStatus: (doc.accountStatus || doc.tenant.accountStatus || "demo") as AccountStatus,
+    status: doc.status || (doc.active ? "APPROVED" : "PENDING"),
+    accountStatus: (doc.accountStatus || doc.tenant.accountStatus || (doc.active ? "active" : "pending_approval")) as AccountStatus,
     demoStartedAt: doc.demoStartedAt || doc.tenant.demoStartedAt,
     demoExpiresAt: doc.demoExpiresAt || doc.tenant.demoExpiresAt,
     upgradeRequestedAt: doc.upgradeRequestedAt || doc.tenant.upgradeRequestedAt,
@@ -76,12 +76,15 @@ export async function getPendingUpgradeRequests() {
 
   const pendingDoctors = await db.doctor.findMany({
     where: {
+      role: { not: "SUPER_ADMIN" },
       OR: [
         { accountStatus: "pending_approval" },
+        { status: "PENDING" },
+        { active: false },
         { tenant: { accountStatus: "pending_approval" } },
       ],
     },
-    orderBy: { upgradeRequestedAt: "desc" },
+    orderBy: { createdAt: "desc" },
     include: {
       tenant: {
         include: {
@@ -105,14 +108,19 @@ export async function getPendingUpgradeRequests() {
     phone: doc.phone || doc.tenant.phone,
     qualification: doc.qualification,
     clinicName: doc.tenant.clinicName || doc.tenant.name,
-    upgradeRequestedAt: doc.upgradeRequestedAt || doc.tenant.upgradeRequestedAt || doc.updatedAt,
-    paymentReference: doc.paymentReference || doc.tenant.paymentReference,
+    upgradeRequestedAt: doc.upgradeRequestedAt || doc.tenant.upgradeRequestedAt || doc.createdAt,
+    paymentReference: doc.paymentReference || doc.tenant.paymentReference || "New Registration Approval",
+    status: doc.status,
+    active: doc.active,
     totalPatients: doc.tenant._count.patients,
     totalPrescriptions: doc.tenant._count.prescriptions,
   }));
 }
 
-export async function approveDoctorUpgrade(doctorId: string, paymentReference: string) {
+/**
+ * 1-Click Approval for Super Admin to grant access to a doctor
+ */
+export async function approveDoctorUpgrade(doctorId: string, paymentReference?: string) {
   const admin = await ensureSuperAdmin();
 
   const doctor = await db.doctor.findUnique({
@@ -121,7 +129,30 @@ export async function approveDoctorUpgrade(doctorId: string, paymentReference: s
 
   if (!doctor) throw new Error("Doctor record not found.");
 
-  await approveTenantUpgrade(doctor.tenantId, admin.id, paymentReference);
+  const ref = paymentReference?.trim() || "ADMIN_APPROVED";
+
+  // Update both Doctor and Tenant
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      status: "APPROVED",
+      active: true,
+      accountStatus: "active",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+      paymentReference: ref,
+    },
+  });
+
+  await db.tenant.update({
+    where: { id: doctor.tenantId },
+    data: {
+      accountStatus: "active",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+      paymentReference: ref,
+    },
+  });
 
   revalidatePath("/admin");
   revalidatePath("/");
@@ -137,7 +168,27 @@ export async function rejectDoctorUpgrade(doctorId: string, rejectionReason: str
 
   if (!doctor) throw new Error("Doctor record not found.");
 
-  await rejectTenantUpgrade(doctor.tenantId, admin.id, rejectionReason);
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      status: "PENDING",
+      active: false,
+      accountStatus: "rejected",
+      rejectionReason: rejectionReason?.trim() || "Information could not be verified.",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
+
+  await db.tenant.update({
+    where: { id: doctor.tenantId },
+    data: {
+      accountStatus: "rejected",
+      rejectionReason: rejectionReason?.trim() || "Information could not be verified.",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
 
   revalidatePath("/admin");
   revalidatePath("/");
@@ -154,11 +205,63 @@ export async function suspendDoctorAccount(doctorId: string, reason?: string) {
   if (!doctor) throw new Error("Doctor record not found.");
   if (doctor.role === "SUPER_ADMIN") throw new Error("Cannot suspend Super Admin.");
 
-  await suspendTenantAccount(doctor.tenantId, admin.id, reason);
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      status: "SUSPENDED",
+      active: false,
+      accountStatus: "suspended",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
+
+  await db.tenant.update({
+    where: { id: doctor.tenantId },
+    data: {
+      accountStatus: "suspended",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
 
   revalidatePath("/admin");
   revalidatePath("/");
   return { success: true, message: `Account for ${doctor.name} has been suspended.` };
+}
+
+export async function reinstateDoctorAccount(doctorId: string) {
+  const admin = await ensureSuperAdmin();
+
+  const doctor = await db.doctor.findUnique({
+    where: { id: doctorId },
+  });
+
+  if (!doctor) throw new Error("Doctor record not found.");
+
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      status: "APPROVED",
+      active: true,
+      accountStatus: "active",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
+
+  await db.tenant.update({
+    where: { id: doctor.tenantId },
+    data: {
+      accountStatus: "active",
+      accountStatusUpdatedAt: new Date(),
+      accountStatusUpdatedBy: admin.id,
+    },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/");
+  return { success: true, message: `Account for ${doctor.name} reinstated.` };
 }
 
 export async function updateDoctorStatus(doctorId: string, status: "APPROVED" | "PENDING" | "SUSPENDED") {
@@ -169,6 +272,7 @@ export async function updateDoctorStatus(doctorId: string, status: "APPROVED" | 
     data: {
       status,
       active: status === "APPROVED",
+      accountStatus: status === "APPROVED" ? "active" : "pending_approval",
     },
   });
 
@@ -211,7 +315,12 @@ export async function getAdminMetrics() {
     totalPatients,
   ] = await Promise.all([
     db.doctor.count(),
-    db.doctor.count({ where: { accountStatus: "pending_approval" } }),
+    db.doctor.count({
+      where: {
+        role: { not: "SUPER_ADMIN" },
+        OR: [{ accountStatus: "pending_approval" }, { status: "PENDING" }, { active: false }],
+      },
+    }),
     db.doctor.count({ where: { accountStatus: "demo" } }),
     db.doctor.count({ where: { accountStatus: "active" } }),
     db.tenant.count(),

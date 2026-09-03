@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerDoctor } from "@/app/actions/auth";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   HeartPulse,
@@ -19,6 +18,8 @@ import {
   CheckCircle2,
   AlertCircle,
   FileCheck,
+  Clock,
+  LogIn,
 } from "lucide-react";
 
 export default function RegisterPage() {
@@ -34,6 +35,7 @@ export default function RegisterPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -46,27 +48,80 @@ export default function RegisterPage() {
 
     try {
       if (!formData.name || formData.name.trim().length < 2) {
-        throw new Error("Please enter your full name.");
+        throw new Error("براہ کرم ڈاکٹر کا مکمل نام درج کریں۔");
       }
       if (!formData.clinicName || formData.clinicName.trim().length < 2) {
-        throw new Error("Please enter your clinic or centre name.");
+        throw new Error("براہ کرم کلینک یا ہسپتال کا نام درج کریں۔");
       }
       if (!formData.email) {
-        throw new Error("Please enter an email address.");
+        throw new Error("براہ کرم درست ای میل ایڈریس درج کریں۔");
       }
       if (!formData.password || formData.password.length < 6) {
-        throw new Error("Password must be at least 6 characters long.");
+        throw new Error("پاس ورڈ کم از کم ۶ ہندسوں کا ہونا چاہیے۔");
       }
 
-      await registerDoctor(formData);
-      router.push("/");
-      router.refresh();
+      const res = await registerDoctor(formData);
+      if (!res.success) {
+        throw new Error(res.error || "رجسٹریشن میں خرابی پیش آئی۔");
+      }
+
+      setIsSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to create account. Please try again.");
+      setError(err.message || "اکاؤنٹ بنانے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔");
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-emerald-600/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-teal-600/15 blur-3xl pointer-events-none" />
+
+        <div className="w-full max-w-lg space-y-6 relative z-10 text-center">
+          <div className="inline-flex h-20 w-20 rounded-full bg-emerald-500/20 text-emerald-400 items-center justify-center border border-emerald-500/30 shadow-2xl mb-2">
+            <CheckCircle2 className="h-10 w-10 text-emerald-400 animate-bounce" />
+          </div>
+
+          <div className="space-y-3">
+            <h1 className="text-2xl sm:text-3xl font-black text-white">
+              رجسٹریشن کامیابی سے موصول ہو گئی!
+            </h1>
+            <p className="text-sm font-semibold text-emerald-300">
+              Registration Submitted Successfully
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed space-y-3 text-right">
+            <div className="flex items-center gap-2 text-amber-400 font-bold justify-end">
+              <span>سپر ایڈمن کی منظوری کے انتظار میں</span>
+              <Clock className="h-4 w-4 shrink-0" />
+            </div>
+            <p>
+              محترم ڈاکٹر <strong>{formData.name}</strong>، آپ کے کلینک <strong>({formData.clinicName})</strong> کا پورٹل رجسٹر ہو چکا ہے۔
+            </p>
+            <p className="text-slate-400 text-xs">
+              سیکورٹی اور تصدیق کے لیے، نیا اکاؤنٹ سپر ایڈمن کی منظوری کے بعد فعال ہوتا ہے۔ ایڈمن کی جانب سے منظوری ملتے ہی آپ اپنے درج کردہ ای میل <strong>({formData.email})</strong> اور پاس ورڈ کے ذریعے سسٹم میں داخل ہو سکیں گے۔
+            </p>
+          </div>
+
+          <div className="pt-2">
+            <Link href="/login">
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Go to Sign In (لاگ ان اسکرین پر جائیں)
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4 relative overflow-hidden">
@@ -84,7 +139,7 @@ export default function RegisterPage() {
             Register Doctor Account (رجسٹریشن)
           </h1>
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
-            Create an isolated clinical workspace with personalized prescription letterhead
+            Create your clinical workspace with personalized bilingual A4 prescription letterhead
           </p>
         </div>
 
@@ -95,7 +150,7 @@ export default function RegisterPage() {
               New Doctor & Clinic Registration
             </CardTitle>
             <CardDescription className="text-slate-400 text-xs">
-              Every practitioner receives a completely isolated and secure multi-tenant database
+              Every practitioner receives a completely isolated and secure clinical workspace
             </CardDescription>
           </CardHeader>
 
@@ -241,7 +296,7 @@ export default function RegisterPage() {
                 isLoading={isLoading}
                 className="w-full font-bold shadow-lg text-sm bg-emerald-600 hover:bg-emerald-500 text-white mt-2"
               >
-                Create Isolated Clinic Workspace
+                Submit Registration for Approval
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </form>
@@ -249,12 +304,12 @@ export default function RegisterPage() {
 
           <CardFooter className="pt-0 border-t border-slate-800 justify-center">
             <p className="text-xs text-slate-400 pt-3">
-              Already have an account?{" "}
+              Already registered?{" "}
               <Link
                 href="/login"
                 className="text-emerald-400 hover:text-emerald-300 font-bold underline ml-1"
               >
-                Sign In to Existing Clinic
+                Sign In to Existing Clinic (لاگ ان کریں)
               </Link>
             </p>
           </CardFooter>

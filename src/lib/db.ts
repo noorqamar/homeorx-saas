@@ -1,32 +1,37 @@
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import { SEED_DB_BASE64 } from "./db-seed-binary";
+import { SEED_DB_BASE64, SEED_DB_HASH } from "./db-seed-binary";
 
 function resolveDatabaseUrl(): string {
   if (process.env.VERCEL) {
     try {
       const tmpDbPath = path.join("/tmp", "dev.db");
+      const tmpHashPath = path.join("/tmp", "dev.db.hash");
 
-      // Check if /tmp/dev.db is already present and valid
-      let needsInit = true;
-      if (fs.existsSync(tmpDbPath)) {
-        const stats = fs.statSync(tmpDbPath);
-        if (stats.size > 100000) {
-          needsInit = false;
+      let currentHash = "";
+      if (fs.existsSync(tmpHashPath)) {
+        try {
+          currentHash = fs.readFileSync(tmpHashPath, "utf8").trim();
+        } catch {
+          currentHash = "";
         }
       }
 
-      if (needsInit) {
-        // Try copying from workspace if present
+      // If /tmp/dev.db doesn't exist OR hash does not match current deployment bundle, write fresh DB
+      const needsFreshCopy = !fs.existsSync(tmpDbPath) || (SEED_DB_HASH && currentHash !== SEED_DB_HASH);
+
+      if (needsFreshCopy) {
         const localDbPath = path.join(process.cwd(), "prisma", "dev.db");
         if (fs.existsSync(localDbPath)) {
           fs.copyFileSync(localDbPath, tmpDbPath);
+          if (SEED_DB_HASH) fs.writeFileSync(tmpHashPath, SEED_DB_HASH, "utf8");
+          console.log(`[HomeoRx DB] Copied local prisma/dev.db to /tmp/dev.db`);
         } else if (SEED_DB_BASE64) {
-          // Write directly from embedded binary bundle
           const buffer = Buffer.from(SEED_DB_BASE64, "base64");
           fs.writeFileSync(tmpDbPath, buffer);
-          console.log(`[HomeoRx DB] Initialized /tmp/dev.db from embedded binary (${buffer.length} bytes)`);
+          if (SEED_DB_HASH) fs.writeFileSync(tmpHashPath, SEED_DB_HASH, "utf8");
+          console.log(`[HomeoRx DB] Initialized /tmp/dev.db from embedded binary (${buffer.length} bytes, hash: ${SEED_DB_HASH})`);
         }
       }
 
