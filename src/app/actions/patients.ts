@@ -7,9 +7,12 @@ import { patientSchema, type PatientFormData } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 
 export async function getPatients(query?: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
 
-  const whereClause: any = { tenantId };
+  const whereClause: any = {};
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereClause.tenantId = tenantId;
+  }
 
   if (query && query.trim().length > 0) {
     const term = query.trim();
@@ -39,20 +42,25 @@ export async function getPatients(query?: string) {
 }
 
 export async function searchPatients(term: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
   if (!term || term.trim().length === 0) return [];
 
   const clean = term.trim();
+  const whereClause: any = {
+    OR: [
+      { name: { contains: clean } },
+      { patientNumber: { contains: clean } },
+      { phone: { contains: clean } },
+      { whatsapp: { contains: clean } },
+    ],
+  };
+
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereClause.tenantId = tenantId;
+  }
+
   return db.patient.findMany({
-    where: {
-      tenantId,
-      OR: [
-        { name: { contains: clean } },
-        { patientNumber: { contains: clean } },
-        { phone: { contains: clean } },
-        { whatsapp: { contains: clean } },
-      ],
-    },
+    where: whereClause,
     take: 10,
     orderBy: { name: "asc" },
     select: {
@@ -69,13 +77,15 @@ export async function searchPatients(term: string) {
 }
 
 export async function getPatientById(id: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const whereClause: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereClause.tenantId = tenantId;
+  }
 
   const patient = await db.patient.findFirst({
-    where: {
-      id,
-      tenantId, // Tenant isolation enforcement
-    },
+    where: whereClause,
     include: {
       prescriptions: {
         orderBy: { prescriptionDate: "desc" },

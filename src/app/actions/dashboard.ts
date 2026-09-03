@@ -4,7 +4,12 @@ import { db } from "@/lib/db";
 import { getTenantContext } from "@/lib/tenant";
 
 export async function getDashboardStats() {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const whereTenant: any = {};
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereTenant.tenantId = tenantId;
+  }
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -18,22 +23,22 @@ export async function getDashboardStats() {
     recentPatients,
     recentPrescriptions,
   ] = await Promise.all([
-    db.patient.count({ where: { tenantId } }),
+    db.patient.count({ where: whereTenant }),
     db.patient.count({
       where: {
-        tenantId,
+        ...whereTenant,
         createdAt: { gte: startOfMonth },
       },
     }),
-    db.prescription.count({ where: { tenantId } }),
+    db.prescription.count({ where: whereTenant }),
     db.visit.count({
       where: {
-        tenantId,
+        ...whereTenant,
         visitDate: { gte: startOfDay },
       },
     }),
     db.patient.findMany({
-      where: { tenantId },
+      where: whereTenant,
       orderBy: { createdAt: "desc" },
       take: 5,
       include: {
@@ -46,7 +51,7 @@ export async function getDashboardStats() {
       },
     }),
     db.prescription.findMany({
-      where: { tenantId },
+      where: whereTenant,
       orderBy: { prescriptionDate: "desc" },
       take: 6,
       include: {

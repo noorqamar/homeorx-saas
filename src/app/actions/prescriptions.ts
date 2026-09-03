@@ -32,9 +32,12 @@ export async function getPrescriptions(filters?: {
   startDate?: string;
   endDate?: string;
 }) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
 
-  const whereClause: any = { tenantId };
+  const whereClause: any = {};
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereClause.tenantId = tenantId;
+  }
 
   if (filters?.patientId) {
     whereClause.patientId = filters.patientId;
@@ -93,13 +96,15 @@ export async function getPrescriptions(filters?: {
 }
 
 export async function getPrescriptionById(id: string) {
-  const { tenantId } = await getTenantContext();
+  const { tenantId, doctorRole } = await getTenantContext();
+
+  const whereClause: any = { id };
+  if (doctorRole !== "SUPER_ADMIN") {
+    whereClause.tenantId = tenantId;
+  }
 
   const prescription = await db.prescription.findFirst({
-    where: {
-      id,
-      tenantId, // Tenant isolation check
-    },
+    where: whereClause,
     include: {
       patient: true,
       doctor: true,
