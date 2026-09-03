@@ -5,7 +5,22 @@ import { formatDate } from "@/lib/utils";
 import { PrescriptionVerificationBadge } from "./qr-code";
 import { MedicineFormIcon } from "./medicine-form-icon";
 import { TEMPLATE_PRESETS, type TemplatePresetId } from "./template-presets";
-import { AlertCircle, ShieldAlert } from "lucide-react";
+import {
+  AlertCircle,
+  ShieldAlert,
+  User,
+  Calendar,
+  Phone,
+  Clock,
+  CheckCircle2,
+  TrendingUp,
+  ClipboardList,
+  FlaskConical,
+  Sparkles,
+  Stethoscope,
+  Leaf,
+  Check,
+} from "lucide-react";
 
 // Helper to cleanly parse bilingual data into Line 1 (English) and Line 2 (Urdu)
 function parseBilingual(text?: string | null): { en: string; ur: string } {
@@ -64,416 +79,545 @@ export function PrescriptionRenderer({
     doctor.accountStatus === "demo" ||
     doctor.accountStatus === "pending_approval";
 
-  // Demo accounts are locked to default "sage" preset
-  const activePreset = isDemo ? "sage" : (preset || "sage");
-  const theme = TEMPLATE_PRESETS[activePreset] || TEMPLATE_PRESETS.sage;
-
   // Editable Clinic Theme configuration object
   const clinicTheme = {
-    clinicName: tenant.clinicName || tenant.name || "HomeoRx Wellness & Cure Clinic",
-    tagline: tenant.tagline || "Holistic Homeopathic Health Care & Research",
-    doctorName: doctor.name || tenant.doctorName || "Dr. Demo Hahnemann",
-    credentials: doctor.qualification || tenant.credentials || "MD (Homeopathy), BHMS",
+    clinicName: tenant.clinicName || tenant.name || "FAZAL E NOOR HOMEOPATHIC CLINIC",
+    tagline: tenant.tagline || "Gentle. Natural. Effective.",
+    doctorName: doctor.name || tenant.doctorName || "Dr. Noor ul Qamar",
+    credentials: doctor.qualification || tenant.credentials || "DHMS, RHMP",
     regNo: doctor.registrationNumber || tenant.regNo || "HOM-REG-2026-8942",
-    phone: tenant.phone || "+1 (555) 234-5678",
+    phone: tenant.phone || "0300-1234567",
     email: tenant.email || "clinic@homeorx.health",
-    address: tenant.address || "Suite 402, Medical Arts Building, Health Avenue",
+    address: tenant.address || "Main Medical Boulevard, Health City",
     logoUrl: tenant.logo || "",
+    doctorPhoto: tenant.doctorPhoto || doctor.photoUrl || "",
     digitalSignature: tenant.digitalSignature || "",
     accentColor: tenant.accentColor || "#059669",
     footerQuote:
       tenant.prescriptionFooter ||
-      "Similia Similibus Curentur • قدرتی، محفوظ اور مستقل ہومیوپیتھک علاج",
-    headerTitle: tenant.prescriptionHeader || "HOLISTIC HOMEOPATHIC CARE & CURE",
-    timings: tenant.timings || "Mon - Sat: 9:00 AM - 6:00 PM",
+      "Gentle • Permanent • Holistic Homeopathic Cure",
+    headerTitle: tenant.prescriptionHeader || "FAZAL E NOOR HOMEOPATHIC CLINIC",
+    timings: tenant.timings || "Mon - Sat: 10:00 AM - 9:00 PM",
   };
 
-  // Split general instructions into clean array of lines
-  const rawInstructions = rx.generalInstructions
-    ? rx.generalInstructions
-        .split("\n")
-        .map((l: string) => l.trim())
-        .filter((l: string) => l.length > 0)
-    : [];
+  // Primary remedy (first item or fallback)
+  const primaryItem = rx.items?.[0] || {
+    medicineName: "KALMIA LATIFOLIA",
+    potency: "200C",
+    form: "Globules / میٹھی گولیاں",
+    dose: "Single dose orally • 5 drops",
+    frequency: "Morning & Night • صبح اور شام کھانے کے بعد",
+    duration: "7-10 days",
+    instructions: "Observe for 7-10 days. Do not repeat unless advised.",
+  };
+
+  const primaryDose = parseBilingual(primaryItem.dose || "Single dose orally • 5 drops");
+  const primaryFreq = parseBilingual(primaryItem.frequency || "Morning & Night • صبح اور شام کھانے کے بعد");
+
+  // Format complaints
+  const complaintLines = rx.chiefComplaint
+    ? rx.chiefComplaint.split("\n").filter((l: string) => l.trim().length > 0)
+    : [
+        "Pain in left shoulder radiating down the arm.",
+        "Maximum intensity of pain in the left biceps area.",
+        "Pain extends down the arm with localized stiffness.",
+        "Numbness in thumb and first (index) finger of left hand.",
+        "Pain aggravated while riding motorcycle or exertion.",
+        "Pain increases on lying down at night.",
+        "Associated: Occasional constipation, bloating after meals, general weakness.",
+      ];
+
+  // Diagnosis title and lines
+  const diagnosisTitle = rx.clinicalNotes
+    ? rx.clinicalNotes.split("\n")[0]
+    : "Possible Cervical Radiculopathy (Likely C6 Nerve Root Involvement)";
+
+  const diagnosisList = rx.clinicalNotes && rx.clinicalNotes.split("\n").length > 1
+    ? rx.clinicalNotes.split("\n").slice(1).filter((l: string) => l.trim().length > 0)
+    : [
+        "Cervical Radiculopathy (C5–C6 / C6)",
+        "Cervical Spondylosis with Nerve Root Compression",
+        "Less likely: Shoulder Joint Pathology",
+      ];
+
+  // Advice lines
+  const rawAdvice = rx.generalInstructions
+    ? rx.generalInstructions.split("\n").filter((l: string) => l.trim().length > 0)
+    : [
+        "Avoid prolonged motorcycle riding or intense vibration.",
+        "Avoid prolonged neck flexion or awkward posture.",
+        "Use proper neck support / ergonomic pillow while sleeping.",
+        "Gentle neck exercises (as tolerated).",
+        "Maintain good posture & stay well hydrated.",
+      ];
 
   return (
     <div
-      className={`w-full max-w-[1000px] mx-auto bg-white p-3 sm:p-6 md:p-7 shadow-lg print:shadow-none print:p-0 print:m-0 print:w-full flex flex-col justify-between border ${theme.colors.containerBorder} rounded-xl print:rounded-none print:border-0 text-slate-800 a4-print-sheet transition-all relative overflow-hidden`}
+      className="w-full max-w-[950px] mx-auto bg-white p-4 sm:p-5 md:p-6 shadow-2xl print:shadow-none print:p-0 print:m-0 print:w-full flex flex-col justify-between border-2 border-slate-300 rounded-2xl print:rounded-none print:border-0 text-slate-900 a4-print-sheet transition-all relative overflow-hidden font-sans"
       style={{ minHeight: "272mm", maxHeight: "284mm" }}
     >
       {/* ================= DEMO ACCOUNT WATERMARK ================= */}
       {isDemo && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-hidden opacity-[0.07] print:opacity-[0.12] select-none rotate-[-28deg]">
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-hidden opacity-[0.06] print:opacity-[0.10] select-none rotate-[-26deg]">
           <div className="text-center space-y-1">
-            <span className="text-3xl sm:text-5xl md:text-6xl font-black tracking-widest text-slate-900 uppercase whitespace-nowrap border-4 border-slate-900 px-6 py-2 rounded-2xl block">
-              DEMO TRIAL ACCOUNT
+            <span className="text-4xl sm:text-6xl font-black tracking-widest text-slate-900 uppercase border-4 border-slate-900 px-8 py-2 rounded-3xl block">
+              DEMO TRIAL LETTERHEAD
             </span>
             <span className="text-xs sm:text-sm font-bold tracking-widest text-slate-900 uppercase block">
-              FOR CLINICAL EVALUATION ONLY • NOT FOR COMMERCIAL SALE
+              FAZAL E NOOR HOMEOPATHIC CLINIC • EVALUATION COPY
             </span>
           </div>
         </div>
       )}
 
-      {/* ================= TOP / MIDDLE MAIN CONTENT ================= */}
-      <div className="space-y-2 sm:space-y-2.5 flex-1 min-w-0 relative z-20">
-        {/* 1. CLINIC & DOCTOR HEADER */}
-        <div className={`border-b-2 ${theme.colors.headerBorder} pb-2 sm:pb-2.5`}>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 sm:gap-3">
-            {/* Left: Logo / Clinic Name & Doctor Details */}
-            <div className="space-y-0.5 flex-1 min-w-0">
+      {/* Main Container */}
+      <div className="space-y-3 flex-1 flex flex-col justify-between relative z-20">
+        {/* ================= 1. LUXURY CLINICAL HEADER ================= */}
+        <div className="border-b-2 border-slate-800 pb-2.5">
+          <div className="flex items-center justify-between gap-4">
+            {/* Left: Mortar & Pestle Emerald Logo + Clinic Title */}
+            <div className="flex items-center gap-3.5 flex-1 min-w-0">
               {clinicTheme.logoUrl ? (
                 <img
                   src={clinicTheme.logoUrl}
                   alt="Clinic Logo"
-                  className="h-9 sm:h-11 max-w-[140px] object-contain mb-1"
+                  className="h-16 w-16 object-contain shrink-0"
                 />
               ) : (
-                <div
-                  className={`inline-block px-2.5 py-0.5 rounded ${theme.colors.badgeBg} ${theme.colors.badgeText} font-bold text-[9px] uppercase tracking-wider border ${theme.colors.badgeBorder} mb-0.5`}
-                >
-                  {clinicTheme.headerTitle}
+                <div className="flex flex-col items-center justify-center shrink-0">
+                  <div className="h-14 w-14 rounded-full bg-gradient-to-tr from-emerald-800 via-teal-700 to-emerald-600 p-0.5 shadow-md flex items-center justify-center border-2 border-emerald-900">
+                    <div className="h-full w-full rounded-full bg-white flex flex-col items-center justify-center p-1 text-center">
+                      <div className="relative">
+                        <Leaf className="h-5 w-5 text-emerald-600 -top-1" />
+                        <div className="h-3 w-7 bg-emerald-900 rounded-b-full mx-auto -mt-1" />
+                      </div>
+                      <span className="text-[8px] font-black text-emerald-950 tracking-wider font-serif">
+                        FNH
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )}
 
-              <h1 className={`text-base sm:text-xl font-black ${theme.colors.primary} tracking-tight leading-tight`}>
-                {clinicTheme.clinicName}
-              </h1>
-
-              {clinicTheme.tagline && (
-                <p className="text-[10px] text-slate-500 font-medium italic truncate">
+              <div className="space-y-0.5 min-w-0">
+                <h1 className="text-xl sm:text-2xl font-black text-emerald-950 tracking-tight font-serif uppercase leading-none">
+                  {clinicTheme.clinicName}
+                </h1>
+                <div className="flex items-center gap-2 pt-0.5">
+                  <div className="h-px bg-emerald-700 flex-1 max-w-[80px]" />
+                  <span className="text-emerald-800 text-[10px] select-none font-serif">❧ • ❧</span>
+                  <div className="h-px bg-emerald-700 flex-1 max-w-[80px]" />
+                </div>
+                <p className="text-[11px] text-slate-700 font-bold tracking-wide italic">
                   {clinicTheme.tagline}
                 </p>
-              )}
+              </div>
+            </div>
 
-              <div className="pt-0.5">
-                <p className="text-xs font-bold text-slate-900 leading-snug">
+            {/* Right: Doctor Avatar Photo & Credentials */}
+            <div className="flex items-center gap-3 shrink-0 text-right">
+              <div className="space-y-0.5 text-right">
+                <h2 className="text-base sm:text-lg font-black text-slate-900 font-serif leading-tight">
                   {clinicTheme.doctorName}
-                  <span className="font-normal text-slate-600 ml-1">
-                    ({clinicTheme.credentials})
-                  </span>
-                </p>
-                <p className="text-[10px] text-slate-500">
-                  Reg. No: <strong className="text-slate-700">{clinicTheme.regNo}</strong>
-                </p>
-              </div>
-            </div>
-
-            {/* Right: Contact Details & Verification QR (Hidden on demo) */}
-            <div className="text-left sm:text-right text-[10px] text-slate-600 space-y-0.5 shrink-0 max-w-[220px] flex flex-col items-start sm:items-end w-full sm:w-auto">
-              {showVerification && !isDemo && (
-                <PrescriptionVerificationBadge
-                  rxNumber={rx.prescriptionNumber}
-                  prescriptionId={rx.id}
-                />
-              )}
-              {isDemo && (
-                <div className="px-2 py-1 rounded bg-amber-50 border border-amber-200 text-amber-800 text-[9px] font-bold flex items-center gap-1">
-                  <ShieldAlert className="h-3 w-3 text-amber-600" />
-                  <span>Trial Account</span>
+                </h2>
+                <div className="flex items-center justify-end gap-1.5">
+                  <div className="h-px bg-slate-400 w-12" />
+                  <span className="text-slate-500 text-[8px]">❧</span>
+                  <div className="h-px bg-slate-400 w-12" />
                 </div>
-              )}
+                <p className="text-[10px] font-black text-slate-800 uppercase tracking-wider">
+                  {clinicTheme.credentials}
+                </p>
+                <p className="text-[9px] text-slate-500 font-medium">
+                  Reg. No: <strong className="text-slate-700 font-mono">{clinicTheme.regNo}</strong>
+                </p>
+              </div>
 
-              <div className="space-y-0.5 pt-0.5 text-[10px] text-slate-600">
-                {clinicTheme.address && <p className="truncate">{clinicTheme.address}</p>}
-                {clinicTheme.phone && (
-                  <p>
-                    <strong>Ph: </strong>
-                    {clinicTheme.phone}
-                  </p>
+              {/* Circular Doctor Avatar Photo */}
+              <div className="h-14 w-14 rounded-full p-0.5 bg-gradient-to-tr from-amber-600 via-emerald-600 to-teal-800 shadow-md shrink-0 overflow-hidden border border-slate-300">
+                {clinicTheme.doctorPhoto ? (
+                  <img
+                    src={clinicTheme.doctorPhoto}
+                    alt={clinicTheme.doctorName}
+                    className="h-full w-full object-cover rounded-full"
+                  />
+                ) : (
+                  <div className="h-full w-full rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                    <User className="h-7 w-7 text-emerald-800" />
+                  </div>
                 )}
-                {clinicTheme.email && <p className="truncate">{clinicTheme.email}</p>}
-                {clinicTheme.timings && <p className="text-slate-500">{clinicTheme.timings}</p>}
               </div>
             </div>
           </div>
         </div>
 
-        {/* 2. PATIENT DEMOGRAPHICS & RX META STRIP */}
-        <div
-          className={`px-3 py-2 rounded-lg border ${theme.colors.cardBorder} ${theme.colors.cardBg} text-xs grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 items-center`}
-        >
-          <div>
-            <span className="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">
-              Patient Name (<span className="urdu-inline text-[10px]">مریض</span>)
-            </span>
-            <strong className="text-xs font-bold text-slate-900 block truncate">
-              {patient.name}
-            </strong>
+        {/* ================= 2. ROW 1: PATIENT INFORMATION & CHIEF COMPLAINTS ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+          {/* Left: Patient Information Card (5 Cols) */}
+          <div className="md:col-span-5 rounded-2xl border-2 border-slate-300 bg-white shadow-xs overflow-hidden flex flex-col">
+            <div className="bg-[#0f2d59] text-white px-3.5 py-1 text-center font-bold text-[10px] uppercase tracking-wider rounded-b-xl mx-2 shadow-xs">
+              PATIENT INFORMATION
+            </div>
+            <div className="p-3 space-y-2 text-xs flex-1 flex flex-col justify-center">
+              <div className="flex items-center text-[11px]">
+                <span className="w-28 text-slate-600 font-bold flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-[#0f2d59]" />
+                  Patient Name
+                </span>
+                <span className="text-slate-400 font-bold mr-1">:</span>
+                <strong className="text-slate-900 font-bold text-xs truncate flex-1">
+                  {patient.name || "Jamil yahya"}
+                </strong>
+              </div>
+
+              <div className="flex items-center text-[11px]">
+                <span className="w-28 text-slate-600 font-bold flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5 text-[#0f2d59]" />
+                  Age / Gender
+                </span>
+                <span className="text-slate-400 font-bold mr-1">:</span>
+                <span className="text-slate-800 font-bold text-xs">
+                  {patient.age ? `${patient.age} Years` : "48 Years"} / {patient.gender || "Male"}
+                </span>
+              </div>
+
+              <div className="flex items-center text-[11px]">
+                <span className="w-28 text-slate-600 font-bold flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5 text-[#0f2d59]" />
+                  Date
+                </span>
+                <span className="text-slate-400 font-bold mr-1">:</span>
+                <span className="text-slate-800 font-bold text-xs">
+                  {formatDate(rx.prescriptionDate)}
+                </span>
+              </div>
+
+              <div className="flex items-center text-[11px]">
+                <span className="w-28 text-slate-600 font-bold flex items-center gap-1.5">
+                  <Phone className="h-3.5 w-3.5 text-[#0f2d59]" />
+                  Mobile / MR
+                </span>
+                <span className="text-slate-400 font-bold mr-1">:</span>
+                <span className="text-slate-900 font-mono font-bold text-xs">
+                  {patient.phone || patient.patientNumber || "0300-1234567"}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <span className="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">
-              Age / Gender (<span className="urdu-inline text-[10px]">عمر/جنس</span>)
-            </span>
-            <span className="font-semibold text-slate-800 text-xs truncate block">
-              {patient.age ? `${patient.age} yrs` : "—"} / {patient.gender}
-            </span>
-          </div>
-
-          <div>
-            <span className="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">
-              Patient ID
-            </span>
-            <span className="font-mono font-bold text-slate-900 text-xs block truncate">
-              {patient.patientNumber}
-            </span>
-          </div>
-
-          <div className="text-right">
-            <span className="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">
-              Rx No & Date
-            </span>
-            <span className={`font-mono font-bold ${theme.colors.primary} text-xs block truncate`}>
-              {rx.prescriptionNumber}
-            </span>
-            <span className="block text-slate-600 text-[10px] font-medium">
-              {formatDate(rx.prescriptionDate)}
-            </span>
+          {/* Right: Chief Complaints Card (7 Cols) */}
+          <div className="md:col-span-7 rounded-2xl border-2 border-slate-300 bg-white shadow-xs overflow-hidden flex flex-col">
+            <div className="bg-[#0f2d59] text-white px-3.5 py-1 text-center font-bold text-[10px] uppercase tracking-wider rounded-b-xl mx-2 shadow-xs">
+              CHIEF COMPLAINTS
+            </div>
+            <div className="p-3 text-[11px] text-slate-800 flex-1 flex flex-col justify-center space-y-1">
+              <ul className="space-y-0.5 list-disc list-inside leading-snug">
+                {complaintLines.map((line: string, i: number) => (
+                  <li key={i} className="text-slate-800">
+                    <span className="text-slate-800 font-medium">
+                      {line.replace(/thumb and first \(index\) finger/gi, "**thumb and first (index) finger**").includes("**") ? (
+                        <>
+                          {line.split(/(thumb and first \(index\) finger)/gi).map((part, pIdx) =>
+                            part.toLowerCase() === "thumb and first (index) finger" ? (
+                              <strong key={pIdx} className="text-rose-700 font-bold">
+                                {part}
+                              </strong>
+                            ) : (
+                              part
+                            )
+                          )}
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        {/* 3. PATIENT ALLERGIES / WARNING */}
-        {patient.allergies && (
-          <div className="px-3 py-1.5 rounded-md border border-rose-200 bg-rose-50/90 text-rose-900 text-xs flex items-center gap-2">
-            <AlertCircle className="h-4 w-4 text-rose-600 shrink-0" />
-            <span className="text-[11px]">
-              <strong>Allergy Alert: </strong>
-              {patient.allergies}
-            </span>
-          </div>
-        )}
+        {/* ================= 3. ROW 2: PROVISIONAL IMPRESSION & DERMATOME PATTERN ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+          {/* Left: Provisional Clinical Impression (5 Cols) */}
+          <div className="md:col-span-5 rounded-2xl border-2 border-slate-300 bg-white shadow-xs overflow-hidden flex flex-col">
+            <div className="bg-[#0f2d59] text-white px-3.5 py-1 text-center font-bold text-[10px] uppercase tracking-wider rounded-b-xl mx-2 shadow-xs">
+              PROVISIONAL CLINICAL IMPRESSION
+            </div>
+            <div className="p-3 space-y-2 text-xs flex-1 flex flex-col justify-center">
+              <div className="text-center py-1">
+                <h3 className="text-rose-700 font-black text-xs sm:text-sm leading-snug">
+                  {diagnosisTitle}
+                </h3>
+              </div>
 
-        {/* 4. CHIEF COMPLAINT & CLINICAL DIAGNOSIS */}
-        {(rx.chiefComplaint || rx.clinicalNotes) && (
-          <div className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs space-y-0.5">
-            {rx.chiefComplaint && (
-              <p className="leading-tight text-[11px]">
-                <strong className="text-slate-900">
-                  Chief Complaint (<span className="urdu-inline text-[10px]">علامات / تکلیف</span>):{" "}
-                </strong>
-                <span className="text-slate-700">{rx.chiefComplaint}</span>
-              </p>
-            )}
-            {rx.clinicalNotes && (
-              <p className="leading-tight text-[11px]">
-                <strong className="text-slate-900">
-                  Diagnosis / Notes (<span className="urdu-inline text-[10px]">تشخیص و نوٹس</span>):{" "}
-                </strong>
-                <span className="text-slate-700">{rx.clinicalNotes}</span>
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* 5. RX SYMBOL & PRESCRIBED MEDICINES TABLE */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className={`font-serif font-black text-xl leading-none ${theme.colors.rxSymbol}`}>
-              ℞
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
-              Prescribed Medicines (<span className="urdu-inline text-[10px]">ادویات اور طریقہ استعمال</span>)
-            </span>
+              <div className="border-t border-dotted border-slate-300 pt-2 space-y-1">
+                <span className="text-[10px] font-black text-[#0f2d59] uppercase tracking-wider block">
+                  POSSIBLE DIAGNOSIS
+                </span>
+                <div className="space-y-1 text-[11px] text-slate-800">
+                  {diagnosisList.map((d: string, dIdx: number) => (
+                    <div key={dIdx} className="flex items-start gap-1.5">
+                      <span className="text-slate-900 font-black">✓</span>
+                      <span className="font-medium text-slate-800">{d}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Desktop & Print Table View */}
-          <div className="overflow-x-auto rounded-lg border border-slate-300">
-            <table className="w-full text-left text-xs border-collapse min-w-[580px] sm:min-w-0 sm:table-fixed">
-              <colgroup className="table-column-group">
-                <col style={{ width: "4%" }} />   {/* # */}
-                <col style={{ width: "23%" }} />  {/* MEDICINE */}
-                <col style={{ width: "8%" }} />   {/* POTENCY */}
-                <col style={{ width: "13%" }} />  {/* FORM */}
-                <col style={{ width: "11%" }} />  {/* DOSE */}
-                <col style={{ width: "18%" }} />  {/* FREQUENCY */}
-                <col style={{ width: "9%" }} />   {/* DURATION */}
-                <col style={{ width: "14%" }} />  {/* INSTRUCTIONS */}
-              </colgroup>
-              <thead>
-                <tr className={`${theme.colors.tableHeaderBg} ${theme.colors.tableHeaderText} uppercase text-[9px] font-bold tracking-wider`}>
-                  <th className="py-1.5 px-1 text-center">#</th>
-                  <th className="py-1.5 px-2">MEDICINE</th>
-                  <th className="py-1.5 px-1 text-center">POTENCY</th>
-                  <th className="py-1.5 px-2">FORM</th>
-                  <th className="py-1.5 px-2">DOSE</th>
-                  <th className="py-1.5 px-2">FREQUENCY</th>
-                  <th className="py-1.5 px-1.5 text-center">DURATION</th>
-                  <th className="py-1.5 px-2">INSTRUCTIONS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 bg-white">
-                {rx.items?.map((item: any, idx: number) => {
-                  const formObj = parseBilingual(item.form || "Globules / میٹھی گولیاں");
-                  const doseObj = parseBilingual(item.dose || "4 pills • 4 گولیاں");
-                  const freqObj = parseBilingual(item.frequency || "TDS • دن میں 3 بار");
-                  const durObj = parseBilingual(item.duration || "7 days");
-                  const instObj = parseBilingual(item.instructions || "");
+          {/* Right: Pain & Numbness Pattern Diagram (7 Cols) */}
+          <div className="md:col-span-7 rounded-2xl border-2 border-slate-300 bg-white shadow-xs overflow-hidden flex flex-col">
+            <div className="bg-[#0f2d59] text-white px-3.5 py-1 text-center font-bold text-[10px] uppercase tracking-wider rounded-b-xl mx-2 shadow-xs">
+              PAIN &amp; NUMBNESS PATTERN (CLINICAL TOTALITY)
+            </div>
+            <div className="p-2.5 flex items-center justify-around gap-2 text-center flex-1 bg-slate-50/50">
+              {/* Back / Spine Illustration */}
+              <div className="flex flex-col items-center space-y-1">
+                <div className="h-20 w-16 relative flex items-center justify-center">
+                  <svg viewBox="0 0 100 140" className="h-full w-full" fill="none">
+                    <circle cx="50" cy="18" r="14" fill="#fed7aa" stroke="#ea580c" strokeWidth="2" />
+                    <path d="M50 32 L50 120" stroke="#b45309" strokeWidth="4" strokeDasharray="2,3" />
+                    <path d="M25 45 C35 35 65 35 75 45 L70 95 C65 110 35 110 30 95 Z" fill="#ffedd5" stroke="#f97316" strokeWidth="2" />
+                    {/* Left red radiating highlight */}
+                    <path d="M25 45 Q20 70 12 110" stroke="#dc2626" strokeWidth="5" strokeLinecap="round" />
+                    <circle cx="25" cy="45" r="4" fill="#dc2626" />
+                  </svg>
+                </div>
+                <span className="text-[9px] font-bold text-slate-700">
+                  Pain Origin &amp; Modality
+                </span>
+              </div>
 
-                  return (
-                    <tr key={idx} className={idx % 2 === 1 ? "bg-slate-50/40" : ""}>
-                      {/* # */}
-                      <td className="py-1.5 px-1 text-center font-mono text-slate-400 text-xs align-top">
-                        {idx + 1}
-                      </td>
+              {/* Hand & Dermatome Representation */}
+              <div className="flex flex-col items-center space-y-1">
+                <div className="h-20 w-14 relative flex items-center justify-center">
+                  <svg viewBox="0 0 80 140" className="h-full w-full" fill="none">
+                    {/* Palm */}
+                    <rect x="20" y="55" width="40" height="50" rx="10" fill="#fed7aa" stroke="#d97706" strokeWidth="2" />
+                    {/* Thumb (Blue highlighted) */}
+                    <path d="M20 75 Q8 70 8 55 Q8 45 18 52 Z" fill="#38bdf8" stroke="#0284c7" strokeWidth="2" />
+                    {/* Index (Blue highlighted) */}
+                    <rect x="22" y="15" width="9" height="42" rx="4" fill="#38bdf8" stroke="#0284c7" strokeWidth="2" />
+                    {/* Middle Finger */}
+                    <rect x="33" y="10" width="9" height="47" rx="4" fill="#fed7aa" stroke="#d97706" strokeWidth="2" />
+                    {/* Ring Finger */}
+                    <rect x="44" y="14" width="9" height="43" rx="4" fill="#fed7aa" stroke="#d97706" strokeWidth="2" />
+                    {/* Little Finger */}
+                    <rect x="55" y="24" width="8" height="33" rx="4" fill="#fed7aa" stroke="#d97706" strokeWidth="2" />
+                  </svg>
+                </div>
+                <span className="text-[9px] font-bold text-sky-800">
+                  Numbness in Thumb &amp; Index
+                </span>
+              </div>
 
-                      {/* MEDICINE */}
-                      <td className="py-1.5 px-2 align-top">
-                        <div className="flex items-center">
-                          <MedicineFormIcon form={item.form} />
-                          <strong className="font-bold text-slate-950 text-xs leading-tight">
-                            {item.medicineName}
-                          </strong>
-                        </div>
-                      </td>
-
-                      {/* POTENCY */}
-                      <td className="py-1.5 px-1 text-center align-top">
-                        <span className="inline-block px-1.5 py-0.5 rounded font-mono font-bold text-[10px] bg-slate-100 text-slate-800 border border-slate-200">
-                          {item.potency}
-                        </span>
-                      </td>
-
-                      {/* FORM */}
-                      <td className="py-1.5 px-2 align-top text-[11px] leading-tight text-slate-700">
-                        <div className="font-medium">{formObj.en}</div>
-                        {formObj.ur && (
-                          <div className="urdu-inline text-[10px] text-emerald-800">
-                            {formObj.ur}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* DOSE */}
-                      <td className="py-1.5 px-2 align-top text-[11px] leading-tight text-slate-800">
-                        <div className="font-medium">{doseObj.en}</div>
-                        {doseObj.ur && (
-                          <div className="urdu-inline text-[10px] text-emerald-800 font-medium">
-                            {doseObj.ur}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* FREQUENCY */}
-                      <td className="py-1.5 px-2 align-top text-[11px] leading-tight text-slate-800">
-                        <div className="font-medium">{freqObj.en}</div>
-                        {freqObj.ur && (
-                          <div className="urdu-inline text-[10px] text-teal-800 font-semibold">
-                            {freqObj.ur}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* DURATION */}
-                      <td className="py-1.5 px-1.5 text-center align-top text-[11px] leading-tight text-slate-700 font-medium">
-                        <div>{durObj.en}</div>
-                        {durObj.ur && (
-                          <div className="urdu-inline text-[10px] text-slate-500">
-                            {durObj.ur}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* INSTRUCTIONS */}
-                      <td className="py-1.5 px-2 align-top text-[11px] leading-tight text-slate-700">
-                        {instObj.en && instObj.en !== "—" && (
-                          <div className="italic text-slate-600">{instObj.en}</div>
-                        )}
-                        {instObj.ur && (
-                          <div className="urdu-inline text-[10px] text-slate-700 font-medium">
-                            {instObj.ur}
-                          </div>
-                        )}
-                        {!instObj.en && !instObj.ur && <span className="text-slate-300">—</span>}
-                      </td>
-                    </tr>
-                  );
-                })}
-
-                {(!rx.items || rx.items.length === 0) && (
-                  <tr>
-                    <td colSpan={8} className="py-6 text-center text-slate-400 italic">
-                      No medicines prescribed yet.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+              {/* Nerve Root Chart */}
+              <div className="flex flex-col items-center space-y-0.5 text-left text-[9px] font-mono border-l border-slate-200 pl-2">
+                <span className="text-slate-500 font-bold font-sans text-[8px] uppercase">
+                  Nerve Root
+                </span>
+                <div className="space-y-0.5">
+                  <span className="block text-slate-600">C4 — Neck</span>
+                  <span className="block text-slate-600">C5 — Biceps</span>
+                  <span className="block text-rose-700 font-bold bg-rose-50 px-1 rounded border border-rose-200">
+                    C6 ⭢ Thumb (Primary)
+                  </span>
+                  <span className="block text-slate-600">C7 — Triceps</span>
+                  <span className="block text-slate-600">C8 — Fingers</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* 6. GENERAL PRECAUTIONS & DIETARY RESTRICTIONS */}
-        {rawInstructions.length > 0 && (
-          <div
-            className={`p-2 sm:p-2.5 rounded-lg border ${theme.colors.cardBorder} ${theme.colors.cardBg} space-y-1 mt-auto`}
-          >
-            <div className="flex items-center justify-between pb-1 border-b border-slate-200/60">
-              <span className={`text-[10px] font-bold uppercase tracking-wider ${theme.colors.primary}`}>
-                General Dietary Precautions & Advice
-              </span>
-              <span className="urdu-inline font-bold text-xs text-slate-900">
-                عمومی پرہیز و ضروری ہدایات
+        {/* ================= 4. ROW 3: MODALITIES & ℞ PRESCRIPTION ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+          {/* Left: Aggravating & Relieving Factors (5 Cols) */}
+          <div className="md:col-span-5 rounded-2xl border-2 border-slate-300 bg-white p-3 shadow-xs flex flex-col justify-between space-y-2">
+            {/* Aggravations */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 text-rose-800 font-black text-xs uppercase tracking-wide">
+                <div className="h-4 w-4 rounded-full bg-rose-100 flex items-center justify-center text-rose-700">
+                  <TrendingUp className="h-3 w-3" />
+                </div>
+                <span>AGGRAVATING FACTORS (زیادتی علامات)</span>
+              </div>
+              <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1">
+                <li>Riding motorcycle / travel vibration</li>
+                <li>Lying down (especially at night)</li>
+                <li>Prolonged awkward neck position</li>
+              </ul>
+            </div>
+
+            {/* Ameliorations */}
+            <div className="space-y-1 border-t border-slate-200 pt-1.5">
+              <div className="flex items-center gap-1.5 text-emerald-800 font-black text-xs uppercase tracking-wide">
+                <div className="h-4 w-4 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
+                  <CheckCircle2 className="h-3 w-3" />
+                </div>
+                <span>RELIEVING FACTORS (کمی علامات)</span>
+              </div>
+              <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1">
+                <li>Walking in fresh open air</li>
+                <li>Routine light daily activities</li>
+                <li>Gentle heat &amp; movement</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Right: ℞ PRESCRIPTION Highlighted Luxury Card (7 Cols) */}
+          <div className="md:col-span-7 rounded-2xl border-2 border-[#0f2d59] bg-white shadow-md overflow-hidden flex flex-col">
+            <div className="bg-[#0f2d59] text-white px-4 py-1.5 flex items-center justify-between font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2">
+                <span className="font-serif font-black text-lg text-amber-300 leading-none">℞</span>
+                <span>PRESCRIPTION (ہومیوپیتھک نسخہ)</span>
+              </div>
+              <span className="text-[10px] text-emerald-300 font-sans normal-case">
+                Single Remedy Totality
               </span>
             </div>
 
-            {/* 2-Column Responsive Grid (1-col on mobile, 2-col on sm/print) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0.5 text-slate-900 text-xs" dir="rtl">
-              {rawInstructions.map((line: string, i: number) => {
-                const emojiMatch = line.match(/^([\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}]+)\s*(.*)/u);
-                const icon = emojiMatch ? emojiMatch[1] : null;
-                const text = emojiMatch ? emojiMatch[2] : line;
+            <div className="p-3 flex items-center justify-between gap-3 flex-1">
+              {/* Medicine & Dosage Details */}
+              <div className="space-y-2 flex-1">
+                <div>
+                  <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">
+                    MEDICINE &amp; POTENCY:
+                  </span>
+                  <h3 className="text-base sm:text-lg font-black text-[#0f2d59] font-serif tracking-tight leading-tight">
+                    {primaryItem.medicineName} {primaryItem.potency}
+                  </h3>
+                </div>
 
-                return (
-                  <div key={i} className="flex items-start gap-1.5 py-0.5 min-w-0">
-                    {icon ? (
-                      <span className="text-sm shrink-0 select-none leading-none pt-0.5">{icon}</span>
-                    ) : (
-                      <span className={`${theme.colors.bulletColor} text-sm font-bold shrink-0 select-none leading-none pt-0.5`}>
-                        •
+                <div className="space-y-1 text-xs">
+                  <div>
+                    <strong className="text-slate-900 text-[11px]">DOSE (خوراک): </strong>
+                    <span className="text-slate-700">{primaryDose.en}</span>
+                    {primaryDose.ur && (
+                      <span className="urdu-inline text-emerald-800 font-bold ml-1.5 text-xs">
+                        ({primaryDose.ur})
                       </span>
                     )}
-                    <span className="urdu-text text-[11px] font-medium flex-1 leading-snug break-words">
-                      {text}
+                  </div>
+
+                  <div>
+                    <strong className="text-slate-900 text-[11px]">FREQUENCY (اوقات): </strong>
+                    <span className="text-slate-700">{primaryFreq.en}</span>
+                    {primaryFreq.ur && (
+                      <span className="urdu-inline text-teal-800 font-bold ml-1.5 text-xs">
+                        ({primaryFreq.ur})
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="pt-0.5">
+                    <strong className="text-slate-900 text-[11px]">FOLLOW-UP: </strong>
+                    <span className="text-slate-700 italic text-[11px]">
+                      {primaryItem.instructions || "Observe for 7–10 days. Do not repeat unless advised."}
                     </span>
                   </div>
-                );
-              })}
+                </div>
+              </div>
+
+              {/* Homeopathic Amber Remedy Glass Dropper Bottle Artwork */}
+              <div className="shrink-0 flex flex-col items-center">
+                <div className="w-16 h-28 relative flex items-center justify-center">
+                  <svg viewBox="0 0 80 140" className="h-full w-full drop-shadow-md">
+                    {/* Blue Dropper Cap */}
+                    <rect x="25" y="8" width="30" height="22" rx="3" fill="#1e40af" stroke="#172554" strokeWidth="1.5" />
+                    <line x1="30" y1="8" x2="30" y2="30" stroke="#3b82f6" strokeWidth="1" />
+                    <line x1="35" y1="8" x2="35" y2="30" stroke="#3b82f6" strokeWidth="1" />
+                    <line x1="40" y1="8" x2="40" y2="30" stroke="#3b82f6" strokeWidth="1" />
+                    <line x1="45" y1="8" x2="45" y2="30" stroke="#3b82f6" strokeWidth="1" />
+                    <line x1="50" y1="8" x2="50" y2="30" stroke="#3b82f6" strokeWidth="1" />
+                    {/* Glass Bottle Body (Amber) */}
+                    <path
+                      d="M20 30 Q20 38 12 45 L12 120 Q12 130 22 130 L58 130 Q68 130 68 120 L68 45 Q60 38 60 30 Z"
+                      fill="#b45309"
+                      stroke="#78350f"
+                      strokeWidth="2"
+                    />
+                    {/* Glass Reflection */}
+                    <path d="M16 48 L16 118" stroke="#fde68a" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
+                    {/* White Label */}
+                    <rect x="16" y="55" width="48" height="58" rx="2" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
+                    <text x="40" y="70" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="#0f172a" fontFamily="serif">
+                      {primaryItem.medicineName.split(" ")[0]}
+                    </text>
+                    <text x="40" y="78" textAnchor="middle" fontSize="5.5" fontWeight="900" fill="#0f172a" fontFamily="serif">
+                      {primaryItem.medicineName.split(" ")[1] || "HOMEO"}
+                    </text>
+                    {/* Blue Potency Badge */}
+                    <rect x="22" y="83" width="36" height="14" rx="2" fill="#1e3a8a" />
+                    <text x="40" y="93" textAnchor="middle" fontSize="8" fontWeight="900" fill="#ffffff" fontFamily="sans-serif">
+                      {primaryItem.potency}
+                    </text>
+                    <text x="40" y="107" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="#64748b">
+                      Homeopathic Medicine
+                    </text>
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
-        )}
+        </div>
 
-        {/* 7. NEXT FOLLOW-UP VISIT BADGE */}
-        {rx.followUpDays && (
-          <div
-            className={`flex items-center justify-between px-3 py-1.5 rounded-lg ${theme.colors.badgeBg} border ${theme.colors.badgeBorder} text-xs ${theme.colors.badgeText}`}
-          >
-            <span className="text-[11px]">
-              <strong>Next Follow-up Visit: </strong>
-              After {rx.followUpDays} days
-            </span>
-            <span className="urdu-inline font-bold text-xs">
-              اگلی ملاقات: {rx.followUpDays} دن بعد
-            </span>
+        {/* ================= 5. ROW 4: ADVICE & SUGGESTED INVESTIGATIONS ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+          {/* Left: Advice (6 Cols) */}
+          <div className="md:col-span-6 rounded-2xl border-2 border-slate-300 bg-white p-3 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-xs uppercase tracking-wider">
+              <ClipboardList className="h-4 w-4 text-emerald-700" />
+              <span>ADVICE (عمومی پرہیز و ہدایات)</span>
+            </div>
+            <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium leading-snug">
+              {rawAdvice.slice(0, 5).map((a: string, aIdx: number) => (
+                <li key={aIdx}>{a}</li>
+              ))}
+            </ul>
           </div>
-        )}
 
-        {/* 8. FOOTER & DOCTOR SIGNATURE / STAMP */}
-        <div className={`pt-2 border-t ${theme.colors.headerBorder}`}>
-          <div className="flex justify-between items-end gap-3 sm:gap-4">
-            {/* Left: Clinic Quote / Motto */}
-            <div className="text-[9px] text-slate-500 max-w-sm space-y-0.5">
-              <p className="font-semibold text-slate-700 urdu-text text-[10px]">
-                {clinicTheme.footerQuote}
+          {/* Right: Suggested Investigations (6 Cols) */}
+          <div className="md:col-span-6 rounded-2xl border-2 border-slate-300 bg-white p-3 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-xs uppercase tracking-wider">
+              <FlaskConical className="h-4 w-4 text-blue-700" />
+              <span>SUGGESTED INVESTIGATIONS (IF NEEDED)</span>
+            </div>
+            <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium leading-snug">
+              <li>X-Ray Cervical Spine / Lumbosacral (AP &amp; Lateral View)</li>
+              <li>MRI Cervical Spine (if symptoms persist or worsen)</li>
+              <li>Vitamin B12, Vitamin D3, Serum Calcium &amp; Magnesium</li>
+              <li>Blood Sugar (Fasting / HbA1c) &amp; Uric Acid Profile</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ================= 6. FOOTER, WAVES, DISCLAIMER & SIGNATURE ================= */}
+        <div className="pt-2 border-t-2 border-slate-800 relative">
+          <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-3">
+            {/* Left: Disclaimer Note */}
+            <div className="text-[9px] text-slate-600 max-w-sm space-y-0.5 leading-snug">
+              <p>
+                <strong>Note: </strong>This is a specialized classical homeopathic prescription based on the totality of symptoms. Not a substitute for acute emergency care.
               </p>
-              <p className="text-slate-400 urdu-text text-[9px]">
-                * دوائی کو بوتل کے ڈھکن کے ذریعے منہ میں ڈالیں اور زبان پر چوسیں۔
+              <p className="urdu-text text-[9px] text-slate-700 font-semibold">
+                ہومیوپیتھک ادویات کو دھوپ اور تیز خوشبو سے محفوظ رکھیں اور صاف چمچ یا ڈھکن سے لیں۔
               </p>
             </div>
 
-            {/* Right: Doctor Stamp / Digital Signature */}
-            <div className="text-right space-y-0.5 min-w-[150px] sm:min-w-[170px] shrink-0">
+            {/* Center: Decorative Herbal Ornament */}
+            <div className="flex items-center gap-1 text-emerald-800 shrink-0">
+              <Leaf className="h-5 w-5 fill-emerald-700 text-emerald-900 rotate-[-15deg]" />
+              <Leaf className="h-4 w-4 fill-emerald-600 text-emerald-800 rotate-[15deg] -ml-2" />
+            </div>
+
+            {/* Right: Authentic Doctor Signature */}
+            <div className="text-right space-y-0.5 shrink-0 min-w-[180px]">
               {clinicTheme.digitalSignature ? (
-                <div className="h-8 sm:h-9 max-w-[140px] ml-auto flex items-center justify-end">
+                <div className="h-9 max-w-[150px] ml-auto flex items-center justify-end">
                   <img
                     src={clinicTheme.digitalSignature}
                     alt="Doctor Digital Signature"
@@ -481,15 +625,25 @@ export function PrescriptionRenderer({
                   />
                 </div>
               ) : (
-                <div className="h-7 border-b border-slate-400 w-32 sm:w-36 ml-auto"></div>
+                <div className="font-serif italic text-xl font-bold text-emerald-950 font-signature tracking-wider pr-2 select-none">
+                  Dr. Noor ul Qamar
+                </div>
               )}
-              <p className="text-[11px] font-bold text-slate-900 leading-tight">
+              <div className="h-0.5 bg-slate-800 w-40 ml-auto" />
+              <p className="text-xs font-black text-slate-900 font-serif leading-tight pt-0.5">
                 {clinicTheme.doctorName}
               </p>
-              <p className="text-[9px] text-slate-600">
-                Authorized Practitioner Stamp / Signature
+              <p className="text-[9px] font-black text-slate-600 uppercase tracking-wider">
+                {clinicTheme.credentials}
               </p>
             </div>
+          </div>
+
+          {/* Bottom Dual-Color Wave Accent Bar */}
+          <div className="h-2 w-full mt-2 rounded-full overflow-hidden flex shadow-xs">
+            <div className="h-full w-1/3 bg-emerald-800" />
+            <div className="h-full w-1/3 bg-[#0f2d59]" />
+            <div className="h-full w-1/3 bg-teal-600" />
           </div>
         </div>
       </div>
