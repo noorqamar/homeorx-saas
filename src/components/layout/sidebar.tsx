@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logoutDoctor, getCurrentDoctor } from "@/app/actions/auth";
+import { signOutFirebaseUser } from "@/lib/firebase";
 import { UpgradeModal } from "@/components/upgrade-modal";
 
 const navigationItems = [
@@ -50,6 +51,7 @@ export function Sidebar({
   onClose?: () => void;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [doctorInfo, setDoctorInfo] = useState<any>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
@@ -67,7 +69,10 @@ export function Sidebar({
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to log out of HomeoRx?")) {
+      await signOutFirebaseUser();
       await logoutDoctor();
+      router.push("/login");
+      router.refresh();
     }
   };
 

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { logoutDoctor, getCurrentDoctor } from "@/app/actions/auth";
+import { signOutFirebaseUser } from "@/lib/firebase";
 import { UpgradeModal } from "@/components/upgrade-modal";
 
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
@@ -45,7 +46,10 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to log out of HomeoRx?")) {
+      await signOutFirebaseUser();
       await logoutDoctor();
+      router.push("/login");
+      router.refresh();
     }
   };
 
