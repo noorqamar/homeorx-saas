@@ -361,3 +361,183 @@ export async function logoutDoctor() {
   revalidatePath("/");
   return { success: true };
 }
+
+/**
+ * Firebase Authentication Sync & Login Server Action
+ * Seamlessly authenticates a user coming from Firebase (Google OAuth or Email/Password)
+ * and issues a signed stateless session cookie.
+ */
+export async function firebaseSyncAndLogin(data: {
+  email: string;
+  name?: string;
+  uid?: string;
+  photoURL?: string;
+  clinicName?: string;
+  qualification?: string;
+  phone?: string;
+}) {
+  try {
+    await ensureDbSchema();
+
+    const email = data.email?.trim().toLowerCase();
+    if (!email) {
+      return { success: false, error: "ای میل ایڈریس موصول نہیں ہوا۔ (Email not provided by Firebase.)" };
+    }
+
+    const name = data.name?.trim() || "Dr. HomeoRx Practitioner";
+    const clinicName = data.clinicName?.trim() || `${name} Homeopathic Clinic`;
+
+    // Handle Super Admin
+    if (email === "admin@homeorx.health") {
+      const superAdminTenant = await db.tenant.upsert({
+        where: { id: "tenant-superadmin" },
+        update: { accountStatus: "active" },
+        create: {
+          id: "tenant-superadmin",
+          name: "HomeoRx SaaS Central Administration",
+          clinicName: "HomeoRx Central Administration",
+          email: "admin@homeorx.health",
+          phone: "+92 300 1234567",
+          currency: "PKR",
+          accountStatus: "active",
+        },
+      });
+
+      const superDoc = await db.doctor.upsert({
+        where: { email: "admin@homeorx.health" },
+        update: {
+          status: "APPROVED",
+          active: true,
+          role: "SUPER_ADMIN",
+          accountStatus: "active",
+        },
+        create: {
+          id: "doc-superadmin-001",
+          tenantId: superAdminTenant.id,
+          name: "Dr. Qamar (Super Admin / سسٹم ایڈمن)",
+          qualification: "Chief Medical Officer & Platform Admin",
+          registrationNumber: "HOM-ADMIN-001",
+          email: "admin@homeorx.health",
+          role: "SUPER_ADMIN",
+          status: "APPROVED",
+          accountStatus: "active",
+          active: true,
+        },
+        include: { tenant: true },
+      });
+
+      await createSession(superDoc.id, superDoc.tenantId, {
+        role: "SUPER_ADMIN",
+        email: superDoc.email,
+        name: superDoc.name,
+      });
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return {
+        success: true,
+        doctorId: superDoc.id,
+        tenantId: superDoc.tenantId,
+        role: "SUPER_ADMIN",
+        isSuperAdmin: true,
+        accountStatus: "active",
+      };
+    }
+
+    // Check if Doctor exists in database
+    let doctor = await db.doctor.findUnique({
+      where: { email },
+      include: { tenant: true },
+    });
+
+    if (doctor) {
+      if (doctor.status === "SUSPENDED" || doctor.accountStatus === "suspended") {
+        return {
+          success: false,
+          error: "یہ اکاؤنٹ معطل (Suspended) کر دیا گیا ہے۔ براہ کرم سپر ایڈمن سے رابطہ کریں۔",
+        };
+      }
+
+      // Update avatar if provided
+      if (data.photoURL && !doctor.avatar) {
+        await db.doctor.update({
+          where: { id: doctor.id },
+          data: { avatar: data.photoURL },
+        });
+      }
+
+      await createSession(doctor.id, doctor.tenantId, {
+        role: doctor.role,
+        email: doctor.email,
+        name: doctor.name,
+      });
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return {
+        success: true,
+        doctorId: doctor.id,
+        tenantId: doctor.tenantId,
+        role: doctor.role,
+        isSuperAdmin: doctor.role === "SUPER_ADMIN",
+        accountStatus: doctor.accountStatus || doctor.tenant?.accountStatus || "active",
+      };
+    }
+
+    // New doctor: Provision workspace automatically
+    const tenant = await db.tenant.create({
+      data: {
+        name: clinicName,
+        clinicName: clinicName,
+        phone: data.phone?.trim() || null,
+        whatsapp: data.phone?.trim() || null,
+        email,
+        currency: "PKR",
+        prescriptionHeader: `${clinicName.toUpperCase()} — HOMEOPATHIC HEALTHCARE`,
+        prescriptionFooter: "Classical Homeopathy • ہومیوپیتھک علاج: قدرتی، محفوظ اور مستقل",
+        accountStatus: "demo",
+        doctors: {
+          create: {
+            name,
+            qualification: data.qualification?.trim() || "DHMS / RHMP, MD (Homeopathy)",
+            email,
+            phone: data.phone?.trim() || null,
+            avatar: data.photoURL || null,
+            role: "DOCTOR",
+            status: "APPROVED",
+            accountStatus: "demo",
+            active: true,
+          },
+        },
+      },
+      include: {
+        doctors: true,
+      },
+    });
+
+    const newDoc = tenant.doctors[0];
+
+    await createSession(newDoc.id, tenant.id, {
+      role: "DOCTOR",
+      email: newDoc.email,
+      name: newDoc.name,
+    });
+
+    revalidatePath("/");
+    return {
+      success: true,
+      doctorId: newDoc.id,
+      tenantId: tenant.id,
+      role: "DOCTOR",
+      isSuperAdmin: false,
+      accountStatus: "demo",
+    };
+  } catch (err: any) {
+    console.error("firebaseSyncAndLogin error:", err);
+    return {
+      success: false,
+      error: `فائر بیس اتھنٹیکیشن میں خرابی: ${err?.message || "سرور کا مسئلہ"}`,
+    };
+  }
+}
+

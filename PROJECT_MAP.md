@@ -40,9 +40,11 @@
 | `src/app/(dashboard)/prescriptions/[id]/print/print-client.tsx` | Single-page A4 PDF renderer | Single-page A4 print orchestrator with luxury layout presets |
 | `src/components/prescription-templates/prescription-renderer.tsx` | Prescription Letterhead Engine | Luxury clinical letterhead with dermatome chart and amber dropper bottle |
 | `src/lib/auth.ts` | Stateless JWT & Crypto Engine | HMAC-SHA256 token signing and verification across serverless lambdas |
+| `src/lib/firebase.ts` | Firebase Client & Auth Setup | Google OAuth popup, email sign-in/up, and auth state management |
 | `src/lib/db.ts` | Database & Runtime Migration | Prisma client initialization with automatic `ensureDbSchema()` runtime migration |
 | `src/lib/tenant.ts` | Multi-Tenant Scoping | Extracts tenant/doctor context and enforces isolation boundaries |
 | `src/lib/validations.ts` | Zod Validation Schemas | Request validation for patients, prescriptions, and clinic profiles |
+| `src/middleware.ts` | Next.js Edge Auth Middleware | Strict route protection blocking unauthenticated access to all clinical features |
 | `prisma/schema.prisma` | Relational Data Model | Complete Prisma schema for Tenants, Doctors, Patients, Prescriptions, Remedies |
 
 ---
