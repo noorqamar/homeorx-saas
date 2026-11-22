@@ -365,54 +365,60 @@ export default function LoginPage() {
             </div>
           )}
 
+          {/* HERO GOOGLE AUTHENTICATION BUTTON (Primary Authentic Google OAuth 2.0) */}
+          <div className="space-y-1.5">
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={isGoogleLoading}
+              className="w-full group relative overflow-hidden py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-[#1E50DE]/20 hover:border-[#1E50DE] text-slate-800 font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/5 hover:shadow-lg hover:shadow-blue-500/10 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3"
+            >
+              <svg width="20" height="20" className="h-5 w-5 shrink-0" viewBox="0 0 24 24">
+                <path
+                  fill="#4285F4"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                />
+              </svg>
+              <span>{isGoogleLoading ? "گوگل سے تصدیق ہو رہی ہے..." : "Sign In with Google (گوگل سے تصدیق)"}</span>
+              <ShieldCheck className="h-4 w-4 text-[#1E50DE] ml-auto" />
+            </button>
+            <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-medium">
+              <span>🔒 Official Google Password & 2FA</span>
+              <span className="urdu-inline">گوگل کا اصلی پاسورڈ اور توثیق</span>
+            </div>
+          </div>
+
+          {/* OR Divider */}
+          <div className="relative flex items-center justify-center my-1">
+            <div className="border-t border-slate-200 w-full" />
+            <span className="bg-white px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              یا دیگر ذرائع
+            </span>
+          </div>
+
           {/* 1-CLICK INSTANT DEMO LOGIN BUTTON */}
           <button
             type="button"
             onClick={handleDemoClick}
             disabled={isDemoLoading}
-            className="w-full group relative overflow-hidden py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#1E50DE] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-[0_6px_20px_rgba(30,80,222,0.35)] hover:shadow-[0_8px_25px_rgba(30,80,222,0.45)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+            className="w-full group relative overflow-hidden py-3 px-4 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black text-white font-bold text-xs shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
           >
-            <Sparkles className="h-4 w-4 text-amber-300 animate-spin" />
+            <Sparkles className="h-3.5 w-3.5 text-amber-300 animate-spin" />
             <span>
-              {isDemoLoading ? "لاگ ان ہو رہا ہے..." : "⚡ 1-Click Instant Demo Access (ڈیمو لاگ ان)"}
+              {isDemoLoading ? "لاگ ان ہو رہا ہے..." : "⚡ Quick Demo Mode (بغیر رجسٹریشن ڈیمو)"}
             </span>
-            <ArrowRight className="h-4 w-4 text-blue-200 group-hover:translate-x-1 transition-transform" />
-          </button>
-
-          {/* OR Divider */}
-          <div className="relative flex items-center justify-center">
-            <div className="border-t border-slate-200 w-full" />
-            <span className="bg-white px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-              Or Sign In
-            </span>
-          </div>
-
-          {/* Google Real Sign-In Button */}
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={isGoogleLoading}
-            className="w-full py-3 px-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] active:scale-[0.99]"
-          >
-            <svg width="18" height="18" className="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24">
-              <path
-                fill="#4285F4"
-                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-              />
-              <path
-                fill="#34A853"
-                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-              />
-              <path
-                fill="#EA4335"
-                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-              />
-            </svg>
-            <span>{isGoogleLoading ? "گوگل سے کنیکٹ ہو رہا ہے..." : "Continue with Google (گوگل سے لاگ ان)"}</span>
           </button>
 
           {/* Form */}
