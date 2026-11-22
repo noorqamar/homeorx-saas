@@ -189,12 +189,20 @@ export default function RegisterPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-hidden bg-[#F4F7FC] text-slate-800">
-        <div className="absolute top-0 right-1/4 -mt-20 w-[500px] h-[500px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 -mb-20 w-[450px] h-[450px] rounded-full bg-indigo-100/50 blur-3xl pointer-events-none" />
+      <div className="min-h-screen relative overflow-x-hidden bg-[#070F1E] text-slate-800 flex items-center justify-center p-4 selection:bg-blue-500 selection:text-white">
+        {/* High-End Architectural Clinical Hospital Backdrop */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <img
+            src="/images/clinic-bg.jpg"
+            alt="Modern Hospital Clinic Interior"
+            className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.15]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#050C1A]/95 via-[#091832]/88 to-[#0E284E]/82 backdrop-blur-[2px]" />
+          <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[130px] pointer-events-none" />
+        </div>
 
         <div className="w-full max-w-lg space-y-6 relative z-10 text-center">
-          <div className="bg-white/95 backdrop-blur-xl rounded-[32px] p-8 shadow-[0_10px_35px_rgba(30,80,222,0.06)] border border-white space-y-5">
+          <div className="bg-white/95 backdrop-blur-2xl rounded-[32px] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] border border-white/80 space-y-5">
             <div className="inline-flex h-20 w-20 rounded-full bg-emerald-50 text-emerald-600 items-center justify-center border border-emerald-200 shadow-md mx-auto">
               <CheckCircle2 className="h-10 w-10 text-emerald-600 animate-bounce" />
             </div>
@@ -239,28 +247,37 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-hidden bg-[#F4F7FC] text-slate-800">
-      {/* Ambient Glowing Background Blobs */}
-      <div className="absolute top-0 right-1/4 -mt-20 w-[500px] h-[500px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 -mb-20 w-[450px] h-[450px] rounded-full bg-indigo-100/50 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-10 w-[300px] h-[300px] rounded-full bg-cyan-100/30 blur-2xl pointer-events-none" />
+    <div className="min-h-screen relative overflow-x-hidden bg-[#070F1E] text-slate-800 flex items-center justify-center selection:bg-blue-500 selection:text-white">
+      {/* High-End Architectural Clinical Hospital Backdrop */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img
+          src="/images/clinic-bg.jpg"
+          alt="Modern Hospital Clinic Interior"
+          className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.15]"
+        />
+        {/* Deep, elite sapphire medical vignette overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#050C1A]/95 via-[#091832]/88 to-[#0E284E]/82 backdrop-blur-[2px]" />
+        {/* Luminous ambient lighting accents */}
+        <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-teal-500/15 rounded-full blur-[140px] pointer-events-none" />
+      </div>
 
-      <div className="w-full max-w-xl relative z-10 space-y-5 my-6">
+      <div className="w-full max-w-xl relative z-10 space-y-5 my-8 px-4 sm:px-6">
         {/* Brand Header */}
         <div className="text-center space-y-1.5">
           <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-tr from-[#1E50DE] to-blue-500 text-white shadow-xl shadow-blue-500/25 mb-1 group hover:scale-105 transition-transform">
             <HeartPulse className="h-7 w-7" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#2B3674]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             Register Doctor Account (رجسٹریشن)
           </h1>
-          <p className="text-xs text-slate-500 font-medium max-w-md mx-auto">
+          <p className="text-xs text-slate-300 font-medium max-w-md mx-auto">
             Create your clinical workspace with personalized bilingual A4 prescription letterhead
           </p>
         </div>
 
         {/* Luminous Card */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 shadow-[0_10px_35px_rgba(30,80,222,0.06)] border border-white space-y-5">
+        <div className="bg-white/95 backdrop-blur-2xl rounded-[32px] p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] border border-white/80 space-y-5">
           {/* Card Title Banner */}
           <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
             <div>
