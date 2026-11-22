@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -12,6 +12,8 @@ import {
 } from "@/app/actions/auth";
 import {
   signInWithGooglePopup,
+  signInWithGoogleRedirect,
+  checkRedirectLoginResult,
   isFirebaseConfigured,
   saveClientFirebaseConfig,
 } from "@/lib/firebase";
@@ -47,6 +49,47 @@ export default function LoginPage() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  // Check for returning redirect authentication from Google
+  useEffect(() => {
+    let isMounted = true;
+    const processRedirect = async () => {
+      if (!isFirebaseConfigured()) return;
+      try {
+        const user = await checkRedirectLoginResult();
+        if (user && user.email && isMounted) {
+          setIsGoogleLoading(true);
+          const syncRes = await firebaseSyncAndLogin({
+            email: user.email,
+            name: user.displayName || "Dr. " + (user.email.split("@")[0] || "Doctor"),
+            uid: user.uid,
+            photoURL: user.photoURL || undefined,
+          });
+
+          if (!syncRes.success) {
+            setError(syncRes.error || "گوگل لاگ ان کی توثیق میں مسئلہ پیش آیا۔");
+            setIsGoogleLoading(false);
+            return;
+          }
+
+          if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
+            router.push("/admin");
+          } else {
+            router.push("/");
+          }
+          router.refresh();
+        }
+      } catch (e: any) {
+        console.warn("Redirect check error:", e);
+      }
+    };
+
+    processRedirect();
+    return () => {
+      isMounted = false;
+    };
+  }, [router]);
 
   // Google Connection & Sign-In Modal
   const [showGoogleModal, setShowGoogleModal] = useState(false);
@@ -59,6 +102,7 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     setError(null);
+    setPopupBlocked(false);
 
     // If Firebase is already configured, attempt official Google Popup!
     if (isFirebaseConfigured()) {
@@ -96,6 +140,17 @@ export default function LoginPage() {
           return;
         }
 
+        // If popup was blocked by browser
+        if (
+          err?.code === "auth/popup-blocked" ||
+          err?.message?.includes("popup-blocked")
+        ) {
+          setPopupBlocked(true);
+          setError("آپ کے براؤزر کے پاپ اپ بلاکر نے لاگ ان ونڈو بلاک کی ہے۔ نیچے دیے گئے بٹن سے بغیر پاپ اپ براہ راست لاگ ان کریں۔");
+          setIsGoogleLoading(false);
+          return;
+        }
+
         // If API key is not valid or domain is unauthorized, open setup assistant
         if (
           err?.code === "auth/api-key-not-valid" ||
@@ -115,6 +170,27 @@ export default function LoginPage() {
     }
 
     // If not yet configured, open Google Account Connection & Sign-In Assistant
+    setIsGoogleLoading(false);
+    setShowGoogleModal(true);
+  };
+
+  const handleGoogleRedirectSignIn = async () => {
+    setIsGoogleLoading(true);
+    setError(null);
+    setPopupBlocked(false);
+
+    if (isFirebaseConfigured()) {
+      try {
+        await signInWithGoogleRedirect();
+        return;
+      } catch (err: any) {
+        console.warn("Google redirect error:", err);
+        setError(err?.message || "براہ راست گوگل لاگ ان شروع کرنے میں خرابی پیش آئی۔");
+        setIsGoogleLoading(false);
+        return;
+      }
+    }
+
     setIsGoogleLoading(false);
     setShowGoogleModal(true);
   };
@@ -531,6 +607,28 @@ export default function LoginPage() {
                 </div>
               )}
 
+              {/* POP-UP BLOCKED RECOVERY CARD (Bypasses any browser pop-up blocker) */}
+              {popupBlocked && (
+                <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 space-y-3 animate-in fade-in">
+                  <div className="flex items-center gap-2 font-bold text-xs">
+                    <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+                    <span>پاپ اپ بلاکر نوٹس (Browser Pop-up Blocked)</span>
+                  </div>
+                  <p className="text-[11px] text-amber-800 leading-relaxed">
+                    آپ کے براؤزر کے پاپ اپ بلاکر نے گوگل سائن ان ونڈو بلاک کی ہے۔ بغیر پاپ اپ کے براہ راست محفوظ گوگل لاگ ان کے لیے نیچے دیے گئے بٹن پر کلک کریں:
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleGoogleRedirectSignIn}
+                    disabled={isGoogleLoading}
+                    className="w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+                  >
+                    <span>{isGoogleLoading ? "گوگل پر منتقل ہو رہے ہیں..." : "🚀 بغیر پاپ اپ براہ راست لاگ ان کریں (Direct Google Sign-In)"}</span>
+                    <ArrowRight className="h-4 w-4 text-white" />
+                  </button>
+                </div>
+              )}
+
               {/* HERO GOOGLE AUTHENTICATION BUTTON (Primary Authentic Google OAuth 2.0) */}
               <div className="space-y-1.5">
                 <button
@@ -562,7 +660,13 @@ export default function LoginPage() {
                 </button>
                 <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-medium">
                   <span>🔒 Official Google Password & 2FA</span>
-                  <span className="urdu-inline">گوگل کا اصلی پاسورڈ اور توثیق</span>
+                  <button
+                    type="button"
+                    onClick={handleGoogleRedirectSignIn}
+                    className="text-[#1E50DE] hover:underline font-bold transition-colors cursor-pointer"
+                  >
+                    پاپ اپ مسئلہ؟ براہ راست لاگ ان
+                  </button>
                 </div>
               </div>
 
