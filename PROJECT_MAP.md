@@ -21,6 +21,7 @@
 | `.agents/workflows/` | AI Agent & Automation | Standard operational runbooks (`audit.md`, `test-and-verify.md`, `feature-plan.md`) |
 | `docs/decisions/` | Architecture Decision Records | Formal architectural decisions and historical context (`0001-record-architecture-decisions.md`) |
 | `files/format/` | Clinical Assets & References | Letterhead specifications and clinical formatting references |
+| `public/images/` | High-Resolution Photography | Elite clinical hospital backgrounds, doctor consultation, and portrait assets (`clinic-bg.jpg`, etc.) |
 | `prisma/` | Database Schema & Seeding | Relational SQLite schema definition (`schema.prisma`) and master database seeder (`seed.ts`) |
 | `scripts/` | Tooling & Build Scripts | Binary database bundler (`generate-db-binary.js`) and test verification suite (`verify-suite.ts`) |
 | `src/app/` | Next.js 15 App Router | Route handlers, pages, layouts, and server actions (`(dashboard)`, `login`, `register`, `actions/`) |
