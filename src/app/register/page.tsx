@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerDoctor, firebaseSyncAndLogin } from "@/app/actions/auth";
-import { signInWithGooglePopup, signUpWithEmail, isFirebaseConfigured } from "@/lib/firebase";
+import {
+  signInWithGooglePopup,
+  signInWithGoogleRedirect,
+  checkRedirectLoginResult,
+  signUpWithEmail,
+  isFirebaseConfigured,
+} from "@/lib/firebase";
 import {
   HeartPulse,
   Lock,
@@ -42,6 +48,47 @@ export default function RegisterPage() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  // Check for returning redirect authentication from Google
+  useEffect(() => {
+    let isMounted = true;
+    const processRedirect = async () => {
+      if (!isFirebaseConfigured()) return;
+      try {
+        const user = await checkRedirectLoginResult();
+        if (user && user.email && isMounted) {
+          setIsGoogleLoading(true);
+          const syncRes = await firebaseSyncAndLogin({
+            email: user.email,
+            name: user.displayName || "Dr. " + (user.email.split("@")[0] || "Doctor"),
+            uid: user.uid,
+            photoURL: user.photoURL || undefined,
+            clinicName: `${user.displayName || "Doctor"}'s Homeopathic Clinic`,
+          });
+
+          if (!syncRes.success) {
+            setError(syncRes.error || "گوگل رجسٹریشن میں خرابی پیش آئی۔");
+            setIsGoogleLoading(false);
+            return;
+          }
+
+          if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
+            router.push("/admin");
+          } else {
+            router.push("/");
+          }
+          router.refresh();
+        }
+      } catch (err: any) {
+        console.warn("Redirect check error in register:", err);
+      }
+    };
+    processRedirect();
+    return () => {
+      isMounted = false;
+    };
+  }, [router]);
 
   // Google Fast Sign-Up Modal
   const [showGoogleModal, setShowGoogleModal] = useState(false);
@@ -56,6 +103,7 @@ export default function RegisterPage() {
   const handleGoogleSignUp = async () => {
     setIsGoogleLoading(true);
     setError(null);
+    setPopupBlocked(false);
 
     if (!isFirebaseConfigured()) {
       setIsGoogleLoading(false);
@@ -102,11 +150,33 @@ export default function RegisterPage() {
         return;
       }
 
-      if (err?.code === "auth/popup-closed-by-user") {
+      if (err?.code === "auth/popup-blocked" || err?.message?.includes("popup-blocked")) {
+        setPopupBlocked(true);
+        setError("آپ کے براؤزر کے پاپ اپ بلاکر نے رجسٹریشن ونڈو بلاک کی ہے۔ نیچے دیے گئے بٹن سے بغیر پاپ اپ براہ راست رجسٹر کریں۔");
+      } else if (err?.code === "auth/popup-closed-by-user") {
         setError("گوگل رجسٹریشن ونڈو بند کر دی گئی۔ دوبارہ کوشش کریں۔");
       } else {
         setError(err?.message || "گوگل رجسٹریشن میں خرابی پیش آئی۔");
       }
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleRedirectSignUp = async () => {
+    setIsGoogleLoading(true);
+    setError(null);
+    setPopupBlocked(false);
+
+    if (!isFirebaseConfigured()) {
+      setIsGoogleLoading(false);
+      setShowGoogleModal(true);
+      return;
+    }
+
+    try {
+      await signInWithGoogleRedirect();
+    } catch (err: any) {
+      setError(err?.message || "براہ راست گوگل رجسٹریشن شروع کرنے میں خرابی پیش آئی۔");
       setIsGoogleLoading(false);
     }
   };
@@ -302,13 +372,35 @@ export default function RegisterPage() {
             </div>
           )}
 
+          {/* POP-UP BLOCKED RECOVERY CARD */}
+          {popupBlocked && (
+            <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 space-y-3 animate-in fade-in">
+              <div className="flex items-center gap-2 font-bold text-xs">
+                <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+                <span>پاپ اپ بلاکر نوٹس (Browser Pop-up Blocked)</span>
+              </div>
+              <p className="text-[11px] text-amber-800 leading-relaxed">
+                آپ کے براؤزر کے پاپ اپ بلاکر نے گوگل رجسٹریشن ونڈو بلاک کی ہے۔ بغیر پاپ اپ کے براہ راست محفوظ گوگل رجسٹریشن کے لیے نیچے دیے گئے بٹن پر کلک کریں:
+              </p>
+              <button
+                type="button"
+                onClick={handleGoogleRedirectSignUp}
+                disabled={isGoogleLoading}
+                className="w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <span>{isGoogleLoading ? "گوگل پر منتقل ہو رہے ہیں..." : "🚀 بغیر پاپ اپ براہ راست رجسٹر کریں (Direct Google Sign-Up)"}</span>
+                <ArrowRight className="h-4 w-4 text-white" />
+              </button>
+            </div>
+          )}
+
           {/* HERO GOOGLE SIGN UP BUTTON (Matching Behance Theme) */}
           <div className="space-y-1.5">
             <button
               type="button"
               onClick={handleGoogleSignUp}
               disabled={isGoogleLoading || isLoading}
-              className="w-full group relative overflow-hidden py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-[#1E50DE]/20 hover:border-[#1E50DE] text-slate-800 font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/5 hover:shadow-lg hover:shadow-blue-500/10 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3"
+              className="w-full group relative overflow-hidden py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-[#1E50DE]/20 hover:border-[#1E50DE] text-slate-800 font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/5 hover:shadow-lg hover:shadow-blue-500/10 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3 cursor-pointer"
             >
               <svg width="20" height="20" className="h-5 w-5 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -333,7 +425,13 @@ export default function RegisterPage() {
             </button>
             <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-medium">
               <span>🔒 Instant Verified Doctor Setup</span>
-              <span className="urdu-inline">گوگل سے فوری تصدیق شدہ رجسٹریشن</span>
+              <button
+                type="button"
+                onClick={handleGoogleRedirectSignUp}
+                className="text-[#1E50DE] hover:underline font-bold transition-colors cursor-pointer"
+              >
+                پاپ اپ مسئلہ؟ براہ راست رجسٹریشن
+              </button>
             </div>
           </div>
 

@@ -3,6 +3,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
@@ -143,6 +145,34 @@ export async function signInWithGooglePopup(): Promise<User> {
   const authInstance = getFirebaseAuth();
   const result = await signInWithPopup(authInstance, googleProvider);
   return result.user;
+}
+
+/**
+ * Sign in with Google Redirect (Bypasses all browser pop-up blockers)
+ */
+export async function signInWithGoogleRedirect(): Promise<void> {
+  if (!isFirebaseConfigured()) {
+    const error: any = new Error("FIREBASE_NOT_CONFIGURED");
+    error.code = "auth/api-key-not-configured";
+    throw error;
+  }
+  const authInstance = getFirebaseAuth();
+  await signInWithRedirect(authInstance, googleProvider);
+}
+
+/**
+ * Check if the user is returning from a Google Redirect authentication flow
+ */
+export async function checkRedirectLoginResult(): Promise<User | null> {
+  if (!isFirebaseConfigured()) return null;
+  try {
+    const authInstance = getFirebaseAuth();
+    const result = await getRedirectResult(authInstance);
+    return result?.user || null;
+  } catch (err: any) {
+    console.warn("getRedirectResult note:", err?.code || err?.message);
+    return null;
+  }
 }
 
 /**
