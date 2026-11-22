@@ -85,13 +85,13 @@ export function Sidebar({
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
         />
       )}
 
       <aside
         className={cn(
-          "flex flex-col w-[250px] border-r border-[#E6ECF5] bg-white text-slate-800 shrink-0 h-screen sticky top-0 z-40 transition-transform duration-300 no-print select-none shadow-[2px_0_12px_rgba(0,0,0,0.02)]",
+          "flex flex-col w-[250px] border-r border-[#E6ECF5] bg-white text-slate-700 shrink-0 h-screen sticky top-0 z-40 transition-transform duration-300 no-print select-none shadow-[2px_0_12px_rgba(30,80,222,0.03)]",
           // Mobile responsive drawer positioning
           "max-md:fixed max-md:left-0 max-md:top-0 max-md:bottom-0 max-md:z-50 max-md:shadow-2xl",
           !isOpen && "max-md:-translate-x-full",
@@ -101,14 +101,14 @@ export function Sidebar({
         {/* Brand Header */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-[#F0F4FA] shrink-0">
           <Link href="/" className="flex items-center gap-3 min-w-0 group">
-            <div className="h-10 w-10 rounded-2xl bg-[#1E50DE] flex items-center justify-center text-white shadow-md shadow-blue-500/25 shrink-0 group-hover:scale-105 transition-transform">
+            <div className="h-10 w-10 rounded-2xl bg-[#1E50DE] flex items-center justify-center text-white shadow-md shadow-blue-500/30 shrink-0 group-hover:scale-105 transition-transform">
               <HeartPulse className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <span className="font-extrabold text-xl tracking-tight text-slate-900 flex items-center">
+              <span className="font-extrabold text-xl tracking-tight text-[#2B3674] flex items-center">
                 Homeo<span className="text-[#1E50DE]">Rx</span>
               </span>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-600 truncate">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 truncate">
                 Clinical Suite
               </p>
             </div>
@@ -140,7 +140,7 @@ export function Sidebar({
                   <Sparkles className="h-3 w-3" />
                   Trial Mode
                 </span>
-                <span className="text-[10px] text-slate-700 font-bold">5 Rx / Day</span>
+                <span className="text-[10px] text-slate-600 font-bold">5 Rx / Day</span>
               </div>
               <button
                 type="button"
@@ -190,7 +190,7 @@ export function Sidebar({
                     "flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[13.5px] font-semibold transition-all group min-h-[44px]",
                     isActive
                       ? "bg-[#EEF4FF] text-[#1E50DE] font-bold shadow-xs"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50",
+                      : "text-slate-500 hover:text-[#2B3674] hover:bg-slate-50",
                     item.highlight && !isActive && "text-[#1E50DE]"
                   )}
                 >
@@ -199,7 +199,7 @@ export function Sidebar({
                       "h-4.5 w-4.5 transition-colors shrink-0",
                       isActive
                         ? "text-[#1E50DE]"
-                        : "text-slate-400 group-hover:text-slate-600",
+                        : "text-slate-400 group-hover:text-[#1E50DE]",
                       item.highlight && !isActive && "text-[#1E50DE]"
                     )}
                   />
@@ -212,7 +212,7 @@ export function Sidebar({
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[13.5px] font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50/60 transition-all group min-h-[44px]"
+            className="w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[13.5px] font-semibold text-slate-400 hover:text-rose-600 hover:bg-rose-50/60 transition-all group min-h-[44px]"
           >
             <LogOut className="h-4.5 w-4.5 text-slate-400 group-hover:text-rose-600 transition-colors shrink-0" />
             <span className="truncate">Logout</span>
@@ -230,10 +230,10 @@ export function Sidebar({
               DR
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-slate-900 truncate">
+              <p className="text-xs font-bold text-[#2B3674] truncate">
                 {doctorInfo?.doctorName || "Dr. Homeopath"}
               </p>
-              <p className="text-[11px] text-slate-500 truncate">
+              <p className="text-[11px] text-slate-400 truncate font-medium">
                 {doctorInfo?.clinicName || "HomeoRx Clinic"}
               </p>
             </div>

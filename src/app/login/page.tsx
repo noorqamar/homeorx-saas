@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginDoctor, loginAsDemoDoctor, firebaseSyncAndLogin } from "@/app/actions/auth";
-import { signInWithGooglePopup, signInWithEmail, isFirebaseConfigured } from "@/lib/firebase";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { signInWithGooglePopup, isFirebaseConfigured } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import {
   HeartPulse,
@@ -15,17 +14,13 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
-  Leaf,
-  Stethoscope,
-  BookOpen,
-  Award,
-  Flame,
-  Sun,
-  Moon,
-  ShieldCheck,
   Sparkles,
-  X,
+  ShieldCheck,
   CheckCircle2,
+  X,
+  Stethoscope,
+  Activity,
+  Zap,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -33,35 +28,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Google Fast Sign-In Modal (when Firebase live API key is not yet set in .env)
+  // Google Fast Sign-In Modal
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [googleEmail, setGoogleEmail] = useState("");
   const [googleName, setGoogleName] = useState("");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("homeorx_theme");
-    if (savedTheme === "light") {
-      setIsDarkMode(false);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const nextMode = !isDarkMode;
-    setIsDarkMode(nextMode);
-    localStorage.setItem("homeorx_theme", nextMode ? "dark" : "light");
-  };
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     setError(null);
 
-    // If Firebase API key is not yet configured, show seamless Google Sign-In prompt
     if (!isFirebaseConfigured()) {
       setIsGoogleLoading(false);
       setShowGoogleModal(true);
@@ -101,16 +81,13 @@ export default function LoginPage() {
         err?.code === "auth/api-key-not-configured" ||
         err?.message === "FIREBASE_NOT_CONFIGURED"
       ) {
-        // Fallback gracefully to Google Email Login modal
         setIsGoogleLoading(false);
         setShowGoogleModal(true);
         return;
       }
 
       if (err?.code === "auth/popup-closed-by-user") {
-        setError("گوگل سائن ان ونڈو بند کر دی گئی۔ براہ کرم دوبارہ کوشش کریں۔");
-      } else if (err?.code === "auth/unauthorized-domain") {
-        setError("یہ ڈومین فائر بیس کونسول میں Authorized Domains میں شامل نہیں ہے۔");
+        setError("گوگل سائن ان ونڈو بند کر دی گئی۔ دوبارہ کوشش کریں۔");
       } else {
         setError(err?.message || "گوگل لاگ ان میں خرابی پیش آئی۔");
       }
@@ -163,20 +140,19 @@ export default function LoginPage() {
       const cleanPassword = password.trim();
 
       if (!cleanEmail) {
-        setError("براہ کرم اپنا ای میل درج کریں۔ (Please enter your email address.)");
+        setError("براہ کرم اپنا ای میل درج کریں۔");
         setIsLoading(false);
         return;
       }
       if (!cleanPassword) {
-        setError("براہ کرم اپنا پاس ورڈ درج کریں۔ (Please enter your password.)");
+        setError("براہ کرم اپنا پاس ورڈ درج کریں۔");
         setIsLoading(false);
         return;
       }
 
-      // Direct, fail-safe database authentication
       const res = await loginDoctor({ email: cleanEmail, password: cleanPassword });
       if (!res.success) {
-        setError(res.error || "لاگ ان ناکام رہا۔ براہ کرم تفصیلات چیک کریں۔");
+        setError(res.error || "لاگ ان ناکام رہا۔ تفصیلات چیک کریں۔");
         setIsLoading(false);
         return;
       }
@@ -213,501 +189,234 @@ export default function LoginPage() {
     }
   };
 
+  const fillAdmin = () => {
+    setEmail("admin@homeorx.health");
+    setPassword("admin123456");
+  };
+
+  const fillDemo = () => {
+    setEmail("dr.demo@homeorx.health");
+    setPassword("demo12345");
+  };
+
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-hidden transition-colors duration-300 ${
-        isDarkMode
-          ? "bg-slate-950 text-white"
-          : "bg-gradient-to-br from-emerald-50 via-teal-50/40 to-slate-100 text-slate-900"
-      }`}
-    >
-      {/* Top Floating Theme Switcher Button */}
-      <div className="absolute top-4 right-4 z-50">
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-md ${
-            isDarkMode
-              ? "bg-slate-800/90 text-amber-300 border border-slate-700 hover:bg-slate-700"
-              : "bg-white/90 text-slate-800 border border-slate-300 hover:bg-white"
-          }`}
-          title="Toggle Bright / Dark Mode"
-        >
-          {isDarkMode ? (
-            <>
-              <Sun className="h-4 w-4 text-amber-400" />
-              <span>☀️ Bright Mode (دن کی روشنی)</span>
-            </>
-          ) : (
-            <>
-              <Moon className="h-4 w-4 text-indigo-600" />
-              <span>🌙 Dark Mode (نائٹ موڈ)</span>
-            </>
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-hidden bg-[#F4F7FC] text-slate-800">
+      {/* Ambient Glowing Background Blobs */}
+      <div className="absolute top-0 right-1/4 -mt-20 w-[500px] h-[500px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 -mb-20 w-[450px] h-[450px] rounded-full bg-indigo-100/50 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-10 w-[300px] h-[300px] rounded-full bg-cyan-100/30 blur-2xl pointer-events-none" />
+
+      <div className="w-full max-w-[460px] relative z-10 space-y-5">
+        {/* Brand Header */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-[#1E50DE] text-white shadow-lg shadow-blue-500/30 ring-4 ring-blue-100 mb-1">
+            <HeartPulse className="h-7 w-7" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+            Homeo<span className="text-[#1E50DE]">Rx</span> Clinical Suite
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
+            Next-Gen Homeopathic Healthcare & Prescription Platform
+          </p>
+        </div>
+
+        {/* Main Clean Card with Luminous Glow */}
+        <div className="bg-white rounded-[28px] p-6 sm:p-8 border border-white/80 shadow-[0_15px_45px_rgba(30,80,222,0.08)] space-y-5 relative">
+          {/* Error Message */}
+          {error && (
+            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2.5 animate-in fade-in">
+              <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
+              <div className="flex-1 font-medium">{error}</div>
+            </div>
           )}
-        </button>
-      </div>
 
-      {/* Dynamic Ambient Background Glows */}
-      <div
-        className={`absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full blur-[120px] pointer-events-none transition-opacity ${
-          isDarkMode ? "bg-emerald-600/25 opacity-100" : "bg-emerald-300/40 opacity-70"
-        }`}
-      />
-      <div
-        className={`absolute -bottom-32 -right-32 h-[500px] w-[500px] rounded-full blur-[120px] pointer-events-none transition-opacity ${
-          isDarkMode ? "bg-teal-500/20 opacity-100" : "bg-teal-300/30 opacity-70"
-        }`}
-      />
-      <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full blur-[140px] pointer-events-none ${
-          isDarkMode ? "bg-indigo-600/10" : "bg-indigo-200/20"
-        }`}
-      />
-
-      {/* Central 2-Column Responsive Layout */}
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-        {/* ================= LEFT COLUMN: COLORFUL HOMEOPATHY HERO BANNER ================= */}
-        <div className="lg:col-span-7 space-y-5 pr-0 lg:pr-4">
-          <div
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide shadow-xs border ${
-              isDarkMode
-                ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
-                : "bg-emerald-100/90 border-emerald-300 text-emerald-900"
-            }`}
+          {/* 1-CLICK INSTANT DEMO LOGIN BUTTON (Prominent, Glowing, Instant) */}
+          <button
+            type="button"
+            onClick={handleDemoClick}
+            disabled={isDemoLoading}
+            className="w-full group relative overflow-hidden py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#1E50DE] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-[0_6px_20px_rgba(30,80,222,0.35)] hover:shadow-[0_8px_25px_rgba(30,80,222,0.45)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
           >
-            <Leaf className="h-4 w-4 text-emerald-500 animate-pulse" />
-            <span>Firebase-Powered Clinical Management SaaS</span>
-          </div>
-
-          <div className="space-y-1.5">
-            <h1
-              className={`text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight ${
-                isDarkMode ? "text-white" : "text-slate-900"
-              }`}
-            >
-              Homeo<span className="text-emerald-500">Rx</span> Cloud Portal
-            </h1>
-            <p
-              className={`text-sm sm:text-base font-semibold leading-relaxed ${
-                isDarkMode ? "text-slate-300" : "text-slate-700"
-              }`}
-            >
-              &ldquo;Similia Similibus Curentur&rdquo; — قدرتی، محفوظ، مستقل اور جدید ترین ہومیوپیتھک کلینیکل سسٹم
-            </p>
-          </div>
-
-          {/* 4 Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-            <div
-              className={`p-3.5 rounded-2xl border backdrop-blur-md shadow-md space-y-1 transition-all ${
-                isDarkMode
-                  ? "bg-slate-900/80 border-emerald-500/30 text-slate-200"
-                  : "bg-white/90 border-emerald-200 text-slate-800"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
-                  <Stethoscope className="h-4 w-4" />
-                </div>
-                <strong className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
-                  Single A4 Letterhead
-                </strong>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
-                سنگل A4 پیج پر متوازن کالمز، اردو نوری نستعلیق ہدایات اور لائیو پرنٹنگ۔
-              </p>
-            </div>
-
-            <div
-              className={`p-3.5 rounded-2xl border backdrop-blur-md shadow-md space-y-1 transition-all ${
-                isDarkMode
-                  ? "bg-slate-900/80 border-teal-500/30 text-slate-200"
-                  : "bg-white/90 border-teal-200 text-slate-800"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-lg bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold">
-                  <BookOpen className="h-4 w-4" />
-                </div>
-                <strong className="text-xs font-bold text-teal-800 dark:text-teal-300">
-                  780+ Master Remedies
-                </strong>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
-                مکمل کینٹ و بوگر رپریٹری، پوٹینسیز اور تیز رفتار لائیو ایرو کی سرچنگ۔
-              </p>
-            </div>
-
-            <div
-              className={`p-3.5 rounded-2xl border backdrop-blur-md shadow-md space-y-1 transition-all ${
-                isDarkMode
-                  ? "bg-slate-900/80 border-amber-500/30 text-slate-200"
-                  : "bg-white/90 border-amber-200 text-slate-800"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
-                  <ShieldCheck className="h-4 w-4" />
-                </div>
-                <strong className="text-xs font-bold text-amber-800 dark:text-amber-300">
-                  Firebase Auth & Security
-                </strong>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
-                محفوظ گوگل سائن ان، تصدیق شدہ سیشنز اور ملٹی ٹیننٹ کلینک ورک اسپیس۔
-              </p>
-            </div>
-
-            <div
-              className={`p-3.5 rounded-2xl border backdrop-blur-md shadow-md space-y-1 transition-all ${
-                isDarkMode
-                  ? "bg-slate-900/80 border-indigo-500/30 text-slate-200"
-                  : "bg-white/90 border-indigo-200 text-slate-800"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-lg bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-                  <Award className="h-4 w-4" />
-                </div>
-                <strong className="text-xs font-bold text-indigo-800 dark:text-indigo-300">
-                  QR EMR Verification
-                </strong>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
-                ۴ خوبصورت رنگین تھیمز، ڈیجیٹل دستخط اور ای ایم آر تصدیقی بارکوڈ بیج۔
-              </p>
-            </div>
-          </div>
-
-          {/* Inspiring Quote */}
-          <div
-            className={`p-3.5 rounded-2xl border text-xs italic flex items-center gap-3 shadow-xs ${
-              isDarkMode
-                ? "bg-emerald-950/50 border-emerald-500/20 text-emerald-200"
-                : "bg-emerald-50 border-emerald-200 text-emerald-900"
-            }`}
-          >
-            <Flame className="h-5 w-5 text-emerald-500 shrink-0" />
+            <Sparkles className="h-4 w-4 text-amber-300 animate-spin" />
             <span>
-              &ldquo;The physician&apos;s highest and only calling is to make the sick healthy, to heal, as it is termed.&rdquo; — <strong>Dr. Samuel Hahnemann</strong>
+              {isDemoLoading ? "لاگ ان ہو رہا ہے..." : "⚡ 1-Click Instant Demo Access (ڈیمو لاگ ان)"}
+            </span>
+            <ArrowRight className="h-4 w-4 text-blue-200 group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          {/* OR Divider */}
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-slate-200 w-full" />
+            <span className="bg-white px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              Or Sign In
             </span>
           </div>
-        </div>
 
-        {/* ================= RIGHT COLUMN: CLEAN DIRECT SIGN-IN CARD ================= */}
-        <div className="lg:col-span-5 w-full">
-          <Card
-            className={`border shadow-2xl overflow-hidden backdrop-blur-2xl transition-all ${
-              isDarkMode
-                ? "bg-slate-900/95 border-slate-800 text-white"
-                : "bg-white/95 border-slate-200 text-slate-900"
-            }`}
+          {/* Google Fast Sign-In Button */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={isGoogleLoading}
+            className="w-full py-3 px-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2.5"
           >
-            <CardHeader
-              className={`space-y-1 pb-4 border-b ${
-                isDarkMode
-                  ? "bg-slate-800/40 border-slate-800 text-white"
-                  : "bg-slate-50 border-slate-100 text-slate-900"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <CardTitle
-                  className={`text-lg font-black flex items-center gap-2 ${
-                    isDarkMode ? "text-white" : "text-slate-900"
-                  }`}
-                >
-                  <HeartPulse className="h-5 w-5 text-emerald-500" />
-                  Doctor / Admin Sign In
-                </CardTitle>
-                <span className="urdu-text font-bold text-emerald-600 dark:text-emerald-400 text-sm">
-                  لاگ ان پورٹل
-                </span>
-              </div>
-              <CardDescription
-                className={`text-xs ${
-                  isDarkMode ? "text-slate-400" : "text-slate-500"
-                }`}
-              >
-                Sign in with Google, Firebase Auth, or credentials
-              </CardDescription>
-            </CardHeader>
+            <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            <span>{isGoogleLoading ? "Checking..." : "Continue with Google"}</span>
+          </button>
 
-            <CardContent className="space-y-4 pt-4">
-              {/* Error Alert Display */}
-              {error && (
-                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5 shadow-sm">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-500 mt-0.5" />
-                  <div className="leading-snug">
-                    <strong>توجہ فرمائیں: </strong>
-                    <span>{error}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* 🚀 FIREBASE GOOGLE SIGN-IN BUTTON */}
-              <button
-                type="button"
-                onClick={handleGoogleSignIn}
-                disabled={isGoogleLoading || isLoading || isDemoLoading}
-                className={`w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all shadow-sm ${
-                  isDarkMode
-                    ? "bg-slate-800/90 hover:bg-slate-700/90 border-slate-700 text-white"
-                    : "bg-white hover:bg-slate-50 border-slate-300 text-slate-800"
-                }`}
-              >
-                {isGoogleLoading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                    Connecting to Google...
-                  </span>
-                ) : (
-                  <>
-                    <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
-                      <path
-                        fill="#4285F4"
-                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                      />
-                      <path
-                        fill="#34A853"
-                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                      />
-                      <path
-                        fill="#EA4335"
-                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                      />
-                    </svg>
-                    <span>
-                      Sign in with Google (<span className="urdu-text font-bold">گوگل اکاؤنٹ</span>)
-                    </span>
-                  </>
-                )}
-              </button>
-
-              {/* 🌟 1-CLICK INSTANT DEMO LOGIN BUTTON */}
-              <button
-                type="button"
-                onClick={handleDemoClick}
-                disabled={isDemoLoading || isLoading || isGoogleLoading}
-                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl border text-xs font-bold transition-all shadow-md group ${
-                  isDarkMode
-                    ? "bg-gradient-to-r from-emerald-900/60 to-teal-900/60 hover:from-emerald-800/70 hover:to-teal-800/70 border-emerald-500/50 text-white"
-                    : "bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border-emerald-300 text-emerald-950"
-                }`}
-              >
-                <span className="flex items-center gap-2.5">
-                  <Sparkles className="h-4 w-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
-                  <span>
-                    1-Click Instant Demo (<span className="urdu-text font-bold">ڈیمو لاگ ان</span>)
-                  </span>
-                </span>
-                <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                  {isDemoLoading ? "Loading..." : "Test Free ⚡"}
-                </span>
-              </button>
-
-              {/* Divider */}
-              <div className="relative flex py-1 items-center">
-                <div className={`flex-grow border-t ${isDarkMode ? "border-slate-800" : "border-slate-200"}`} />
-                <span className={`flex-shrink mx-3 text-[10px] uppercase font-bold tracking-wider ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>
-                  or email and password
-                </span>
-                <div className={`flex-grow border-t ${isDarkMode ? "border-slate-800" : "border-slate-200"}`} />
-              </div>
-
-              {/* Clean Email & Password Form */}
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                {/* Email Field */}
-                <div className="space-y-1">
-                  <label
-                    className={`block text-[11px] font-bold uppercase tracking-wider ${
-                      isDarkMode ? "text-slate-300" : "text-slate-700"
-                    }`}
-                  >
-                    Email Address (<span className="urdu-text text-[11px]">ای میل</span>)
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="e.g. admin@homeorx.health"
-                      className={`w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
-                        isDarkMode
-                          ? "bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
-                          : "bg-slate-50/80 border-slate-300 text-slate-900 placeholder:text-slate-400"
-                      }`}
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Password Field with Eye Show/Hide Toggle */}
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <label
-                      className={`block text-[11px] font-bold uppercase tracking-wider ${
-                        isDarkMode ? "text-slate-300" : "text-slate-700"
-                      }`}
-                    >
-                      Password (<span className="urdu-text text-[11px]">پاس ورڈ</span>)
-                    </label>
-                  </div>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      className={`w-full pl-9 pr-11 py-2 text-xs sm:text-sm rounded-xl border focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors ${
-                        isDarkMode
-                          ? "bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
-                          : "bg-slate-50/80 border-slate-300 text-slate-900 placeholder:text-slate-400"
-                      }`}
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-500 p-1 transition-colors"
-                      title={showPassword ? "Hide password" : "Show password"}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-emerald-500" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-slate-400" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  isLoading={isLoading}
-                  className="w-full font-black shadow-lg text-xs sm:text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl h-10 mt-1"
-                >
-                  Sign In to Workspace (داخل ہوں)
-                  <ArrowRight className="h-4 w-4 ml-1.5" />
-                </Button>
-              </form>
-            </CardContent>
-
-            <CardFooter
-              className={`pt-2.5 pb-3.5 border-t justify-center ${
-                isDarkMode
-                  ? "border-slate-800 bg-slate-950/50 text-slate-400"
-                  : "border-slate-100 bg-slate-50/80 text-slate-600"
-              }`}
-            >
-              <p className="text-xs">
-                Don&apos;t have an account?{" "}
-                <Link
-                  href="/register"
-                  className="text-emerald-600 dark:text-emerald-400 hover:underline font-bold ml-1"
-                >
-                  Register New Doctor / Clinic (نیا ڈاکٹر رجسٹر کریں)
-                </Link>
-              </p>
-            </CardFooter>
-          </Card>
-        </div>
-      </div>
-
-      {/* ================= GOOGLE FAST SIGN-IN MODAL ================= */}
-      {showGoogleModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-white relative">
-            <button
-              type="button"
-              onClick={() => setShowGoogleModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg"
-            >
-              <X className="h-5 w-5" />
-            </button>
-
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
-                <svg className="h-6 w-6" viewBox="0 0 24 24">
-                  <path
-                    fill="#4285F4"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-bold text-base">Google Account Sign In</h3>
-                <p className="text-xs text-slate-400">گوگل اکاؤنٹ کے ذریعے لاگ ان کریں</p>
+          {/* Direct Credentials Form */}
+          <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700 block">
+                Doctor Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="doctor@clinic.com"
+                  className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm bg-[#F8FAFC] border border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-xl text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100"
+                />
               </div>
             </div>
 
-            <form onSubmit={handleGoogleModalSubmit} className="space-y-3.5 pt-2">
-              <div className="space-y-1">
-                <label className="block text-xs font-semibold text-slate-300">
-                  Doctor Name (ڈاکٹر کا نام)
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-slate-700 block">
+                  Password
                 </label>
+                <span className="text-[11px] text-slate-400 font-medium">پاس ورڈ</span>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full pl-10 pr-10 py-2.5 text-xs sm:text-sm bg-[#F8FAFC] border border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-xl text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+            >
+              <span>{isLoading ? "لاگ ان ہو رہا ہے..." : "Sign In to Clinic Workspace"}</span>
+              <ArrowRight className="h-4 w-4 text-slate-400" />
+            </button>
+          </form>
+
+          {/* Quick Credential Fillers for convenience */}
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Quick Fill:</span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={fillAdmin}
+                className="font-bold text-[#1E50DE] hover:underline px-2 py-1 rounded-lg hover:bg-blue-50"
+              >
+                Super Admin
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={fillDemo}
+                className="font-bold text-slate-700 hover:underline px-2 py-1 rounded-lg hover:bg-slate-100"
+              >
+                Demo Doctor
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Link */}
+        <p className="text-center text-xs text-slate-500 font-medium">
+          New Clinic?{" "}
+          <Link href="/register" className="font-bold text-[#1E50DE] hover:underline">
+            Register New Doctor Workspace
+          </Link>
+        </p>
+      </div>
+
+      {/* Google Fast Sign-In Fallback Modal */}
+      {showGoogleModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in">
+          <div className="bg-white rounded-[28px] max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-100 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-xl bg-blue-100 text-[#1E50DE] flex items-center justify-center font-bold">
+                  G
+                </div>
+                <h3 className="font-bold text-slate-900 text-sm">Google Account Fast Sign-In</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowGoogleModal(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleGoogleModalSubmit} className="space-y-3.5">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-700">Google Email</label>
+                <input
+                  type="email"
+                  required
+                  value={googleEmail}
+                  onChange={(e) => setGoogleEmail(e.target.value)}
+                  placeholder="yourname@gmail.com"
+                  className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1E50DE] focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-700">Doctor Name (Optional)</label>
                 <input
                   type="text"
                   value={googleName}
                   onChange={(e) => setGoogleName(e.target.value)}
-                  placeholder="e.g. Dr. Tariq Mahmood"
-                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none"
+                  placeholder="Dr. Your Name"
+                  className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1E50DE] focus:outline-none"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-xs font-semibold text-slate-300">
-                  Google Email Address (گوگل ای میل ایڈریس) <span className="text-rose-400">*</span>
-                </label>
-                <input
-                  type="email"
-                  value={googleEmail}
-                  onChange={(e) => setGoogleEmail(e.target.value)}
-                  placeholder="e.g. doctor@gmail.com"
-                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none"
-                  required
-                />
-              </div>
-
-              <div className="pt-2 flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowGoogleModal(false)}
-                  className="flex-1"
-                >
-                  Cancel (منسوخ)
-                </Button>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="sm"
-                  isLoading={isGoogleLoading}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
-                >
-                  Continue (جاری رکھیں)
-                </Button>
-              </div>
+              <button
+                type="submit"
+                disabled={isGoogleLoading}
+                className="w-full py-2.5 rounded-xl bg-[#1E50DE] hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all"
+              >
+                {isGoogleLoading ? "Signing in..." : "Continue to Workspace"}
+              </button>
             </form>
           </div>
         </div>

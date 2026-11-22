@@ -1,20 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #F4F7FC;
+  --foreground: #1E293B;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ================= GLOW & LUMINOUS SAAS UTILITIES ================= */
+.card-glow {
+  box-shadow: 0 10px 30px -5px rgba(30, 80, 222, 0.07), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+}
+
+.card-glow-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-glow-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -10px rgba(30, 80, 222, 0.14), 0 8px 16px -4px rgba(0, 0, 0, 0.03);
+}
+
+.glow-blue {
+  box-shadow: 0 8px 24px -4px rgba(30, 80, 222, 0.4);
+}
+
+.glow-blue-subtle {
+  box-shadow: 0 4px 16px -2px rgba(30, 80, 222, 0.22);
+}
+
+.glow-emerald {
+  box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.35);
+}
+
+.glow-amber {
+  box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.35);
 }
 
 /* ================= UNIFIED URDU NASTALIQ TYPOGRAPHY TOKEN ================= */
@@ -47,20 +77,20 @@ body {
   min-width: 44px;
 }
 
-/* Custom scrollbars */
+/* Custom modern scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #EEF4FF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #BFDBFE;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #93C5FD;
 }
 
 /* STRICT SINGLE-PAGE A4 & LETTER MEDICAL PRESCRIPTION PRINT RULES */
