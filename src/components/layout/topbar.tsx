@@ -11,9 +11,7 @@ import {
   ShieldCheck,
   Menu,
   Zap,
-  Clock,
   Calendar,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { logoutDoctor, getCurrentDoctor } from "@/app/actions/auth";
@@ -66,14 +64,14 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <>
-      <header className="h-20 border-b border-[#E6ECF5] bg-white/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 no-print gap-3">
+      <header className="h-20 border-b border-[#E6ECF5] bg-white/95 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 no-print gap-3">
         {/* Left: Mobile Hamburger Toggle + Search */}
         <div className="flex items-center gap-3 flex-1 max-w-xl">
           {onMenuClick && (
             <button
               type="button"
               onClick={onMenuClick}
-              className="md:hidden p-2 rounded-2xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+              className="md:hidden p-2 rounded-2xl text-slate-500 hover:text-[#2B3674] hover:bg-slate-100 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
               aria-label="Open Navigation Menu"
             >
               <Menu className="h-5 w-5" />
@@ -89,7 +87,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Patients (Name, ID, Phone)..."
-                className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm bg-[#F4F7FC] border border-transparent hover:border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-2xl text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm bg-[#F4F7FC] border border-transparent hover:border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-2xl text-[#2B3674] placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100 font-medium"
               />
             </div>
           </form>
@@ -98,7 +96,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
         {/* Right Area: Date + Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Calendar Date Badge */}
-          <div className="hidden xl:flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#F4F7FC] text-slate-600 text-xs font-semibold">
+          <div className="hidden xl:flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#F4F7FC] text-[#2B3674] text-xs font-semibold">
             <Calendar className="h-3.5 w-3.5 text-[#1E50DE]" />
             <span>{todayFormatted}</span>
           </div>
@@ -127,9 +125,9 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
             <Button
               variant="outline"
               size="sm"
-              className="h-10 px-3.5 rounded-2xl border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-xs shadow-xs"
+              className="h-10 px-3.5 rounded-2xl border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs shadow-xs"
             >
-              <UserPlus className="h-4 w-4 mr-1.5 text-slate-500" />
+              <UserPlus className="h-4 w-4 mr-1.5 text-slate-400" />
               <span>+ New Patient</span>
             </Button>
           </Link>
@@ -137,7 +135,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
           <Link href="/prescriptions/new">
             <Button
               size="sm"
-              className="h-10 px-4 rounded-2xl bg-[#1E50DE] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="h-10 px-4 rounded-2xl bg-[#1E50DE] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(30,80,222,0.35)] transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <Plus className="h-4 w-4 sm:mr-1.5" />
               <span className="hidden sm:inline">+ New Prescription</span>
