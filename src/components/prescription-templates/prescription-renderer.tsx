@@ -4,6 +4,7 @@ import React from "react";
 import { formatDate } from "@/lib/utils";
 import { PrescriptionVerificationBadge } from "./qr-code";
 import { MedicineFormIcon } from "./medicine-form-icon";
+import { MedicineBottle } from "./medicine-bottle";
 import { TEMPLATE_PRESETS, type TemplatePresetId } from "./template-presets";
 import {
   AlertCircle,
@@ -104,15 +105,15 @@ export function PrescriptionRenderer({
   const primaryItem = rx.items?.[0] || {
     medicineName: "KALMIA LATIFOLIA",
     potency: "200C",
-    form: "Globules / میٹھی گولیاں",
+    form: "Globules",
     dose: "Single dose orally • 5 drops",
-    frequency: "Morning & Night • صبح اور شام کھانے کے بعد",
+    frequency: "Morning & Night (BD)",
     duration: "7-10 days",
     instructions: "Observe for 7-10 days. Do not repeat unless advised.",
   };
 
   const primaryDose = parseBilingual(primaryItem.dose || "Single dose orally • 5 drops");
-  const primaryFreq = parseBilingual(primaryItem.frequency || "Morning & Night • صبح اور شام کھانے کے بعد");
+  const primaryFreq = parseBilingual(primaryItem.frequency || "Morning & Night (BD)");
 
   // Format complaints
   const complaintLines = rx.chiefComplaint
@@ -443,7 +444,7 @@ export function PrescriptionRenderer({
                 <div className="h-4 w-4 rounded-full bg-rose-100 flex items-center justify-center text-rose-700">
                   <TrendingUp className="h-3 w-3" />
                 </div>
-                <span>AGGRAVATING FACTORS (زیادتی علامات)</span>
+                <span>AGGRAVATING FACTORS</span>
               </div>
               <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1">
                 <li>Riding motorcycle / travel vibration</li>
@@ -458,7 +459,7 @@ export function PrescriptionRenderer({
                 <div className="h-4 w-4 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
                   <CheckCircle2 className="h-3 w-3" />
                 </div>
-                <span>RELIEVING FACTORS (کمی علامات)</span>
+                <span>RELIEVING FACTORS</span>
               </div>
               <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1">
                 <li>Walking in fresh open air</li>
@@ -473,7 +474,7 @@ export function PrescriptionRenderer({
             <div className="bg-[#0f2d59] text-white px-4 py-1.5 flex items-center justify-between font-bold text-xs uppercase tracking-wider">
               <div className="flex items-center gap-2">
                 <span className="font-serif font-black text-lg text-amber-300 leading-none">℞</span>
-                <span>PRESCRIPTION (ہومیوپیتھک نسخہ)</span>
+                <span>PRESCRIPTION</span>
               </div>
               <span className="text-[10px] text-emerald-300 font-sans normal-case">
                 Single Remedy Totality
@@ -494,23 +495,13 @@ export function PrescriptionRenderer({
 
                 <div className="space-y-1 text-xs">
                   <div>
-                    <strong className="text-slate-900 text-[11px]">DOSE (خوراک): </strong>
+                    <strong className="text-slate-900 text-[11px]">DOSE: </strong>
                     <span className="text-slate-700">{primaryDose.en}</span>
-                    {primaryDose.ur && (
-                      <span className="urdu-inline text-emerald-800 font-bold ml-1.5 text-xs">
-                        ({primaryDose.ur})
-                      </span>
-                    )}
                   </div>
 
                   <div>
-                    <strong className="text-slate-900 text-[11px]">FREQUENCY (اوقات): </strong>
+                    <strong className="text-slate-900 text-[11px]">FREQUENCY: </strong>
                     <span className="text-slate-700">{primaryFreq.en}</span>
-                    {primaryFreq.ur && (
-                      <span className="urdu-inline text-teal-800 font-bold ml-1.5 text-xs">
-                        ({primaryFreq.ur})
-                      </span>
-                    )}
                   </div>
 
                   <div className="pt-0.5">
@@ -522,44 +513,13 @@ export function PrescriptionRenderer({
                 </div>
               </div>
 
-              {/* Homeopathic Amber Remedy Glass Dropper Bottle Artwork */}
+              {/* Authentic Homeopathic Amber Remedy Glass Dropper Bottle with Dynamic Medicine Name */}
               <div className="shrink-0 flex flex-col items-center">
-                <div className="w-16 h-28 relative flex items-center justify-center">
-                  <svg viewBox="0 0 80 140" className="h-full w-full drop-shadow-md">
-                    {/* Blue Dropper Cap */}
-                    <rect x="25" y="8" width="30" height="22" rx="3" fill="#1e40af" stroke="#172554" strokeWidth="1.5" />
-                    <line x1="30" y1="8" x2="30" y2="30" stroke="#3b82f6" strokeWidth="1" />
-                    <line x1="35" y1="8" x2="35" y2="30" stroke="#3b82f6" strokeWidth="1" />
-                    <line x1="40" y1="8" x2="40" y2="30" stroke="#3b82f6" strokeWidth="1" />
-                    <line x1="45" y1="8" x2="45" y2="30" stroke="#3b82f6" strokeWidth="1" />
-                    <line x1="50" y1="8" x2="50" y2="30" stroke="#3b82f6" strokeWidth="1" />
-                    {/* Glass Bottle Body (Amber) */}
-                    <path
-                      d="M20 30 Q20 38 12 45 L12 120 Q12 130 22 130 L58 130 Q68 130 68 120 L68 45 Q60 38 60 30 Z"
-                      fill="#b45309"
-                      stroke="#78350f"
-                      strokeWidth="2"
-                    />
-                    {/* Glass Reflection */}
-                    <path d="M16 48 L16 118" stroke="#fde68a" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
-                    {/* White Label */}
-                    <rect x="16" y="55" width="48" height="58" rx="2" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
-                    <text x="40" y="70" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="#0f172a" fontFamily="serif">
-                      {primaryItem.medicineName.split(" ")[0]}
-                    </text>
-                    <text x="40" y="78" textAnchor="middle" fontSize="5.5" fontWeight="900" fill="#0f172a" fontFamily="serif">
-                      {primaryItem.medicineName.split(" ")[1] || "HOMEO"}
-                    </text>
-                    {/* Blue Potency Badge */}
-                    <rect x="22" y="83" width="36" height="14" rx="2" fill="#1e3a8a" />
-                    <text x="40" y="93" textAnchor="middle" fontSize="8" fontWeight="900" fill="#ffffff" fontFamily="sans-serif">
-                      {primaryItem.potency}
-                    </text>
-                    <text x="40" y="107" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="#64748b">
-                      Homeopathic Medicine
-                    </text>
-                  </svg>
-                </div>
+                <MedicineBottle
+                  medicineName={primaryItem.medicineName}
+                  potency={primaryItem.potency}
+                  variant="reckeweg"
+                />
               </div>
             </div>
           </div>
@@ -571,7 +531,7 @@ export function PrescriptionRenderer({
           <div className="md:col-span-6 rounded-2xl border-2 border-slate-300 bg-white p-3 shadow-xs space-y-1.5">
             <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-xs uppercase tracking-wider">
               <ClipboardList className="h-4 w-4 text-emerald-700" />
-              <span>ADVICE (عمومی پرہیز و ہدایات)</span>
+              <span>CLINICAL ADVICE &amp; INSTRUCTIONS</span>
             </div>
             <ul className="text-[11px] text-slate-800 list-disc list-inside space-y-0.5 font-medium leading-snug">
               {rawAdvice.slice(0, 5).map((a: string, aIdx: number) => (
@@ -603,8 +563,8 @@ export function PrescriptionRenderer({
               <p>
                 <strong>Note: </strong>This is a specialized classical homeopathic prescription based on the totality of symptoms. Not a substitute for acute emergency care.
               </p>
-              <p className="urdu-text text-[9px] text-slate-700 font-semibold">
-                ہومیوپیتھک ادویات کو دھوپ اور تیز خوشبو سے محفوظ رکھیں اور صاف چمچ یا ڈھکن سے لیں۔
+              <p className="text-[9px] text-slate-600 font-medium">
+                Store homeopathic remedies away from direct sunlight, camphor, and strong aromas. Take with a clean spoon or dropper cap.
               </p>
             </div>
 

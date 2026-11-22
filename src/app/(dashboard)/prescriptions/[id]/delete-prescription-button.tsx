@@ -42,7 +42,7 @@ export function DeletePrescriptionButton({
       className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50"
     >
       <Trash2 className="h-3.5 w-3.5 mr-1" />
-      Delete (حذف کریں)
+      Delete
     </Button>
   );
 }

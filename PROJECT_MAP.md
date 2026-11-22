@@ -40,7 +40,8 @@
 | `src/app/login/page.tsx` | Authentication & Demo entry | 1-Click Instant Demo login & credentials authentication |
 | `src/components/dashboard/behance-dashboard-view.tsx` | Behance Health Dashboard Engine | 6-card medical UI (Donut summary, Today Appointment, Next Patient, Reviews, Requests, Calendar) & clinical tools |
 | `src/app/(dashboard)/prescriptions/[id]/print/print-client.tsx` | Single-page A4 PDF renderer | Single-page A4 print orchestrator with luxury layout presets |
-| `src/components/prescription-templates/prescription-renderer.tsx` | Prescription Letterhead Engine | Luxury clinical letterhead with dermatome chart and amber dropper bottle |
+| `src/components/prescription-templates/prescription-renderer.tsx` | Prescription Letterhead Engine | Luxury clinical letterhead with dermatome chart and authentic German amber dropper bottle |
+| `src/components/prescription-templates/medicine-bottle.tsx` | Authentic Remedy Bottle Engine | Dynamic homeopathic German amber dropper bottle (Dr. Reckeweg & Dr. Schwabe) with real-time prescribed medicine & potency imprint |
 | `src/lib/auth.ts` | Stateless JWT & Crypto Engine | HMAC-SHA256 token signing and verification across serverless lambdas |
 | `src/lib/firebase.ts` | Firebase Client & Auth Setup | Google OAuth popup, email sign-in/up, and auth state management |
 | `src/lib/db.ts` | Database & Runtime Migration | Prisma client initialization with automatic `ensureDbSchema()` runtime migration |
