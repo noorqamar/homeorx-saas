@@ -37,6 +37,7 @@
 | `src/app/layout.tsx` | Global root layout | Injects Noto Nastaliq Urdu fonts and global CSS |
 | `src/app/(dashboard)/layout.tsx` | Protected clinic workspace layout | Verifies HMAC-SHA256 session token and injects tenant context |
 | `src/app/login/page.tsx` | Authentication & Demo entry | 1-Click Instant Demo login & credentials authentication |
+| `src/components/dashboard/behance-dashboard-view.tsx` | Behance Health Dashboard Engine | 6-card medical UI (Donut summary, Today Appointment, Next Patient, Reviews, Requests, Calendar) & clinical tools |
 | `src/app/(dashboard)/prescriptions/[id]/print/print-client.tsx` | Single-page A4 PDF renderer | Single-page A4 print orchestrator with luxury layout presets |
 | `src/components/prescription-templates/prescription-renderer.tsx` | Prescription Letterhead Engine | Luxury clinical letterhead with dermatome chart and amber dropper bottle |
 | `src/lib/auth.ts` | Stateless JWT & Crypto Engine | HMAC-SHA256 token signing and verification across serverless lambdas |
