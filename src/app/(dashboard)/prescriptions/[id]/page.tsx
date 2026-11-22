@@ -50,7 +50,7 @@ export default async function PrescriptionDetailPage({
               className="font-bold shadow-xs bg-emerald-600 hover:bg-emerald-500 text-white text-xs"
             >
               <Edit3 className="h-3.5 w-3.5 mr-1.5" />
-              Edit Prescription (ترمیم کریں)
+              Edit Prescription
             </Button>
           </Link>
 
@@ -58,7 +58,7 @@ export default async function PrescriptionDetailPage({
           <Link href={`/prescriptions/${rx.id}/print`}>
             <Button variant="outline" size="sm" className="text-xs font-semibold">
               <Printer className="h-3.5 w-3.5 mr-1.5" />
-              Print / Presets (پرنٹ و ٹیمپلیٹس)
+              Print / Presets (A4)
             </Button>
           </Link>
 
@@ -66,7 +66,7 @@ export default async function PrescriptionDetailPage({
           <Link href={`/prescriptions/new?duplicateFrom=${rx.id}`}>
             <Button variant="secondary" size="sm" className="text-xs">
               <Copy className="h-3.5 w-3.5 mr-1.5" />
-              Repeat / Duplicate (دوبارہ نسخہ)
+              Repeat / Duplicate
             </Button>
           </Link>
 

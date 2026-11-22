@@ -25,7 +25,7 @@ export interface TemplatePresetConfig {
 export const TEMPLATE_PRESETS: Record<TemplatePresetId, TemplatePresetConfig> = {
   sage: {
     id: "sage",
-    name: "Sage / Nature (قدرتی سبز)",
+    name: "Sage / Nature",
     subtitle: "Emerald green botanical styling with natural herbal accents",
     tag: "A: Nature & Wellness",
     colors: {
@@ -46,7 +46,7 @@ export const TEMPLATE_PRESETS: Record<TemplatePresetId, TemplatePresetConfig> = 
   },
   clinical: {
     id: "clinical",
-    name: "Trust / Clinical (طبی نیلا)",
+    name: "Trust / Clinical",
     subtitle: "Deep medical blue & cyan with clinical structural frames",
     tag: "B: Hospital & Diagnostic",
     colors: {
@@ -67,7 +67,7 @@ export const TEMPLATE_PRESETS: Record<TemplatePresetId, TemplatePresetConfig> = 
   },
   floral: {
     id: "floral",
-    name: "Floral / Warm (کلاسیکل برگنڈی)",
+    name: "Floral / Warm",
     subtitle: "Warm rose, maroon & burgundy with heritage clinic elegance",
     tag: "C: Classical Heritage",
     colors: {
@@ -88,7 +88,7 @@ export const TEMPLATE_PRESETS: Record<TemplatePresetId, TemplatePresetConfig> = 
   },
   minimal: {
     id: "minimal",
-    name: "Minimal / Monochrome (سادہ بلیک اینڈ وائٹ)",
+    name: "Minimal / Monochrome",
     subtitle: "Crisp black & white typography, ink-efficient for clinic printers",
     tag: "D: Low-Ink Clean",
     colors: {
