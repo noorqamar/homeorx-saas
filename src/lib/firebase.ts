@@ -43,12 +43,22 @@ export function getActiveFirebaseConfig(): FirebaseClientConfig {
     } catch {}
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "";
-  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "";
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "";
-  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "";
-  const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "";
-  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "";
+  const apiKey =
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY ||
+    "AIzaSyB3y14mJrOvv0DmRSFX-D-Nr2vElINnxAA";
+  const authDomain =
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ||
+    "homeorx-4d877.firebaseapp.com";
+  const projectId =
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "homeorx-4d877";
+  const storageBucket =
+    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ||
+    "homeorx-4d877.firebasestorage.app";
+  const messagingSenderId =
+    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "650516803516";
+  const appId =
+    process.env.NEXT_PUBLIC_FIREBASE_APP_ID ||
+    "1:650516803516:web:13fc2a9068dbb1538f85b9";
 
   return {
     apiKey,
@@ -85,12 +95,12 @@ export function saveClientFirebaseConfig(config: FirebaseClientConfig) {
 export function getOrInitFirebaseApp(): FirebaseApp {
   const config = getActiveFirebaseConfig();
   const baseConfig = {
-    apiKey: config.apiKey || "AIzaSyDummyKeyForHomeoRxSaaS2026ClientAuth",
-    authDomain: config.authDomain || "homeorx-saas.firebaseapp.com",
-    projectId: config.projectId || "homeorx-saas",
-    storageBucket: config.storageBucket || "homeorx-saas.appspot.com",
-    messagingSenderId: config.messagingSenderId || "100293847561",
-    appId: config.appId || "1:100293847561:web:abcdef1234567890",
+    apiKey: config.apiKey || "AIzaSyB3y14mJrOvv0DmRSFX-D-Nr2vElINnxAA",
+    authDomain: config.authDomain || "homeorx-4d877.firebaseapp.com",
+    projectId: config.projectId || "homeorx-4d877",
+    storageBucket: config.storageBucket || "homeorx-4d877.firebasestorage.app",
+    messagingSenderId: config.messagingSenderId || "650516803516",
+    appId: config.appId || "1:650516803516:web:13fc2a9068dbb1538f85b9",
   };
 
   if (getApps().length > 0) {
