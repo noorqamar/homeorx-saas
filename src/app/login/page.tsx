@@ -68,7 +68,7 @@ export default function LoginPage() {
           });
 
           if (!syncRes.success) {
-            setError(syncRes.error || "گوگل لاگ ان کی توثیق میں مسئلہ پیش آیا۔");
+            setError(syncRes.error || "Unable to authenticate Google account. Please try again.");
             setIsGoogleLoading(false);
             return;
           }
@@ -109,7 +109,7 @@ export default function LoginPage() {
       try {
         const user = await signInWithGooglePopup();
         if (!user.email) {
-          throw new Error("Google اکاؤنٹ سے ای میل حاصل نہیں ہو سکا۔");
+          throw new Error("Failed to retrieve email from Google account.");
         }
 
         const syncRes = await firebaseSyncAndLogin({
@@ -120,7 +120,7 @@ export default function LoginPage() {
         });
 
         if (!syncRes.success) {
-          setError(syncRes.error || "گوگل لاگ ان کی توثیق میں مسئلہ پیش آیا۔");
+          setError(syncRes.error || "Unable to authenticate Google account. Please try again.");
           setIsGoogleLoading(false);
           return;
         }
@@ -135,7 +135,7 @@ export default function LoginPage() {
       } catch (err: any) {
         console.warn("Google popup note:", err?.code || err?.message);
         if (err?.code === "auth/popup-closed-by-user") {
-          setError("گوگل سائن ان ونڈو بند کر دی گئی۔ دوبارہ کوشش کریں۔");
+          setError("Google sign-in popup was closed. Please try again.");
           setIsGoogleLoading(false);
           return;
         }
@@ -146,7 +146,7 @@ export default function LoginPage() {
           err?.message?.includes("popup-blocked")
         ) {
           setPopupBlocked(true);
-          setError("آپ کے براؤزر کے پاپ اپ بلاکر نے لاگ ان ونڈو بلاک کی ہے۔ نیچے دیے گئے بٹن سے بغیر پاپ اپ براہ راست لاگ ان کریں۔");
+          setError("Browser pop-up blocker detected. Click below to continue directly with Google.");
           setIsGoogleLoading(false);
           return;
         }
@@ -163,7 +163,7 @@ export default function LoginPage() {
           return;
         }
 
-        setError(err?.message || "گوگل لاگ ان میں خرابی پیش آئی۔");
+        setError(err?.message || "An error occurred during Google sign in.");
         setIsGoogleLoading(false);
         return;
       }
@@ -185,7 +185,7 @@ export default function LoginPage() {
         return;
       } catch (err: any) {
         console.warn("Google redirect error:", err);
-        setError(err?.message || "براہ راست گوگل لاگ ان شروع کرنے میں خرابی پیش آئی۔");
+        setError(err?.message || "Failed to start direct Google sign in.");
         setIsGoogleLoading(false);
         return;
       }
@@ -206,11 +206,11 @@ export default function LoginPage() {
         router.push("/admin");
         router.refresh();
       } else {
-        setError(res.error || "سپر ایڈمن لاگ ان ناکام رہا۔");
+        setError(res.error || "Super Admin login failed.");
         setIsGoogleLoading(false);
       }
     } catch (e: any) {
-      setError(e?.message || "لاگ ان ایرر");
+      setError(e?.message || "Login error");
       setIsGoogleLoading(false);
     }
   };
@@ -218,7 +218,7 @@ export default function LoginPage() {
   const handleGoogleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!googleEmail || !googleEmail.includes("@")) {
-      setError("براہ کرم درست گوگل ای میل ایڈریس درج کریں۔");
+      setError("Please enter a valid Google email address.");
       return;
     }
 
@@ -232,7 +232,7 @@ export default function LoginPage() {
       });
 
       if (!syncRes.success) {
-        setError(syncRes.error || "گوگل لاگ ان کی توثیق میں مسئلہ پیش آیا۔");
+        setError(syncRes.error || "Unable to authenticate Google account.");
         setIsGoogleLoading(false);
         return;
       }
@@ -245,7 +245,7 @@ export default function LoginPage() {
       }
       router.refresh();
     } catch (err: any) {
-      setError(err?.message || "لاگ ان کے دوران خرابی پیش آئی۔");
+      setError(err?.message || "An error occurred during login.");
       setIsGoogleLoading(false);
     }
   };
@@ -256,7 +256,7 @@ export default function LoginPage() {
     setConfigSuccess(null);
 
     if (!rawFirebaseConfig.trim()) {
-      setError("براہ کرم Firebase Config یا API Key درج کریں۔");
+      setError("Please enter Firebase Config or API Key.");
       return;
     }
 
@@ -291,7 +291,7 @@ export default function LoginPage() {
       }
 
       if (!parsedApiKey || parsedApiKey.length < 20) {
-        setError("فائر بیس API Key درست نہیں ہے۔ براہ کرم پوری کنفگ کاپی کریں۔");
+        setError("Firebase API Key is invalid. Please copy the complete web configuration.");
         return;
       }
 
@@ -313,7 +313,7 @@ export default function LoginPage() {
         console.warn("Server save note:", serverRes.error);
       }
 
-      setConfigSuccess("Firebase کنفیگوریشن محفوظ ہو گئی! اب گوگل پاپ اپ شروع ہو رہا ہے...");
+      setConfigSuccess("Firebase configuration saved! Initiating Google authentication...");
 
       // 3. Immediately launch real Google Popup!
       setTimeout(async () => {
@@ -338,11 +338,11 @@ export default function LoginPage() {
             }
           }
         } catch (popupErr: any) {
-          setError(popupErr?.message || "Google پاپ اپ میں مسئلہ پیش آیا۔");
+          setError(popupErr?.message || "An error occurred in Google popup.");
         }
       }, 700);
     } catch (err: any) {
-      setError(err?.message || "کنفیگوریشن کو سمجھنے میں خرابی پیش آئی۔");
+      setError(err?.message || "Failed to parse Firebase configuration.");
     }
   };
 
@@ -356,19 +356,19 @@ export default function LoginPage() {
       const cleanPassword = password.trim();
 
       if (!cleanEmail) {
-        setError("براہ کرم اپنا ای میل درج کریں۔");
+        setError("Please enter your email address.");
         setIsLoading(false);
         return;
       }
       if (!cleanPassword) {
-        setError("براہ کرم اپنا پاس ورڈ درج کریں۔");
+        setError("Please enter your password.");
         setIsLoading(false);
         return;
       }
 
       const res = await loginDoctor({ email: cleanEmail, password: cleanPassword });
       if (!res.success) {
-        setError(res.error || "لاگ ان ناکام رہا۔ تفصیلات چیک کریں۔");
+        setError(res.error || "Login failed. Please verify your credentials.");
         setIsLoading(false);
         return;
       }
@@ -380,7 +380,7 @@ export default function LoginPage() {
       }
       router.refresh();
     } catch (err: any) {
-      setError(err?.message || "لاگ ان کے دوران مسئلہ پیش آیا۔");
+      setError(err?.message || "An error occurred during login.");
       setIsLoading(false);
     }
   };
@@ -392,14 +392,14 @@ export default function LoginPage() {
     try {
       const res = await loginAsDemoDoctor();
       if (!res.success) {
-        setError(res.error || "ڈیمو لاگ ان میں خرابی پیش آئی۔");
+        setError(res.error || "Demo login failed. Please try again.");
         setIsDemoLoading(false);
         return;
       }
       router.push("/");
       router.refresh();
     } catch (err: any) {
-      setError(err?.message || "ڈیمو لاگ ان ناکام رہا۔");
+      setError(err?.message || "Demo login failed.");
       setIsDemoLoading(false);
     }
   };
@@ -438,7 +438,7 @@ export default function LoginPage() {
             {/* Top Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-200 text-xs font-semibold shadow-lg w-fit">
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Certified Clinical Suite v3.2 • تصدیق شدہ ہومیوپیتھک نظام</span>
+              <span>Certified Clinical Suite v3.2</span>
             </div>
 
             {/* Hero Headings */}
@@ -452,8 +452,8 @@ export default function LoginPage() {
               <p className="text-sm xl:text-base text-slate-300 font-medium max-w-xl leading-relaxed">
                 The smart clinical operating system for homeopathic practitioners. Effortless consultation, smart repertory, and single-page A4 prescriptions.
               </p>
-              <p className="text-xs xl:text-sm text-sky-200/90 font-medium urdu-inline leading-relaxed">
-                جدید ترین ڈیجیٹل نسخہ جات، مریضوں کا محفوظ ڈیٹا بیس اور 780+ ہومیوپیتھک ادویات کا خودکار نظام۔
+              <p className="text-xs xl:text-sm text-sky-200/90 font-medium leading-relaxed">
+                Automated patient management, digital repertory analysis, and instant clinical workflows.
               </p>
             </div>
 
@@ -475,7 +475,7 @@ export default function LoginPage() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-white">Evidence-Based Care</p>
-                      <p className="text-[10px] text-blue-200/80 urdu-inline">مستند طریقہ علاج و نسخہ نویسی</p>
+                      <p className="text-[10px] text-blue-200/80">Clinical Efficacy & Precision</p>
                     </div>
                   </div>
 
@@ -492,10 +492,10 @@ export default function LoginPage() {
               <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/25 transition-all">
                 <div className="flex items-center gap-2 text-sky-300 font-bold text-xs mb-1">
                   <Sparkles className="h-4 w-4 text-amber-300 shrink-0" />
-                  <span>780+ Homeo Remedies</span>
+                  <span>780+ Master Remedies</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-snug">
-                  مستند ہومیو ادویات اور اعشاری/سینٹیسیمل پوٹینسی
+                  Verified single remedies with decimal & centesimal potencies
                 </p>
               </div>
 
@@ -505,7 +505,7 @@ export default function LoginPage() {
                   <span>Single-Page A4 Print</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-snug">
-                  کلینیکل لوگو و مہر کے ساتھ یک صفحاتی پرنٹ
+                  Strict single-page A4 PDF with clinic seal & letterhead
                 </p>
               </div>
 
@@ -515,17 +515,17 @@ export default function LoginPage() {
                   <span>Tenant Data Isolation</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-snug">
-                  ہر کلینک اور ڈاکٹر کا مریض ریکارڈ 100% محفوظ
+                  Dedicated multi-tenant encryption & doctor data privacy
                 </p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/25 transition-all">
                 <div className="flex items-center gap-2 text-blue-300 font-bold text-xs mb-1">
                   <Globe className="h-4 w-4 text-blue-300 shrink-0" />
-                  <span>Urdu Nastaliq Support</span>
+                  <span>Bilingual Prescription Engine</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-snug">
-                  مریضوں کی ہدایات جلی نستعلیق اردو میں خودکار تحریر
+                  Dual Urdu Nastaliq & English clinical dosage directions
                 </p>
               </div>
             </div>
@@ -586,7 +586,7 @@ export default function LoginPage() {
                   </div>
                   <div>
                     <h2 className="text-lg font-black text-[#2B3674] tracking-tight">
-                      Clinic Login (لاگ ان)
+                      Clinic Workspace Login
                     </h2>
                     <p className="text-[11px] text-slate-400 font-medium">
                       Enter your authorized clinical workspace
@@ -612,10 +612,10 @@ export default function LoginPage() {
                 <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 space-y-3 animate-in fade-in">
                   <div className="flex items-center gap-2 font-bold text-xs">
                     <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
-                    <span>پاپ اپ بلاکر نوٹس (Browser Pop-up Blocked)</span>
+                    <span>Pop-up Blocker Detected</span>
                   </div>
                   <p className="text-[11px] text-amber-800 leading-relaxed">
-                    آپ کے براؤزر کے پاپ اپ بلاکر نے گوگل سائن ان ونڈو بلاک کی ہے۔ بغیر پاپ اپ کے براہ راست محفوظ گوگل لاگ ان کے لیے نیچے دیے گئے بٹن پر کلک کریں:
+                    Your browser blocked the Google authentication popup. Click below to sign in directly without popups:
                   </p>
                   <button
                     type="button"
@@ -623,7 +623,7 @@ export default function LoginPage() {
                     disabled={isGoogleLoading}
                     className="w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                   >
-                    <span>{isGoogleLoading ? "گوگل پر منتقل ہو رہے ہیں..." : "🚀 بغیر پاپ اپ براہ راست لاگ ان کریں (Direct Google Sign-In)"}</span>
+                    <span>{isGoogleLoading ? "Redirecting to Google..." : "🚀 Continue with Direct Google Sign-In"}</span>
                     <ArrowRight className="h-4 w-4 text-white" />
                   </button>
                 </div>
@@ -655,7 +655,7 @@ export default function LoginPage() {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                     />
                   </svg>
-                  <span>{isGoogleLoading ? "گوگل سے تصدیق ہو رہی ہے..." : "Sign In with Google (گوگل سے تصدیق)"}</span>
+                  <span>{isGoogleLoading ? "Authenticating with Google..." : "Sign In with Google"}</span>
                   <ShieldCheck className="h-4 w-4 text-[#1E50DE] ml-auto" />
                 </button>
                 <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-medium">
@@ -665,7 +665,7 @@ export default function LoginPage() {
                     onClick={handleGoogleRedirectSignIn}
                     className="text-[#1E50DE] hover:underline font-bold transition-colors cursor-pointer"
                   >
-                    پاپ اپ مسئلہ؟ براہ راست لاگ ان
+                    Popup blocked? Direct Sign-In
                   </button>
                 </div>
               </div>
@@ -674,7 +674,7 @@ export default function LoginPage() {
               <div className="relative flex items-center justify-center my-1">
                 <div className="border-t border-slate-200 w-full" />
                 <span className="bg-white px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                  یا دیگر ذرائع
+                  OR CONTINUE WITH EMAIL
                 </span>
               </div>
 
@@ -687,7 +687,7 @@ export default function LoginPage() {
               >
                 <Sparkles className="h-3.5 w-3.5 text-amber-300 animate-spin" />
                 <span>
-                  {isDemoLoading ? "لاگ ان ہو رہا ہے..." : "⚡ Quick Demo Mode (بغیر رجسٹریشن ڈیمو)"}
+                  {isDemoLoading ? "Signing in..." : "⚡ Quick Demo Mode (Instant Access)"}
                 </span>
               </button>
 
@@ -696,7 +696,6 @@ export default function LoginPage() {
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
                     <span>Doctor Email Address</span>
-                    <span className="text-[11px] text-slate-400 font-normal">ای میل ایڈریس</span>
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -714,7 +713,6 @@ export default function LoginPage() {
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
                     <span>Password</span>
-                    <span className="text-[11px] text-slate-400 font-normal">پاس ورڈ</span>
                   </label>
                   <div className="relative">
                     <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -741,7 +739,7 @@ export default function LoginPage() {
                   disabled={isLoading}
                   className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isLoading ? "لاگ ان ہو رہا ہے..." : "Sign In to Clinic Workspace"}</span>
+                  <span>{isLoading ? "Signing in..." : "Sign In to Clinic Workspace"}</span>
                   <ArrowRight className="h-4 w-4 text-slate-400" />
                 </button>
               </form>
@@ -809,13 +807,13 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <h3 className="font-extrabold text-slate-900 text-sm">Google Account Verification</h3>
-                  <p className="text-[11px] text-slate-500 font-medium urdu-inline">گوگل اکاؤنٹ سے لاگ ان و توثیق</p>
+                  <p className="text-[11px] text-slate-500 font-medium">Official Google OAuth & Access Verification</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setShowGoogleModal(false)}
-                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -840,7 +838,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("admin")}
-                className={`py-2 px-2.5 rounded-xl transition-all ${
+                className={`py-2 px-2.5 rounded-xl transition-all cursor-pointer ${
                   activeTab === "admin"
                     ? "bg-white text-blue-600 shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -851,7 +849,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("firebase")}
-                className={`py-2 px-2.5 rounded-xl transition-all ${
+                className={`py-2 px-2.5 rounded-xl transition-all cursor-pointer ${
                   activeTab === "firebase"
                     ? "bg-white text-blue-600 shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -862,7 +860,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("email")}
-                className={`py-2 px-2.5 rounded-xl transition-all ${
+                className={`py-2 px-2.5 rounded-xl transition-all cursor-pointer ${
                   activeTab === "email"
                     ? "bg-white text-blue-600 shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -878,10 +876,10 @@ export default function LoginPage() {
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50/80 to-indigo-50/80 border border-blue-200/60 space-y-2">
                   <div className="flex items-center gap-2 text-blue-900 font-extrabold text-xs">
                     <Crown className="h-4 w-4 text-amber-500" />
-                    <span>سپر ایڈمن اکاؤنٹ (Platform Central Admin)</span>
+                    <span>Super Admin Account (Platform Central Admin)</span>
                   </div>
                   <p className="text-[12px] text-slate-600 leading-relaxed">
-                    ایڈمن گوگل اکاؤنٹ <strong className="text-slate-900">ch.noorulqamar@gmail.com</strong> کو سسٹم میں فل اختیارات (Super Admin) حاصل ہیں۔ نیچے دیے گئے بٹن پر کلک کر کے فوری ایڈمن پینل میں داخل ہوں۔
+                    The platform administrator account <strong className="text-slate-900">ch.noorulqamar@gmail.com</strong> holds global super administrator authority. Click the button below to sign in immediately.
                   </p>
                 </div>
 
@@ -889,13 +887,13 @@ export default function LoginPage() {
                   type="button"
                   onClick={handleQuickAdminClick}
                   disabled={isGoogleLoading}
-                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] active:scale-[0.99]"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                 >
                   <Crown className="h-4 w-4 text-amber-300" />
                   <span>
                     {isGoogleLoading
-                      ? "لاگ ان ہو رہا ہے..."
-                      : "لاگ ان بطور سپر ایڈمن (ch.noorulqamar@gmail.com)"}
+                      ? "Signing in..."
+                      : "Sign In as Super Admin (ch.noorulqamar@gmail.com)"}
                   </span>
                   <ArrowRight className="h-4 w-4 text-blue-200" />
                 </button>
@@ -908,10 +906,11 @@ export default function LoginPage() {
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 text-xs space-y-1.5 leading-relaxed">
                   <p className="font-bold flex items-center gap-1.5 text-slate-900">
                     <Key className="h-3.5 w-3.5 text-[#1E50DE]" />
-                    <span>اصلی گوگل پاپ اپ (Official Google Sign-In) کیسے ایکٹو کریں:</span>
+                    <span>How to activate official Google OAuth popup:</span>
                   </p>
                   <ol className="list-decimal list-inside space-y-1 text-[11px] text-slate-600">
                     <li>
+                      Open your project in the{" "}
                       <a
                         href="https://console.firebase.google.com"
                         target="_blank"
@@ -919,21 +918,20 @@ export default function LoginPage() {
                         className="text-[#1E50DE] font-semibold underline inline-flex items-center gap-0.5"
                       >
                         Firebase Console <ExternalLink className="h-3 w-3" />
-                      </a>{" "}
-                      میں نیا مفت پروجیکٹ بنائیں یا اپنا پروجیکٹ کھولیں۔
+                      </a>.
                     </li>
                     <li>
-                      <strong>Authentication</strong> میں جا کر <strong>Google</strong> پرووائیڈر کو آن (Enable) کریں۔
+                      Go to <strong>Authentication</strong> &gt; <strong>Sign-in method</strong> and enable <strong>Google</strong>.
                     </li>
                     <li>
-                      Project Settings سے <strong>Web App Config</strong> کاپی کر کے نیچے باکس میں پیسٹ کریں۔
+                      Copy the <strong>Web App Config</strong> from Project Settings and paste it into the field below.
                     </li>
                   </ol>
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-700">
-                    Firebase Web Config یا API Key پیسٹ کریں:
+                    Paste Firebase Web Config or API Key:
                   </label>
                   <textarea
                     rows={4}
@@ -948,10 +946,10 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isGoogleLoading}
-                  className="w-full py-3 rounded-xl bg-[#1E50DE] hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-xl bg-[#1E50DE] hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Check className="h-4 w-4" />
-                  <span>محفوظ کریں اور لائیو گوگل پاپ اپ چلائیں</span>
+                  <span>Save & Launch Live Google Popup</span>
                 </button>
               </form>
             )}
@@ -959,12 +957,12 @@ export default function LoginPage() {
             {/* Tab 3: Any Gmail Sign-In */}
             {activeTab === "email" && (
               <form onSubmit={handleGoogleModalSubmit} className="space-y-3.5 pt-1">
-                <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
-                  اگر آپ کوئی بھی دوسرا ڈاکٹر یا یوزر اکاؤنٹ چیک کرنا چاہتے ہیں تو ان کی گوگل ای میل درج کریں۔ سسٹم خودکار طور پر ان کا کلینک ورک اسپیس بنا کر لاگ ان کر دے گا۔
+                <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+                  Enter any practitioner or clinic Google email. The platform will automatically provision an isolated clinical workspace and sign in.
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-700">Google Email ایڈریس</label>
+                  <label className="text-xs font-semibold text-slate-700">Google Email Address</label>
                   <input
                     type="email"
                     required
@@ -976,7 +974,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-700">Doctor Name (ڈاکٹر کا نام)</label>
+                  <label className="text-xs font-semibold text-slate-700">Doctor Full Name</label>
                   <input
                     type="text"
                     value={googleName}
@@ -989,9 +987,9 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isGoogleLoading}
-                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isGoogleLoading ? "تصدیق ہو رہی ہے..." : "ورک اسپیس میں داخل ہوں (Continue to Workspace)"}</span>
+                  <span>{isGoogleLoading ? "Authenticating..." : "Continue to Clinical Workspace"}</span>
                   <ArrowRight className="h-4 w-4 text-slate-400" />
                 </button>
               </form>
