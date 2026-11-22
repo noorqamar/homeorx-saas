@@ -101,10 +101,10 @@ export async function createSession(
       }
     } catch {
       // Fallbacks
-      if (doctorId.includes("admin")) {
+      if (doctorId.includes("admin") || doctorId.includes("qamar")) {
         role = "SUPER_ADMIN";
-        email = "admin@homeorx.health";
-        name = "Dr. Qamar (Super Admin)";
+        email = "ch.noorulqamar@gmail.com";
+        name = "Ch. Noor Ul Qamar (Super Admin)";
       } else if (doctorId.includes("demo")) {
         role = "DOCTOR";
         email = "dr.demo@homeorx.health";
@@ -164,14 +164,18 @@ export async function getVerifiedSession() {
 
   // If database row is not present in cold lambda, hydrate from cryptographic token
   if (!doctor) {
-    if (payload.role === "SUPER_ADMIN" || payload.email === "admin@homeorx.health") {
+    if (
+      payload.role === "SUPER_ADMIN" ||
+      payload.email === "admin@homeorx.health" ||
+      payload.email === "ch.noorulqamar@gmail.com"
+    ) {
       doctor = {
         id: payload.doctorId || "doc-superadmin-001",
         tenantId: payload.tenantId || "tenant-superadmin",
-        name: payload.name || "Dr. Qamar (Super Admin)",
+        name: payload.name || (payload.email === "ch.noorulqamar@gmail.com" ? "Ch. Noor Ul Qamar (Super Admin)" : "Dr. Qamar (Super Admin)"),
         qualification: "Chief Medical Officer & Platform Admin",
         registrationNumber: "HOM-ADMIN-001",
-        email: payload.email || "admin@homeorx.health",
+        email: payload.email || "ch.noorulqamar@gmail.com",
         role: "SUPER_ADMIN",
         status: "APPROVED",
         accountStatus: "active",
