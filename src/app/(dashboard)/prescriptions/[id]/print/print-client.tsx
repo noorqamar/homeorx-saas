@@ -32,7 +32,7 @@ export function PrintPrescriptionClient({ rx }: { rx: any }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-3 sm:py-6 px-2 sm:px-4 print:bg-white print:p-0">
+    <div className="min-h-screen bg-slate-100 py-3 sm:py-6 px-2 sm:px-4 print:bg-white print:p-0 print:m-0 print:min-h-0">
       {/* Top Action Bar (Hidden on Print) */}
       <div className="max-w-[1000px] mx-auto mb-3 sm:mb-5 no-print space-y-2">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-xs">
