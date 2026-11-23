@@ -3,8 +3,8 @@ import { z } from "zod";
 export const patientSchema = z.object({
   name: z.string().min(2, "Patient name must be at least 2 characters"),
   fatherName: z.string().optional().nullable(),
-  gender: z.enum(["Male", "Female", "Other"], {
-    errorMap: () => ({ message: "Please select gender" }),
+  gender: z.enum(["Male", "Female", "Other"] as const, {
+    message: "Please select gender",
   }),
   dateOfBirth: z.string().optional().nullable(),
   age: z.coerce.number().min(0).max(130).optional().nullable(),
