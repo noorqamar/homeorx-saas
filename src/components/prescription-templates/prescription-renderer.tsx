@@ -102,9 +102,9 @@ export function PrescriptionRenderer({
           },
         ];
 
-  // Dynamic pagination: Page 1 holds up to 3 items comfortably; subsequent pages hold up to 4 items
-  const PAGE_1_CAPACITY = 3;
-  const PAGE_N_CAPACITY = 4;
+  // Dynamic pagination: Page 1 holds up to 5 items comfortably; subsequent pages hold up to 6 items
+  const PAGE_1_CAPACITY = 5;
+  const PAGE_N_CAPACITY = 6;
 
   const pages: any[][] = [];
   if (allItems.length <= PAGE_1_CAPACITY) {
@@ -385,54 +385,54 @@ export function PrescriptionRenderer({
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch flex-1">
                     {/* LEFT COLUMN: ℞ PRESCRIPTION (Contains ALL Prescribed Remedies with Dynamic Bottles) */}
                     <div className="md:col-span-7 rounded-2xl border-2 border-[#0f2d59] bg-white shadow-md overflow-hidden flex flex-col">
-                      <div className="bg-[#0f2d59] text-white px-4 py-1.5 flex items-center justify-between font-bold text-xs uppercase tracking-wider">
-                        <div className="flex items-center gap-2">
-                          <span className="font-serif font-black text-lg text-amber-300 leading-none">℞</span>
+                      <div className="bg-[#0f2d59] text-white px-3.5 py-1 flex items-center justify-between font-bold text-[11px] uppercase tracking-wider">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-serif font-black text-base text-amber-300 leading-none">℞</span>
                           <span>PRESCRIPTION</span>
                         </div>
-                        <span className="text-[10px] text-emerald-300 font-sans normal-case">
+                        <span className="text-[9.5px] text-emerald-300 font-sans normal-case">
                           {allItems.length} {allItems.length === 1 ? "Remedy Prescribed" : "Remedies Prescribed"}
                         </span>
                       </div>
 
                       {/* Medicine Items List */}
-                      <div className="p-3 space-y-2.5 divide-y divide-slate-100 flex-1 flex flex-col justify-around">
+                      <div className={`p-2.5 ${pageItems.length >= 4 ? "space-y-1.5" : "space-y-2"} divide-y divide-slate-100 flex-1 flex flex-col justify-around`}>
                         {pageItems.map((item: any, idx: number) => {
                           const itemDose = parseBilingual(item.dose || "Single dose orally • 5 drops");
                           const itemFreq = parseBilingual(item.frequency || "Twice daily (BD)");
                           const globalIdx = idx + 1;
 
                           return (
-                            <div key={idx} className={`flex items-center justify-between gap-2.5 ${idx > 0 ? "pt-2.5" : ""}`}>
+                            <div key={idx} className={`flex items-center justify-between gap-2 ${idx > 0 ? (pageItems.length >= 4 ? "pt-1.5" : "pt-2") : ""}`}>
                               {/* Left: Remedy Details */}
-                              <div className="space-y-1 flex-1 min-w-0">
+                              <div className="space-y-0.5 flex-1 min-w-0">
                                 <div className="flex items-start gap-1.5">
-                                  <span className="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full bg-blue-100 text-[#0f2d59] text-[9.5px] font-black shrink-0 mt-0.5">
+                                  <span className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-blue-100 text-[#0f2d59] text-[9px] font-black shrink-0 mt-0.5">
                                     {globalIdx}
                                   </span>
                                   <div className="min-w-0">
-                                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">
+                                    <span className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider block leading-none">
                                       MEDICINE &amp; POTENCY
                                     </span>
-                                    <h3 className="text-sm sm:text-base font-black text-[#0f2d59] font-serif tracking-tight leading-tight truncate">
-                                      {item.medicineName} <span className="text-blue-700">{item.potency}</span>
+                                    <h3 className="text-xs sm:text-[13px] font-black text-[#0f2d59] font-serif tracking-tight leading-tight truncate">
+                                      {item.medicineName} <span className="text-blue-700 font-bold">{item.potency}</span>
                                     </h3>
                                   </div>
                                 </div>
 
-                                <div className="space-y-0.5 text-xs pl-6">
-                                  <div>
-                                    <strong className="text-slate-900 text-[10px]">DOSE: </strong>
-                                    <span className="text-slate-700 text-[10.5px] font-medium">{itemDose.en}</span>
+                                <div className="space-y-0.5 text-[9.5px] pl-5.5">
+                                  <div className="flex items-center gap-1 leading-tight">
+                                    <strong className="text-slate-900 text-[9px] font-bold">DOSE:</strong>
+                                    <span className="text-slate-700 text-[9.5px] font-medium truncate">{itemDose.en}</span>
                                   </div>
-                                  <div>
-                                    <strong className="text-slate-900 text-[10px]">FREQUENCY: </strong>
-                                    <span className="text-slate-700 text-[10.5px] font-medium">{itemFreq.en}</span>
+                                  <div className="flex items-center gap-1 leading-tight">
+                                    <strong className="text-slate-900 text-[9px] font-bold">FREQ:</strong>
+                                    <span className="text-slate-700 text-[9.5px] font-medium truncate">{itemFreq.en}</span>
                                   </div>
                                   {item.instructions && (
-                                    <div className="pt-0.5">
-                                      <strong className="text-slate-900 text-[10px]">INSTRUCTIONS: </strong>
-                                      <span className="text-slate-600 italic text-[10px]">
+                                    <div className="leading-tight pt-0.5">
+                                      <strong className="text-slate-900 text-[8.5px] font-bold">INSTR: </strong>
+                                      <span className="text-slate-600 italic text-[8.5px] line-clamp-1">
                                         {item.instructions}
                                       </span>
                                     </div>
@@ -441,12 +441,14 @@ export function PrescriptionRenderer({
                               </div>
 
                               {/* Right: Authentic Dropper Bottle Artwork with Dynamic Name */}
-                              <div className="shrink-0 flex flex-col items-center">
+                              <div className="shrink-0 flex flex-col items-center pl-1">
                                 <MedicineBottle
                                   medicineName={item.medicineName}
                                   potency={item.potency}
-                                  size={pageItems.length > 2 ? "sm" : "md"}
-                                  variant={idx % 2 === 0 ? "reckeweg" : "schwabe"}
+                                  form={item.form}
+                                  index={idx}
+                                  size={pageItems.length >= 4 ? "xs" : pageItems.length === 3 ? "sm" : "md"}
+                                  variant={item.variant || item.bottleVariant}
                                 />
                               </div>
                             </div>
@@ -456,16 +458,16 @@ export function PrescriptionRenderer({
                     </div>
 
                     {/* RIGHT COLUMN: Aggravating, Relieving, Advice & Investigations (5 Cols) */}
-                    <div className="md:col-span-5 space-y-2 flex flex-col justify-between">
+                    <div className="md:col-span-5 space-y-1.5 flex flex-col justify-between">
                       {/* Aggravating Factors */}
-                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2.5 shadow-xs space-y-1">
-                        <div className="flex items-center gap-1.5 text-rose-800 font-black text-xs uppercase tracking-wide">
+                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2 shadow-xs space-y-0.5">
+                        <div className="flex items-center gap-1.5 text-rose-800 font-black text-[11px] uppercase tracking-wide">
                           <div className="h-3.5 w-3.5 rounded-full bg-rose-100 flex items-center justify-center text-rose-700">
                             <TrendingUp className="h-2.5 w-2.5" />
                           </div>
                           <span>AGGRAVATING FACTORS</span>
                         </div>
-                        <ul className="text-[10.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
+                        <ul className="text-[9.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
                           <li>Riding motorcycle / travel vibration</li>
                           <li>Lying down (especially at night)</li>
                           <li>Prolonged awkward neck position</li>
@@ -473,14 +475,14 @@ export function PrescriptionRenderer({
                       </div>
 
                       {/* Relieving Factors */}
-                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2.5 shadow-xs space-y-1">
-                        <div className="flex items-center gap-1.5 text-emerald-800 font-black text-xs uppercase tracking-wide">
+                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2 shadow-xs space-y-0.5">
+                        <div className="flex items-center gap-1.5 text-emerald-800 font-black text-[11px] uppercase tracking-wide">
                           <div className="h-3.5 w-3.5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
                             <CheckCircle2 className="h-2.5 w-2.5" />
                           </div>
                           <span>RELIEVING FACTORS</span>
                         </div>
-                        <ul className="text-[10.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
+                        <ul className="text-[9.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
                           <li>Walking in fresh open air</li>
                           <li>Routine light daily activities</li>
                           <li>Gentle heat &amp; movement</li>
@@ -488,12 +490,12 @@ export function PrescriptionRenderer({
                       </div>
 
                       {/* Clinical Advice & Instructions */}
-                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2.5 shadow-xs space-y-1">
-                        <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-xs uppercase tracking-wider">
+                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2 shadow-xs space-y-0.5">
+                        <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-[11px] uppercase tracking-wider">
                           <ClipboardList className="h-3.5 w-3.5 text-emerald-700" />
                           <span>CLINICAL ADVICE &amp; INSTRUCTIONS</span>
                         </div>
-                        <ul className="text-[10.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
+                        <ul className="text-[9.5px] text-slate-800 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
                           {rawAdvice.slice(0, 3).map((a: string, aIdx: number) => (
                             <li key={aIdx}>{a}</li>
                           ))}
@@ -501,12 +503,12 @@ export function PrescriptionRenderer({
                       </div>
 
                       {/* Suggested Investigations */}
-                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-2 shadow-xs space-y-0.5">
-                        <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-[10.5px] uppercase tracking-wider">
+                      <div className="rounded-2xl border-2 border-slate-300 bg-white p-1.5 shadow-xs space-y-0.5">
+                        <div className="flex items-center gap-1.5 text-[#0f2d59] font-black text-[10px] uppercase tracking-wider">
                           <FlaskConical className="h-3 w-3 text-blue-700" />
                           <span>SUGGESTED INVESTIGATIONS (IF NEEDED)</span>
                         </div>
-                        <ul className="text-[9.5px] text-slate-700 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
+                        <ul className="text-[9px] text-slate-700 list-disc list-inside space-y-0.5 font-medium pl-1 leading-snug">
                           <li>X-Ray Cervical Spine / Lumbosacral (AP &amp; Lateral View)</li>
                           <li>Vitamin B12, Vitamin D3, Serum Calcium &amp; Magnesium</li>
                         </ul>
@@ -532,7 +534,7 @@ export function PrescriptionRenderer({
 
                   {/* Medicines Card for Continued Page */}
                   <div className="rounded-2xl border-2 border-[#0f2d59] bg-white shadow-md overflow-hidden flex-1 flex flex-col">
-                    <div className="bg-[#0f2d59] text-white px-4 py-2 flex items-center justify-between font-bold text-xs uppercase tracking-wider">
+                    <div className="bg-[#0f2d59] text-white px-4 py-1.5 flex items-center justify-between font-bold text-xs uppercase tracking-wider">
                       <div className="flex items-center gap-2">
                         <span className="font-serif font-black text-lg text-amber-300 leading-none">℞</span>
                         <span>CONTINUED REMEDIES</span>
@@ -542,42 +544,42 @@ export function PrescriptionRenderer({
                       </span>
                     </div>
 
-                    <div className="p-4 space-y-4 divide-y divide-slate-100 flex-1">
+                    <div className="p-3 space-y-2.5 divide-y divide-slate-100 flex-1">
                       {pageItems.map((item: any, idx: number) => {
                         const itemDose = parseBilingual(item.dose || "Single dose orally • 5 drops");
                         const itemFreq = parseBilingual(item.frequency || "Twice daily (BD)");
                         const globalIdx = pageIdx * PAGE_1_CAPACITY + idx + 1;
 
                         return (
-                          <div key={idx} className={`flex items-center justify-between gap-3 ${idx > 0 ? "pt-3" : ""}`}>
-                            <div className="space-y-1.5 flex-1 min-w-0">
-                              <div className="flex items-start gap-2">
-                                <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-[#0f2d59] text-[10px] font-black shrink-0 mt-0.5">
+                          <div key={idx} className={`flex items-center justify-between gap-2.5 ${idx > 0 ? "pt-2.5" : ""}`}>
+                            <div className="space-y-1 flex-1 min-w-0">
+                              <div className="flex items-start gap-1.5">
+                                <span className="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full bg-blue-100 text-[#0f2d59] text-[9.5px] font-black shrink-0 mt-0.5">
                                   {globalIdx}
                                 </span>
                                 <div>
-                                  <span className="text-[8.5px] font-bold text-slate-400 uppercase tracking-wider block">
+                                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">
                                     MEDICINE &amp; POTENCY
                                   </span>
-                                  <h3 className="text-base font-black text-[#0f2d59] font-serif tracking-tight leading-tight">
-                                    {item.medicineName} <span className="text-blue-700">{item.potency}</span>
+                                  <h3 className="text-xs sm:text-sm font-black text-[#0f2d59] font-serif tracking-tight leading-tight">
+                                    {item.medicineName} <span className="text-blue-700 font-bold">{item.potency}</span>
                                   </h3>
                                 </div>
                               </div>
 
-                              <div className="space-y-0.5 text-xs pl-7">
+                              <div className="space-y-0.5 text-[9.5px] pl-6">
                                 <div>
-                                  <strong className="text-slate-900 text-[11px]">DOSE: </strong>
-                                  <span className="text-slate-700 text-xs font-medium">{itemDose.en}</span>
+                                  <strong className="text-slate-900 text-[9.5px]">DOSE: </strong>
+                                  <span className="text-slate-700 text-[10px] font-medium">{itemDose.en}</span>
                                 </div>
                                 <div>
-                                  <strong className="text-slate-900 text-[11px]">FREQUENCY: </strong>
-                                  <span className="text-slate-700 text-xs font-medium">{itemFreq.en}</span>
+                                  <strong className="text-slate-900 text-[9.5px]">FREQUENCY: </strong>
+                                  <span className="text-slate-700 text-[10px] font-medium">{itemFreq.en}</span>
                                 </div>
                                 {item.instructions && (
                                   <div className="pt-0.5">
-                                    <strong className="text-slate-900 text-[11px]">INSTRUCTIONS: </strong>
-                                    <span className="text-slate-600 italic text-[11px]">
+                                    <strong className="text-slate-900 text-[9px]">INSTRUCTIONS: </strong>
+                                    <span className="text-slate-600 italic text-[9px]">
                                       {item.instructions}
                                     </span>
                                   </div>
@@ -585,12 +587,14 @@ export function PrescriptionRenderer({
                               </div>
                             </div>
 
-                            <div className="shrink-0 flex flex-col items-center pl-2">
+                            <div className="shrink-0 flex flex-col items-center pl-1">
                               <MedicineBottle
                                 medicineName={item.medicineName}
                                 potency={item.potency}
-                                size="md"
-                                variant={idx % 2 === 0 ? "reckeweg" : "schwabe"}
+                                form={item.form}
+                                index={pageIdx * PAGE_1_CAPACITY + idx}
+                                size="sm"
+                                variant={item.variant || item.bottleVariant}
                               />
                             </div>
                           </div>
