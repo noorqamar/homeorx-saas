@@ -85,16 +85,19 @@ export function Sidebar({
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
         />
       )}
 
       <aside
         className={cn(
-          "flex flex-col w-[250px] border-r border-[#E6ECF5] bg-white text-slate-700 shrink-0 h-screen sticky top-0 z-40 transition-transform duration-300 no-print select-none shadow-[2px_0_12px_rgba(30,80,222,0.03)]",
-          // Mobile responsive drawer positioning
-          "max-md:fixed max-md:left-0 max-md:top-0 max-md:bottom-0 max-md:z-50 max-md:shadow-2xl",
-          !isOpen && "max-md:-translate-x-full",
+          "bg-white text-slate-700 select-none no-print border-r border-[#E6ECF5] transition-transform duration-300 ease-in-out flex flex-col shrink-0",
+          // Mobile: Off-canvas fixed drawer
+          "fixed inset-y-0 left-0 z-50 w-[270px] h-full shadow-2xl",
+          // Desktop: Permanent static sidebar
+          "md:static md:inset-auto md:z-auto md:w-[260px] md:h-screen md:sticky md:top-0 md:shadow-[2px_0_12px_rgba(30,80,222,0.03)]",
+          // Open/Close toggle state on mobile, always visible on desktop
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
           className
         )}
       >

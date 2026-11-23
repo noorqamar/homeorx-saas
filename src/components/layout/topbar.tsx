@@ -64,30 +64,37 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <>
-      <header className="h-20 border-b border-[#E6ECF5] bg-white/95 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 no-print gap-3">
-        {/* Left: Mobile Hamburger Toggle + Search */}
-        <div className="flex items-center gap-3 flex-1 max-w-xl">
+      <header className="h-16 sm:h-20 border-b border-[#E6ECF5] bg-white/95 backdrop-blur-md px-3 sm:px-8 flex items-center justify-between sticky top-0 z-30 no-print gap-2 sm:gap-3">
+        {/* Left: Mobile Hamburger Toggle + Brand / Search */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 max-w-xl">
           {onMenuClick && (
             <button
               type="button"
               onClick={onMenuClick}
-              className="md:hidden p-2 rounded-2xl text-slate-500 hover:text-[#2B3674] hover:bg-slate-100 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+              className="md:hidden p-2 rounded-2xl text-slate-500 hover:text-[#1E50DE] hover:bg-blue-50 active:scale-95 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all"
               aria-label="Open Navigation Menu"
             >
               <Menu className="h-5 w-5" />
             </button>
           )}
 
+          {/* Mobile Brand Label */}
+          <Link href="/" className="md:hidden flex items-center shrink-0 pr-1">
+            <span className="font-extrabold text-base tracking-tight text-[#2B3674]">
+              Homeo<span className="text-[#1E50DE]">Rx</span>
+            </span>
+          </Link>
+
           {/* Global Patient Search Bar */}
-          <form onSubmit={handleSearch} className="flex-1">
+          <form onSubmit={handleSearch} className="flex-1 min-w-0">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Patients (Name, ID, Phone)..."
-                className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm bg-[#F4F7FC] border border-transparent hover:border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-2xl text-[#2B3674] placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100 font-medium"
+                placeholder="Search Patients..."
+                className="w-full pl-9 sm:pl-11 pr-3 sm:pr-4 py-2 sm:py-2.5 text-xs sm:text-sm bg-[#F4F7FC] border border-transparent hover:border-slate-200 focus:border-[#1E50DE] focus:bg-white rounded-2xl text-[#2B3674] placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-100 font-medium"
               />
             </div>
           </form>

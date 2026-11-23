@@ -106,18 +106,18 @@ export function MedicineBottle({
   const words = cleanName.split(/\s+/);
   const isMultiWord = words.length > 1;
 
-  // Ultra-compact pixel-accurate sizes to fit up to 5 medicines on single A4 sheet
+  // Pixel-accurate sizes to ensure high readability and authentic look
   const sizeClasses =
     size === "xs"
-      ? "w-[36px] sm:w-[40px] h-[56px] sm:h-[62px]"
+      ? "w-[44px] sm:w-[48px] h-[68px] sm:h-[76px]"
       : size === "sm"
-      ? "w-[44px] sm:w-[48px] h-[66px] sm:h-[72px]"
+      ? "w-[52px] sm:w-[58px] h-[80px] sm:h-[90px]"
       : size === "lg"
-      ? "w-[68px] sm:w-[76px] h-[104px] sm:h-[114px]"
-      : "w-[50px] sm:w-[56px] h-[78px] sm:h-[86px]";
+      ? "w-[76px] sm:w-[84px] h-[118px] sm:h-[130px]"
+      : "w-[60px] sm:w-[68px] h-[94px] sm:h-[106px]";
 
   const fontScale =
-    size === "xs" ? 0.70 : size === "sm" ? 0.85 : size === "lg" ? 1.25 : 1.0;
+    size === "xs" ? 0.85 : size === "sm" ? 1.0 : size === "lg" ? 1.35 : 1.15;
 
   const handleNextVariant = () => {
     const curIdx = ALL_VARIANTS.indexOf(activeVariant);
@@ -146,15 +146,15 @@ export function MedicineBottle({
             <div
               className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
               style={{
-                top: "67.5%",
-                width: "82%",
+                top: "64.0%",
+                width: "80%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <span
-                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.0] block font-sans"
+                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
                 style={{
-                  fontSize: `${(cleanName.length > 14 ? 5.5 : cleanName.length > 9 ? 6.5 : 7.6) * fontScale}px`,
+                  fontSize: `${(cleanName.length > 15 ? 6.2 : cleanName.length > 10 ? 7.2 : 8.5) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -168,7 +168,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#1e3a8a] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${7.0 * fontScale}px` }}
+                style={{ fontSize: `${8.5 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
@@ -187,16 +187,16 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
               style={{
-                top: "66.5%",
-                left: "70.5%",
-                width: "48%",
+                top: "64.5%",
+                left: "69.0%",
+                width: "50%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <span
-                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.0] block font-sans"
+                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
                 style={{
-                  fontSize: `${(cleanName.length > 14 ? 5.0 : cleanName.length > 9 ? 6.0 : 7.0) * fontScale}px`,
+                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.0) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -210,7 +210,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${6.5 * fontScale}px` }}
+                style={{ fontSize: `${8.0 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
@@ -229,15 +229,15 @@ export function MedicineBottle({
             <div
               className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
               style={{
-                top: "63.0%",
+                top: "61.5%",
                 width: "74%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <span
-                className="font-extrabold text-[#0f172a] tracking-tight leading-[1.0] block font-sans uppercase"
+                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
                 style={{
-                  fontSize: `${(cleanName.length > 14 ? 5.2 : cleanName.length > 9 ? 6.2 : 7.4) * fontScale}px`,
+                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -251,7 +251,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#0f766e] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${7.0 * fontScale}px` }}
+                style={{ fontSize: `${8.5 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
@@ -270,15 +270,15 @@ export function MedicineBottle({
             <div
               className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
               style={{
-                top: "70.0%",
+                top: "67.5%",
                 width: "78%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <span
-                className="font-extrabold text-[#0f172a] tracking-tight leading-[1.0] block font-sans uppercase"
+                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
                 style={{
-                  fontSize: `${(cleanName.length > 14 ? 5.2 : cleanName.length > 9 ? 6.2 : 7.4) * fontScale}px`,
+                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -292,7 +292,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#15803d] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${7.0 * fontScale}px` }}
+                style={{ fontSize: `${8.5 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
@@ -311,15 +311,15 @@ export function MedicineBottle({
             <div
               className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
               style={{
-                top: "71.0%",
-                width: "70%",
+                top: "68.0%",
+                width: "72%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <span
-                className="font-black text-[#0f172a] tracking-tight leading-[1.0] block font-sans uppercase"
+                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
                 style={{
-                  fontSize: `${(cleanName.length > 14 ? 5.2 : cleanName.length > 9 ? 6.2 : 7.5) * fontScale}px`,
+                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -333,7 +333,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#b45309] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${7.0 * fontScale}px` }}
+                style={{ fontSize: `${8.5 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
