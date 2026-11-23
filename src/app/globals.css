@@ -91,15 +91,13 @@ body {
   background: #93C5FD;
 }
 
-/* STRICT SINGLE-PAGE A4 & LETTER MEDICAL PRESCRIPTION PRINT RULES */
+/* STRICT A4 MEDICAL PRESCRIPTION PRINT & PAGINATION RULES */
 @media print {
   html, body {
     background: #ffffff !important;
     color: #000000 !important;
     margin: 0 !important;
     padding: 0 !important;
-    height: 100% !important;
-    overflow: hidden !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -114,23 +112,27 @@ body {
 
   @page {
     size: A4 portrait;
-    margin: 6mm 7mm !important;
+    margin: 5mm 6mm !important;
   }
 
   .a4-print-sheet {
     width: 100% !important;
     max-width: 100% !important;
-    height: 100% !important;
-    max-height: 284mm !important;
     padding: 0 !important;
     margin: 0 !important;
     box-shadow: none !important;
     border: none !important;
     box-sizing: border-box !important;
+  }
+
+  .a4-page {
+    page-break-after: always !important;
+    break-after: page !important;
+    box-sizing: border-box !important;
+  }
+
+  .a4-page:last-child {
     page-break-after: avoid !important;
-    page-break-before: avoid !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    overflow: hidden !important;
+    break-after: avoid !important;
   }
 }

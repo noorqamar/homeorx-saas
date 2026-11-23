@@ -6,6 +6,7 @@ interface MedicineBottleProps {
   medicineName: string;
   potency: string;
   variant?: "reckeweg" | "schwabe";
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
@@ -13,6 +14,7 @@ export function MedicineBottle({
   medicineName,
   potency,
   variant = "reckeweg",
+  size = "md",
   className = "",
 }: MedicineBottleProps) {
   const [activeVariant, setActiveVariant] = useState<"reckeweg" | "schwabe">(variant);
@@ -25,6 +27,15 @@ export function MedicineBottle({
   const words = cleanName.split(/\s+/);
   const isMultiWord = words.length > 1;
 
+  const sizeClasses =
+    size === "sm"
+      ? "w-13 sm:w-15 h-20 sm:h-22"
+      : size === "lg"
+      ? "w-20 sm:w-24 h-32 sm:h-36"
+      : "w-16 sm:w-18 h-26 sm:h-28";
+
+  const fontScale = size === "sm" ? 0.85 : size === "lg" ? 1.2 : 1;
+
   return (
     <div
       className={`relative inline-flex flex-col items-center group cursor-pointer select-none ${className}`}
@@ -32,7 +43,7 @@ export function MedicineBottle({
       onClick={() => setActiveVariant(activeVariant === "reckeweg" ? "schwabe" : "reckeweg")}
     >
       {/* Bottle Container with Crisp Drop-Shadow */}
-      <div className="relative w-16 sm:w-20 h-28 sm:h-32 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+      <div className={`relative ${sizeClasses} flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
         {activeVariant === "reckeweg" ? (
           <>
             <img
@@ -52,7 +63,7 @@ export function MedicineBottle({
               <span
                 className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
                 style={{
-                  fontSize: cleanName.length > 14 ? "6.5px" : cleanName.length > 9 ? "7.5px" : "9px",
+                  fontSize: `${(cleanName.length > 14 ? 6.2 : cleanName.length > 9 ? 7.2 : 8.5) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -66,7 +77,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#1e3a8a] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: "8px" }}
+                style={{ fontSize: `${7.5 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
@@ -92,7 +103,7 @@ export function MedicineBottle({
               <span
                 className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
                 style={{
-                  fontSize: cleanName.length > 14 ? "5.5px" : cleanName.length > 9 ? "6.5px" : "8px",
+                  fontSize: `${(cleanName.length > 14 ? 5.5 : cleanName.length > 9 ? 6.5 : 7.8) * fontScale}px`,
                 }}
               >
                 {isMultiWord ? (
@@ -106,7 +117,7 @@ export function MedicineBottle({
               </span>
               <span
                 className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: "7px" }}
+                style={{ fontSize: `${7 * fontScale}px` }}
               >
                 {cleanPotency}
               </span>
