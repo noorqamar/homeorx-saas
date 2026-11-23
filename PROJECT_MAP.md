@@ -39,6 +39,7 @@
 | `src/app/(dashboard)/layout.tsx` | Protected clinic workspace layout | Verifies HMAC-SHA256 session token and injects tenant context |
 | `src/app/login/page.tsx` | Authentication & Demo entry | 1-Click Instant Demo login & credentials authentication |
 | `src/components/dashboard/behance-dashboard-view.tsx` | Behance Health Dashboard Engine | 6-card medical UI (Donut summary, Today Appointment, Next Patient, Reviews, Requests, Calendar) & clinical tools |
+| `src/app/(dashboard)/prescriptions/new/prescription-form-client.tsx` | Prescription Studio Engine | Interactive prescription builder featuring top & bottom Preview, Save, and Print actions, live A4 preview modal, and remedy autocomplete |
 | `src/app/(dashboard)/prescriptions/[id]/print/print-client.tsx` | Single-page A4 PDF renderer | Single-page A4 print orchestrator with luxury layout presets |
 | `src/components/prescription-templates/prescription-renderer.tsx` | Prescription Letterhead Engine | Single-page A4 prescription letterhead supporting 1-5 compact remedies with authentic bottle imprinting and clean English formatting |
 | `src/components/prescription-templates/medicine-bottle.tsx` | Authentic Remedy Bottle Engine | Dynamic homeopathic bottle artwork supporting 5 German & Pakistani styles (Reckeweg, Schwabe, Masood Mother Tincture, Masood Dilution, Masood Biochemic) with real-time prescribed medicine & potency imprint and click-to-cycle |

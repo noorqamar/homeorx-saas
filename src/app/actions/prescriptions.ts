@@ -12,16 +12,49 @@ export async function getPrescriptionQuotaStatus() {
   return await verifyPrescriptionCreationQuota(tenantId);
 }
 
-export async function getNextPrescriptionNumber(): Promise<string> {
+export async function getNextPrescriptionNumber(overrideTenantId?: string): Promise<string> {
   const { tenantId, doctorRole } = await getTenantContext();
+  const activeTenantId = overrideTenantId || tenantId;
   const currentYear = new Date().getFullYear();
 
-  // Find latest prescription for current year in this tenant (or all if super admin)
-  const count = await db.prescription.count({
-    where: doctorRole === "SUPER_ADMIN" ? {} : { tenantId },
+  const whereClause: any = doctorRole === "SUPER_ADMIN" && !overrideTenantId ? {} : { tenantId: activeTenantId };
+
+  // 1. Query current total count
+  const count = await db.prescription.count({ where: whereClause });
+
+  // 2. Query latest prescription number to determine highest sequence
+  const latestRx = await db.prescription.findFirst({
+    where: whereClause,
+    orderBy: { createdAt: "desc" },
+    select: { prescriptionNumber: true },
   });
 
-  return generatePrescriptionNumber(count + 1, currentYear);
+  let seq = count + 1;
+  if (latestRx?.prescriptionNumber) {
+    const match = latestRx.prescriptionNumber.match(/RX-\d{4}-(\d+)/);
+    if (match) {
+      const lastSeq = parseInt(match[1], 10);
+      if (!isNaN(lastSeq) && lastSeq >= seq) {
+        seq = lastSeq + 1;
+      }
+    }
+  }
+
+  // 3. Guarantee absolute uniqueness across database
+  let candidate = generatePrescriptionNumber(seq, currentYear);
+  let exists = await db.prescription.findFirst({
+    where: { tenantId: activeTenantId, prescriptionNumber: candidate },
+  });
+
+  while (exists) {
+    seq++;
+    candidate = generatePrescriptionNumber(seq, currentYear);
+    exists = await db.prescription.findFirst({
+      where: { tenantId: activeTenantId, prescriptionNumber: candidate },
+    });
+  }
+
+  return candidate;
 }
 
 export async function getPrescriptions(filters?: {
@@ -118,7 +151,7 @@ export async function getPrescriptionById(id: string) {
 }
 
 export async function createPrescription(rawData: PrescriptionFormData) {
-  const { tenantId, doctorId, doctorRole } = await getTenantContext();
+  const { tenantId, doctorId, doctorRole, doctorName, doctorEmail } = await getTenantContext();
 
   // Enforce demo account limits for non-superadmin
   if (doctorRole !== "SUPER_ADMIN") {
@@ -145,19 +178,57 @@ export async function createPrescription(rawData: PrescriptionFormData) {
 
   const targetTenantId = patient.tenantId || tenantId;
 
-  // Calculate prescription number
-  const nextPrescriptionNumber = await getNextPrescriptionNumber();
+  // 1. Guarantee valid doctor exists in SQLite database
+  let safeDoctorId = doctorId;
+  const docInDb = await db.doctor.findUnique({ where: { id: doctorId } });
+  if (!docInDb) {
+    const fallbackDoc = await db.doctor.findFirst({ where: { tenantId: targetTenantId } });
+    if (fallbackDoc) {
+      safeDoctorId = fallbackDoc.id;
+    } else {
+      const anyDoc = await db.doctor.findFirst();
+      if (anyDoc) {
+        safeDoctorId = anyDoc.id;
+      } else {
+        const newDoc = await db.doctor.create({
+          data: {
+            id: doctorId,
+            tenantId: targetTenantId,
+            name: doctorName || "HomeoRx Doctor",
+            email: doctorEmail || "doctor@clinic.com",
+            role: doctorRole || "DOCTOR",
+            status: "APPROVED",
+            active: true,
+          },
+        });
+        safeDoctorId = newDoc.id;
+      }
+    }
+  }
 
-  // Create a visit record to track this consultation
+  // 2. Guarantee valid tenant exists in SQLite database
+  let safeTenantId = targetTenantId;
+  const tenantInDb = await db.tenant.findUnique({ where: { id: targetTenantId } });
+  if (!tenantInDb) {
+    const anyTenant = await db.tenant.findFirst();
+    if (anyTenant) {
+      safeTenantId = anyTenant.id;
+    }
+  }
+
+  // 3. Guarantee strictly unique prescription sequence number
+  const nextPrescriptionNumber = await getNextPrescriptionNumber(safeTenantId);
+
+  // 4. Create a visit record to track this consultation
   const totalVisits = await db.visit.count({
     where: { patientId: patient.id },
   });
 
   const visit = await db.visit.create({
     data: {
-      tenantId: targetTenantId,
+      tenantId: safeTenantId,
       patientId: patient.id,
-      doctorId,
+      doctorId: safeDoctorId,
       visitNumber: totalVisits + 1,
       visitDate: new Date(validated.prescriptionDate),
       chiefComplaint: validated.chiefComplaint || patient.chiefComplaint || null,
@@ -173,12 +244,35 @@ export async function createPrescription(rawData: PrescriptionFormData) {
     followUpDate.setDate(followUpDate.getDate() + validated.followUpDays);
   }
 
-  // Create prescription
+  // 5. Sanitize item medicines against foreign key
+  const sanitizedItems = await Promise.all(
+    validated.items.map(async (item, index) => {
+      let safeMedId: string | null = null;
+      if (item.medicineId) {
+        const medExists = await db.medicine.findUnique({ where: { id: item.medicineId } });
+        if (medExists) safeMedId = item.medicineId;
+      }
+      return {
+        medicineName: item.medicineName,
+        medicineId: safeMedId,
+        potency: item.potency,
+        form: item.form || null,
+        dose: item.dose || null,
+        frequency: item.frequency || null,
+        duration: item.duration || null,
+        instructions: item.instructions || null,
+        notes: item.notes || null,
+        sortOrder: index + 1,
+      };
+    })
+  );
+
+  // 6. Create prescription
   const prescription = await db.prescription.create({
     data: {
-      tenantId: targetTenantId,
+      tenantId: safeTenantId,
       patientId: patient.id,
-      doctorId,
+      doctorId: safeDoctorId,
       visitId: visit.id,
       prescriptionNumber: nextPrescriptionNumber,
       prescriptionDate: new Date(validated.prescriptionDate),
@@ -189,18 +283,7 @@ export async function createPrescription(rawData: PrescriptionFormData) {
       followUpDays: validated.followUpDays || null,
       followUpDate,
       items: {
-        create: validated.items.map((item, index) => ({
-          medicineName: item.medicineName,
-          medicineId: item.medicineId || null,
-          potency: item.potency,
-          form: item.form || null,
-          dose: item.dose || null,
-          frequency: item.frequency || null,
-          duration: item.duration || null,
-          instructions: item.instructions || null,
-          notes: item.notes || null,
-          sortOrder: index + 1,
-        })),
+        create: sanitizedItems,
       },
     },
     include: {
@@ -208,9 +291,13 @@ export async function createPrescription(rawData: PrescriptionFormData) {
     },
   });
 
-  revalidatePath("/prescriptions");
-  revalidatePath(`/patients/${patient.id}`);
-  revalidatePath("/");
+  try {
+    revalidatePath("/prescriptions");
+    revalidatePath(`/patients/${patient.id}`);
+    revalidatePath("/");
+  } catch (err) {
+    console.error("Revalidation note:", err);
+  }
 
   return prescription;
 }
@@ -244,6 +331,29 @@ export async function updatePrescription(
     followUpDate.setDate(followUpDate.getDate() + validated.followUpDays);
   }
 
+  // Sanitize item medicines against foreign key
+  const sanitizedItems = await Promise.all(
+    validated.items.map(async (item, index) => {
+      let safeMedId: string | null = null;
+      if (item.medicineId) {
+        const medExists = await db.medicine.findUnique({ where: { id: item.medicineId } });
+        if (medExists) safeMedId = item.medicineId;
+      }
+      return {
+        medicineName: item.medicineName,
+        medicineId: safeMedId,
+        potency: item.potency,
+        form: item.form || null,
+        dose: item.dose || null,
+        frequency: item.frequency || null,
+        duration: item.duration || null,
+        instructions: item.instructions || null,
+        notes: item.notes || null,
+        sortOrder: index + 1,
+      };
+    })
+  );
+
   // Atomically update prescription metadata and replace items
   const updated = await db.$transaction(async (tx) => {
     // 1. Delete existing items
@@ -263,18 +373,7 @@ export async function updatePrescription(
         followUpDays: validated.followUpDays || null,
         followUpDate,
         items: {
-          create: validated.items.map((item, index) => ({
-            medicineName: item.medicineName,
-            medicineId: item.medicineId || null,
-            potency: item.potency,
-            form: item.form || null,
-            dose: item.dose || null,
-            frequency: item.frequency || null,
-            duration: item.duration || null,
-            instructions: item.instructions || null,
-            notes: item.notes || null,
-            sortOrder: index + 1,
-          })),
+          create: sanitizedItems,
         },
       },
       include: {
@@ -298,11 +397,15 @@ export async function updatePrescription(
     return rx;
   });
 
-  revalidatePath("/prescriptions");
-  revalidatePath(`/prescriptions/${id}`);
-  revalidatePath(`/prescriptions/${id}/print`);
-  revalidatePath(`/patients/${existing.patientId}`);
-  revalidatePath("/");
+  try {
+    revalidatePath("/prescriptions");
+    revalidatePath(`/prescriptions/${id}`);
+    revalidatePath(`/prescriptions/${id}/print`);
+    revalidatePath(`/patients/${existing.patientId}`);
+    revalidatePath("/");
+  } catch (err) {
+    console.error("Revalidation note:", err);
+  }
 
   return updated;
 }

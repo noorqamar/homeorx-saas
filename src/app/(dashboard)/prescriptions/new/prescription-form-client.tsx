@@ -26,10 +26,12 @@ import {
   Edit3,
   Check,
   ListPlus,
+  Eye,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PrescriptionRenderer } from "@/components/prescription-templates/prescription-renderer";
 import { searchPatients, getPatientById } from "@/app/actions/patients";
 import { searchMedicines } from "@/app/actions/medicines";
 import {
@@ -208,6 +210,8 @@ export function PrescriptionFormClient({
 
   // Submission & Success state
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitAction, setSubmitAction] = useState<"save" | "print" | null>(null);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedPrescription, setSavedPrescription] = useState<any>(null);
 
@@ -439,12 +443,15 @@ export function PrescriptionFormClient({
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleActionSubmit = async (
+    e: React.FormEvent,
+    action: "save" | "print" = "save"
+  ) => {
     e.preventDefault();
     setError(null);
 
     if (!selectedPatient) {
-      setError("Please search and select a patient for this prescription.");
+      setError("Please search and select a patient for this prescription. (براہ کرم پہلے مریض کا انتخاب کریں)");
       return;
     }
 
@@ -453,11 +460,12 @@ export function PrescriptionFormClient({
     );
 
     if (validItems.length === 0) {
-      setError("Please add at least one medicine with a remedy name.");
+      setError("Please add at least one medicine with a remedy name. (کم از کم ایک دوائی شامل کریں)");
       return;
     }
 
     setIsSubmitting(true);
+    setSubmitAction(action);
     try {
       const payload = {
         patientId: selectedPatient.id,
@@ -482,17 +490,87 @@ export function PrescriptionFormClient({
 
       if (isEditMode && initialData?.id) {
         const updated = await updatePrescription(initialData.id, payload);
-        router.push(`/prescriptions/${initialData.id}`);
+        if (action === "print") {
+          router.push(`/prescriptions/${initialData.id}/print`);
+        } else {
+          router.push(`/prescriptions/${initialData.id}`);
+        }
         router.refresh();
       } else {
         const result = await createPrescription(payload);
-        setSavedPrescription(result);
+        if (action === "print") {
+          router.push(`/prescriptions/${result.id}/print`);
+        } else {
+          setSavedPrescription(result);
+        }
       }
     } catch (err: any) {
-      setError(err.message || "An error occurred while saving prescription.");
+      console.error("Prescription save error:", err);
+      const msg = err?.message || "";
+      if (
+        msg.includes("Server Components render") ||
+        msg.includes("digest") ||
+        msg.includes("Failed to fetch")
+      ) {
+        setError(
+          "A server sync refresh occurred. Please click Save again to finalize."
+        );
+      } else {
+        setError(msg || "An error occurred while saving prescription.");
+      }
     } finally {
       setIsSubmitting(false);
+      setSubmitAction(null);
     }
+  };
+
+  // Live preview data representation for A4 Prescription template
+  const previewRx = {
+    id: initialData?.id || "preview-temp",
+    prescriptionNumber:
+      initialData?.prescriptionNumber || initialRxNumber || "RX-2026-000001",
+    prescriptionDate: prescriptionDate,
+    createdAt: prescriptionDate,
+    chiefComplaint: chiefComplaint || null,
+    symptoms: null,
+    clinicalNotes: clinicalNotes || null,
+    generalInstructions: generalInstructions || null,
+    followUpDays: followUpDays ? Number(followUpDays) : null,
+    patient: selectedPatient || {
+      name: "Patient Name (مریض کا نام)",
+      patientNumber: "PAT-PREVIEW",
+      age: 32,
+      gender: "MALE",
+      phone: "0300-1234567",
+      city: "Lahore",
+    },
+    doctor: initialData?.doctor || {
+      name: "Dr. Noor ul Qamar",
+      qualification: "DHMS, RHMP (Gold Medalist)",
+      registrationNumber: "HOM-REG-2026-8942",
+      role: "DOCTOR",
+    },
+    tenant: initialData?.tenant || {
+      clinicName: "FAZAL E NOOR HOMEOPATHIC CLINIC",
+      tagline: "Gentle. Natural. Effective.",
+      phone: "0300-1234567",
+      address: "Main Medical Boulevard, Health City",
+      templatePreset: "sage",
+      accountStatus: "active",
+    },
+    items: medicines
+      .filter((m) => m.medicineName && m.medicineName.trim().length > 0)
+      .map((item, idx) => ({
+        id: item.id,
+        medicineName: item.medicineName.trim(),
+        potency: item.potency || "30C",
+        form: item.form,
+        dose: item.dose,
+        frequency: item.frequency,
+        duration: item.duration,
+        instructions: item.instructions,
+        sortOrder: idx + 1,
+      })),
   };
 
   // Saved Success Screen
@@ -566,27 +644,68 @@ export function PrescriptionFormClient({
 
   return (
     <div className="max-w-6xl mx-auto space-y-5 pb-12">
-      {/* Top Breadcrumb & Auto RX Number */}
-      <div className="flex items-center justify-between">
-        <Link
-          href={isEditMode ? `/prescriptions/${initialData?.id}` : "/prescriptions"}
-          className="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4 mr-1" />
-          {isEditMode ? "Back to Prescription View" : "Back to Prescriptions List"}
-        </Link>
+      {/* Top Action & Command Header */}
+      <div className="bg-white/95 backdrop-blur-md sticky top-0 z-30 -mx-2 sm:-mx-4 px-3 sm:px-5 py-3 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="flex items-center justify-between sm:justify-start gap-3">
+          <Link
+            href={isEditMode ? `/prescriptions/${initialData?.id}` : "/prescriptions"}
+            className="inline-flex items-center text-xs font-bold text-slate-600 hover:text-slate-950 transition-colors bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg shrink-0"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1.5" />
+            {isEditMode ? "Back" : "Prescriptions"}
+          </Link>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500 font-medium">
-            {isEditMode ? "Editing RX:" : "Prescription ID:"}
-          </span>
-          <span className="font-mono font-bold text-xs px-3 py-1 rounded-md bg-slate-900 text-emerald-400 shadow-xs">
-            {initialData?.prescriptionNumber || initialRxNumber}
-          </span>
+          <div className="flex items-center gap-1.5 bg-slate-900 text-emerald-400 px-3 py-1.5 rounded-lg shadow-xs">
+            <span className="text-[11px] text-slate-400 font-medium">RX #:</span>
+            <span className="font-mono font-bold text-xs tracking-wider">
+              {initialData?.prescriptionNumber || initialRxNumber}
+            </span>
+          </div>
+        </div>
+
+        {/* TOP ACTION BUTTONS: Preview, Save, Print */}
+        <div className="flex flex-wrap items-center gap-2 justify-end">
+          {/* 1. Preview Prescription */}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPreviewModal(true)}
+            className="border-indigo-300 bg-indigo-50/50 hover:bg-indigo-100/70 text-indigo-700 font-bold shadow-xs text-xs h-9 px-3.5 flex items-center gap-1.5"
+          >
+            <Eye className="h-4 w-4 text-indigo-600" />
+            <span>Preview (پیش نظارہ)</span>
+          </Button>
+
+          {/* 2. Save Prescription (Save Only) */}
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            disabled={isSubmitting}
+            onClick={(e) => handleActionSubmit(e, "save")}
+            className="border-slate-300 bg-slate-800 hover:bg-slate-900 text-white font-bold shadow-xs text-xs h-9 px-4 flex items-center gap-1.5"
+          >
+            <Save className="h-4 w-4 text-emerald-400" />
+            <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save (محفوظ کریں)"}</span>
+          </Button>
+
+          {/* 3. Print Prescription (Save & Print) */}
+          <Button
+            type="button"
+            variant="primary"
+            size="sm"
+            disabled={isSubmitting}
+            onClick={(e) => handleActionSubmit(e, "print")}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black shadow-md text-xs h-9 px-4 flex items-center gap-1.5 ring-2 ring-emerald-500/20"
+          >
+            <Printer className="h-4 w-4 text-white" />
+            <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Print (پرنٹ نسخہ)"}</span>
+          </Button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={(e) => handleActionSubmit(e, "save")} className="space-y-5">
         {error && (
           <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 shrink-0 text-rose-600" />
@@ -1114,26 +1233,132 @@ export function PrescriptionFormClient({
           </CardContent>
         </Card>
 
-        {/* Floating Gradient Save Bar */}
-        <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-900 text-white shadow-xl border border-slate-800">
+        {/* Floating Gradient Bottom Action Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900 text-white shadow-xl border border-slate-800">
           <Link href={isEditMode ? `/prescriptions/${initialData?.id}` : "/prescriptions"}>
-            <Button type="button" variant="outline" size="md" className="border-slate-700 text-slate-300 hover:bg-slate-800">
-              Cancel
+            <Button
+              type="button"
+              variant="outline"
+              size="md"
+              className="border-slate-700 text-slate-300 hover:bg-slate-800 w-full sm:w-auto"
+            >
+              Cancel (منسوخ کریں)
             </Button>
           </Link>
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            isLoading={isSubmitting}
-            className="px-8 font-black shadow-lg text-sm bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 rounded-xl h-11 ring-2 ring-emerald-400/30"
-          >
-            <Save className="h-4 w-4 mr-2" />
-            {isEditMode ? "UPDATE PRESCRIPTION (تبدیلی محفوظ کریں)" : "SAVE & PRINT PRESCRIPTION (نسخہ محفوظ و پرنٹ کریں)"}
-          </Button>
+          <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
+            {/* Preview Button */}
+            <Button
+              type="button"
+              variant="outline"
+              size="md"
+              onClick={() => setShowPreviewModal(true)}
+              className="border-indigo-400/50 bg-indigo-950/60 text-indigo-200 hover:bg-indigo-900 font-bold text-xs h-10 px-4 flex items-center gap-1.5"
+            >
+              <Eye className="h-4 w-4 text-indigo-400" />
+              <span>Preview (پیش نظارہ)</span>
+            </Button>
+
+            {/* Save Only Button */}
+            <Button
+              type="button"
+              variant="secondary"
+              size="md"
+              disabled={isSubmitting}
+              onClick={(e) => handleActionSubmit(e, "save")}
+              className="border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs h-10 px-5 flex items-center gap-1.5"
+            >
+              <Save className="h-4 w-4 text-emerald-400" />
+              <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save (محفوظ کریں)"}</span>
+            </Button>
+
+            {/* Save & Print Button */}
+            <Button
+              type="button"
+              variant="primary"
+              size="md"
+              disabled={isSubmitting}
+              onClick={(e) => handleActionSubmit(e, "print")}
+              className="bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black shadow-lg text-xs h-10 px-6 flex items-center gap-1.5 ring-2 ring-emerald-400/30"
+            >
+              <Printer className="h-4 w-4 text-slate-950" />
+              <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Save & Print (محفوظ و پرنٹ کریں)"}</span>
+            </Button>
+          </div>
         </div>
       </form>
+
+      {/* Live Prescription Preview Modal */}
+      {showPreviewModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-2 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-slate-100 rounded-2xl shadow-2xl border border-slate-300 w-full max-w-5xl max-h-[95vh] flex flex-col overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between shrink-0 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                  <Eye className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                    Prescription Live Preview (پیش نظارہ نسخہ)
+                    <span className="text-[10px] font-mono bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
+                      A4 Standard
+                    </span>
+                  </h3>
+                  <p className="text-[11px] text-slate-400">
+                    Patient: {selectedPatient ? selectedPatient.name : "Not selected yet"} • {prescriptionDate}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    setShowPreviewModal(false);
+                    handleActionSubmit(e, "print");
+                  }}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs h-8 px-3"
+                >
+                  <Printer className="h-3.5 w-3.5 mr-1" />
+                  Print Now
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    setShowPreviewModal(false);
+                    handleActionSubmit(e, "save");
+                  }}
+                  className="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs h-8 px-3"
+                >
+                  <Save className="h-3.5 w-3.5 mr-1 text-emerald-400" />
+                  Save
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => setShowPreviewModal(false)}
+                  className="h-8 w-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center ml-1 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Scrollable Body */}
+            <div className="overflow-y-auto flex-1 p-3 sm:p-6 flex justify-center bg-slate-200/60">
+              <div className="shadow-2xl rounded-sm overflow-hidden bg-white max-w-[210mm] w-full transform origin-top">
+                <PrescriptionRenderer rx={previewRx} preset="sage" showVerification={true} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

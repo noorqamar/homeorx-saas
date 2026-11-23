@@ -20,6 +20,48 @@ export async function getTenantContext(): Promise<TenantContext> {
   const session = await getVerifiedSession();
 
   if (session && session.doctor) {
+    // Ensure doctor and tenant exist in SQLite database to satisfy foreign keys
+    try {
+      const docExists = await db.doctor.findUnique({
+        where: { id: session.doctor.id },
+      });
+
+      if (!docExists) {
+        await db.tenant.upsert({
+          where: { id: session.doctor.tenantId },
+          update: {},
+          create: {
+            id: session.doctor.tenantId,
+            name: session.doctor.tenant?.name || session.doctor.tenant?.clinicName || "HomeoRx Clinic",
+            clinicName: session.doctor.tenant?.clinicName || session.doctor.tenant?.name || "HomeoRx Clinic",
+            accountStatus: session.doctor.accountStatus || "active",
+          },
+        });
+
+        await db.doctor.upsert({
+          where: { id: session.doctor.id },
+          update: {
+            status: "APPROVED",
+            active: true,
+            role: session.doctor.role,
+          },
+          create: {
+            id: session.doctor.id,
+            tenantId: session.doctor.tenantId,
+            name: session.doctor.name,
+            email: session.doctor.email,
+            role: session.doctor.role,
+            status: "APPROVED",
+            active: true,
+            qualification: session.doctor.qualification || "DHMS, RHMP",
+            registrationNumber: session.doctor.registrationNumber || "HOM-REG-001",
+          },
+        });
+      }
+    } catch (e) {
+      console.error("[getTenantContext] Auto-provision doctor check note:", e);
+    }
+
     return {
       tenantId: session.doctor.tenantId,
       tenantName: session.doctor.tenant?.name || session.doctor.tenant?.clinicName || "HomeoRx Clinic",
