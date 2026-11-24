@@ -23,44 +23,34 @@ export interface FirebaseClientConfig {
 }
 
 /**
- * Retrieve active configuration from localStorage (runtime dynamic) or process.env (build/server)
+ * In-memory runtime override cache for dynamic client updates without cleartext localStorage exposure
+ */
+let runtimeFirebaseConfig: FirebaseClientConfig | null = null;
+
+/**
+ * Retrieve active configuration safely from environment variables or in-memory runtime cache
  */
 export function getActiveFirebaseConfig(): FirebaseClientConfig {
-  if (typeof window !== "undefined") {
-    try {
-      const stored = localStorage.getItem("homeorx_firebase_config");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed?.apiKey && parsed.apiKey.length > 20 && !parsed.apiKey.includes("DummyKey")) {
-          return {
-            apiKey: parsed.apiKey.trim(),
-            authDomain: (parsed.authDomain || `${parsed.projectId}.firebaseapp.com`).trim(),
-            projectId: (parsed.projectId || "homeorx-saas").trim(),
-            storageBucket: (parsed.storageBucket || `${parsed.projectId}.appspot.com`).trim(),
-            messagingSenderId: (parsed.messagingSenderId || "").trim(),
-            appId: (parsed.appId || "").trim(),
-          };
-        }
-      }
-    } catch {}
+  if (runtimeFirebaseConfig && runtimeFirebaseConfig.apiKey) {
+    return runtimeFirebaseConfig;
   }
 
-  const apiKey =
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY ||
-    "YOUR_FIREBASE_API_KEY_PLACEHOLDER";
-  const authDomain =
-    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ||
-    "homeorx-4d877.firebaseapp.com";
-  const projectId =
-    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "homeorx-4d877";
-  const storageBucket =
-    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ||
-    "homeorx-4d877.firebasestorage.app";
-  const messagingSenderId =
-    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "650516803516";
-  const appId =
-    process.env.NEXT_PUBLIC_FIREBASE_APP_ID ||
-    "1:650516803516:web:13fc2a9068dbb1538f85b9";
+  const apiKey = (process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "").trim();
+  const authDomain = (
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "homeorx-4d877.firebaseapp.com"
+  ).trim();
+  const projectId = (
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "homeorx-4d877"
+  ).trim();
+  const storageBucket = (
+    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "homeorx-4d877.firebasestorage.app"
+  ).trim();
+  const messagingSenderId = (
+    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "650516803516"
+  ).trim();
+  const appId = (
+    process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:650516803516:web:13fc2a9068dbb1538f85b9"
+  ).trim();
 
   return {
     apiKey,
@@ -73,31 +63,47 @@ export function getActiveFirebaseConfig(): FirebaseClientConfig {
 }
 
 /**
- * Checks if a live Firebase API Key has been configured in environment variables or localStorage
+ * Checks if a live Firebase API Key has been configured
  */
 export function isFirebaseConfigured(): boolean {
   const config = getActiveFirebaseConfig();
   if (!config.apiKey) return false;
-  if (config.apiKey.includes("DummyKey") || config.apiKey.length < 20) return false;
+  if (
+    config.apiKey === "NEXT_PUBLIC_FIREBASE_KEY_NOT_SET" ||
+    config.apiKey.includes("DummyKey") ||
+    config.apiKey.length < 20
+  ) {
+    return false;
+  }
   return true;
 }
 
 /**
- * Save Firebase Client config to browser localStorage
+ * Update runtime client configuration in-memory without cleartext localStorage exposure
  */
 export function saveClientFirebaseConfig(config: FirebaseClientConfig) {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("homeorx_firebase_config", JSON.stringify(config));
-  }
+  runtimeFirebaseConfig = {
+    apiKey: (config.apiKey || "").trim(),
+    authDomain: (config.authDomain || `${config.projectId}.firebaseapp.com`).trim(),
+    projectId: (config.projectId || "homeorx-saas").trim(),
+    storageBucket: (config.storageBucket || `${config.projectId}.appspot.com`).trim(),
+    messagingSenderId: (config.messagingSenderId || "").trim(),
+    appId: (config.appId || "").trim(),
+  };
 }
 
 /**
  * Initialize or retrieve the active Firebase App singleton
  */
 export function getOrInitFirebaseApp(): FirebaseApp {
+  if (getApps().length > 0) {
+    return getApp();
+  }
+
   const config = getActiveFirebaseConfig();
+  const safeApiKey = config.apiKey || "NEXT_PUBLIC_FIREBASE_KEY_NOT_SET";
   const baseConfig = {
-    apiKey: config.apiKey || "YOUR_FIREBASE_API_KEY_PLACEHOLDER",
+    apiKey: safeApiKey,
     authDomain: config.authDomain || "homeorx-4d877.firebaseapp.com",
     projectId: config.projectId || "homeorx-4d877",
     storageBucket: config.storageBucket || "homeorx-4d877.firebasestorage.app",
@@ -105,9 +111,6 @@ export function getOrInitFirebaseApp(): FirebaseApp {
     appId: config.appId || "1:650516803516:web:13fc2a9068dbb1538f85b9",
   };
 
-  if (getApps().length > 0) {
-    return getApp();
-  }
   return initializeApp(baseConfig);
 }
 
