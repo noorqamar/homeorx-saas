@@ -76,7 +76,7 @@ export default async function PrescriptionDetailPage({
       </div>
 
       {/* Redesigned Prescription Document Renderer */}
-      <div className="shadow-md rounded-xl overflow-hidden bg-slate-100 p-3 sm:p-6 border border-slate-200">
+      <div className="shadow-md rounded-xl overflow-hidden bg-slate-100 p-1 sm:p-6 border border-slate-200">
         <PrescriptionRenderer
           rx={rx}
           preset={preset}

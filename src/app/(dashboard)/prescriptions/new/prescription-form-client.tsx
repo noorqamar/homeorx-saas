@@ -674,7 +674,7 @@ export function PrescriptionFormClient({
             className="border-indigo-300 bg-indigo-50/50 hover:bg-indigo-100/70 text-indigo-700 font-bold shadow-xs text-xs h-9 px-3.5 flex items-center gap-1.5"
           >
             <Eye className="h-4 w-4 text-indigo-600" />
-            <span>Preview (پیش نظارہ)</span>
+            <span>Preview</span>
           </Button>
 
           {/* 2. Save Prescription (Save Only) */}
@@ -687,7 +687,7 @@ export function PrescriptionFormClient({
             className="border-slate-300 bg-slate-800 hover:bg-slate-900 text-white font-bold shadow-xs text-xs h-9 px-4 flex items-center gap-1.5"
           >
             <Save className="h-4 w-4 text-emerald-400" />
-            <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save (محفوظ کریں)"}</span>
+            <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save"}</span>
           </Button>
 
           {/* 3. Print Prescription (Save & Print) */}
@@ -700,7 +700,7 @@ export function PrescriptionFormClient({
             className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black shadow-md text-xs h-9 px-4 flex items-center gap-1.5 ring-2 ring-emerald-500/20"
           >
             <Printer className="h-4 w-4 text-white" />
-            <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Print (پرنٹ نسخہ)"}</span>
+            <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Print"}</span>
           </Button>
         </div>
       </div>
@@ -722,7 +722,7 @@ export function PrescriptionFormClient({
               </div>
               <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                 <Users className="h-4 w-4 text-indigo-400" />
-                Patient Selection & Consultation (<span className="urdu-text text-xs text-indigo-200">مریض کا انتخاب و علامات</span>)
+                Patient Selection & Consultation
               </h2>
             </div>
             <span className="text-[10px] bg-indigo-500/20 text-indigo-200 px-2.5 py-0.5 rounded-full border border-indigo-400/30">
@@ -735,7 +735,7 @@ export function PrescriptionFormClient({
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
               <div className="md:col-span-8 relative">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Select Patient (<span className="urdu-text text-[11px]">مریض منتخب کریں</span>) <span className="text-rose-500">*</span>
+                  Select Patient <span className="text-rose-500">*</span>
                 </label>
 
                 {selectedPatient ? (
@@ -812,7 +812,7 @@ export function PrescriptionFormClient({
 
               <div className="md:col-span-4">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                  Prescription Date (تاریخ نسخہ)
+                  Prescription Date
                 </label>
                 <input
                   type="date"
@@ -831,7 +831,7 @@ export function PrescriptionFormClient({
                   type="text"
                   value={chiefComplaint}
                   onChange={(e) => setChiefComplaint(e.target.value)}
-                  placeholder="Chief Complaint / Presenting Condition (تکلیف / علامات)..."
+                  placeholder="Chief Complaint / Presenting Condition..."
                   className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
@@ -840,7 +840,7 @@ export function PrescriptionFormClient({
                   type="text"
                   value={clinicalNotes}
                   onChange={(e) => setClinicalNotes(e.target.value)}
-                  placeholder="Clinical Diagnosis / Notes (تشخیص و طبی نوٹس)..."
+                  placeholder="Clinical Diagnosis / Notes..."
                   className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
@@ -858,7 +858,7 @@ export function PrescriptionFormClient({
               <div>
                 <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-emerald-400" />
-                  Prescribed Homeopathic Medicines (<span className="urdu-text text-xs text-emerald-200">تجویز کردہ ادویات و مقدار</span>)
+                  Prescribed Homeopathic Medicines
                 </h2>
                 <span className="text-[10px] text-emerald-200/70 hidden sm:inline">
                   {medicines.length} {medicines.length === 1 ? "Remedy" : "Remedies"} selected • Use ↑↓ Arrow keys to preview
@@ -874,7 +874,7 @@ export function PrescriptionFormClient({
               className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
-              + Add Medicine (مزید دوائی)
+              + Add Medicine
             </Button>
           </div>
 
@@ -1133,7 +1133,7 @@ export function PrescriptionFormClient({
                 className="text-emerald-700 border-emerald-300 hover:bg-emerald-50 font-bold text-xs"
               >
                 <Plus className="h-3.5 w-3.5 mr-1" />
-                + Add Another Medicine (مزید دوائی شامل کریں)
+                + Add Another Medicine
               </Button>
 
               <span className="text-[11px] text-slate-400 font-medium">
@@ -1143,7 +1143,7 @@ export function PrescriptionFormClient({
           </CardContent>
         </Card>
 
-        {/* 3. MULTIPLE GENERAL INSTRUCTIONS & DIETARY ADVICE (ملٹیپل پرہیز و ہدایات مع ایموجیز اور نوری نستعلیق) */}
+        {/* 3. MULTIPLE GENERAL INSTRUCTIONS & DIETARY ADVICE */}
         <Card className="border-amber-200 shadow-md overflow-hidden">
           <div className="bg-gradient-to-r from-slate-900 via-amber-950 to-slate-900 p-3.5 text-white flex items-center justify-between border-b border-amber-500/20">
             <div className="flex items-center gap-2">
@@ -1153,15 +1153,15 @@ export function PrescriptionFormClient({
               <div>
                 <h2 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                   <ListPlus className="h-4 w-4 text-amber-400" />
-                  General Patient Advice & Dietary Precautions (<span className="urdu-text text-xs text-amber-200">عمومی پرہیز و ہدایات</span>)
+                  General Patient Advice & Dietary Precautions
                 </h2>
                 <span className="text-[10px] text-amber-200/70 hidden sm:inline">
-                  Click any tag below to toggle advice with emojis in Noori Nastaleeq
+                  Click any tag below to toggle advice with emojis
                 </span>
               </div>
             </div>
             <span className="text-[10px] bg-amber-500/20 text-amber-200 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-              Noori Nastaleeq
+              Clinical Advice
             </span>
           </div>
 
@@ -1169,7 +1169,7 @@ export function PrescriptionFormClient({
             {/* Quick-Select Advice Chips (Clickable Badges with Emojis) */}
             <div className="space-y-1.5">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                Quick Select Advice Tags (فوری ہدایات منتخب کریں):
+                Quick Select Advice Tags:
               </label>
               <div className="flex flex-wrap gap-2">
                 {QUICK_ADVICE_OPTIONS.map((opt) => {
@@ -1197,7 +1197,7 @@ export function PrescriptionFormClient({
               {/* Editable Multi-line Text Area for Instructions (Nastaliq Typography) */}
               <div className="md:col-span-9 space-y-1">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                  Detailed Advice & Precautions (ہر ہدایت الگ سطر پر مع ایموجی):
+                  Detailed Advice & Precautions:
                 </label>
                 <textarea
                   value={generalInstructions}
@@ -1225,8 +1225,8 @@ export function PrescriptionFormClient({
                   placeholder="e.g. 14"
                   className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-900 focus:border-emerald-500 focus:outline-none font-bold"
                 />
-                <span className="text-xs text-emerald-900 font-bold block pt-1 urdu-font">
-                  اگلی ملاقات: {followUpDays ? `${followUpDays} دن بعد` : "ضرورت پڑنے پر"}
+                <span className="text-xs text-emerald-900 font-bold block pt-1">
+                  Next Consultation: {followUpDays ? `${followUpDays} days later` : "As needed"}
                 </span>
               </div>
             </div>
@@ -1242,7 +1242,7 @@ export function PrescriptionFormClient({
               size="md"
               className="border-slate-700 text-slate-300 hover:bg-slate-800 w-full sm:w-auto"
             >
-              Cancel (منسوخ کریں)
+              Cancel
             </Button>
           </Link>
 
@@ -1256,7 +1256,7 @@ export function PrescriptionFormClient({
               className="border-indigo-400/50 bg-indigo-950/60 text-indigo-200 hover:bg-indigo-900 font-bold text-xs h-10 px-4 flex items-center gap-1.5"
             >
               <Eye className="h-4 w-4 text-indigo-400" />
-              <span>Preview (پیش نظارہ)</span>
+              <span>Preview</span>
             </Button>
 
             {/* Save Only Button */}
@@ -1269,7 +1269,7 @@ export function PrescriptionFormClient({
               className="border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs h-10 px-5 flex items-center gap-1.5"
             >
               <Save className="h-4 w-4 text-emerald-400" />
-              <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save (محفوظ کریں)"}</span>
+              <span>{isSubmitting && submitAction === "save" ? "Saving..." : "Save"}</span>
             </Button>
 
             {/* Save & Print Button */}
@@ -1282,7 +1282,7 @@ export function PrescriptionFormClient({
               className="bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black shadow-lg text-xs h-10 px-6 flex items-center gap-1.5 ring-2 ring-emerald-400/30"
             >
               <Printer className="h-4 w-4 text-slate-950" />
-              <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Save & Print (محفوظ و پرنٹ کریں)"}</span>
+              <span>{isSubmitting && submitAction === "print" ? "Processing..." : "Save & Print"}</span>
             </Button>
           </div>
         </div>
@@ -1300,7 +1300,7 @@ export function PrescriptionFormClient({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                    Prescription Live Preview (پیش نظارہ نسخہ)
+                    Prescription Live Preview
                     <span className="text-[10px] font-mono bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
                       A4 Standard
                     </span>

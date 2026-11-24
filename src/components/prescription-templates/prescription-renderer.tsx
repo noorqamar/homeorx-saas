@@ -138,25 +138,25 @@ export function PrescriptionRenderer({
 
   // Reusable Clinic Header Component
   const renderClinicHeader = (pageNumber: number, totalPages: number) => (
-    <div className="border-b-2 border-slate-800 pb-2.5">
-      <div className="flex items-center justify-between gap-4">
+    <div className="border-b-2 border-slate-800 pb-2.5 sm:pb-3">
+      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2.5 sm:gap-4 print:flex-row print:items-center print:justify-between">
         {/* Left: Clinic Emblem & Title */}
-        <div className="flex items-center gap-3.5 flex-1 min-w-0">
+        <div className="flex items-center gap-2.5 sm:gap-3.5 w-full sm:w-auto sm:flex-1 min-w-0 justify-center sm:justify-start text-center sm:text-left print:justify-start print:text-left">
           {clinicTheme.logoUrl ? (
             <img
               src={clinicTheme.logoUrl}
               alt="Clinic Logo"
-              className="h-16 w-16 object-contain shrink-0"
+              className="h-11 w-11 sm:h-16 sm:w-16 object-contain shrink-0 print:h-16 print:w-16"
             />
           ) : (
             <div className="flex flex-col items-center justify-center shrink-0">
-              <div className="h-14 w-14 rounded-full bg-gradient-to-tr from-emerald-800 via-teal-700 to-emerald-600 p-0.5 shadow-md flex items-center justify-center border-2 border-emerald-900">
+              <div className="h-11 w-11 sm:h-14 sm:w-14 rounded-full bg-gradient-to-tr from-emerald-800 via-teal-700 to-emerald-600 p-0.5 shadow-md flex items-center justify-center border-2 border-emerald-900 print:h-14 print:w-14">
                 <div className="h-full w-full rounded-full bg-white flex flex-col items-center justify-center p-1 text-center">
                   <div className="relative">
-                    <Leaf className="h-5 w-5 text-emerald-600 -top-1" />
-                    <div className="h-3 w-7 bg-emerald-900 rounded-b-full mx-auto -mt-1" />
+                    <Leaf className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600 -top-1" />
+                    <div className="h-2.5 w-6 sm:h-3 sm:w-7 bg-emerald-900 rounded-b-full mx-auto -mt-1" />
                   </div>
-                  <span className="text-[8px] font-black text-emerald-950 tracking-wider font-serif">
+                  <span className="text-[7px] sm:text-[8px] font-black text-emerald-950 tracking-wider font-serif">
                     FNH
                   </span>
                 </div>
@@ -165,25 +165,25 @@ export function PrescriptionRenderer({
           )}
 
           <div className="space-y-0.5 min-w-0">
-            <h1 className="text-xl sm:text-2xl font-black text-emerald-950 tracking-tight font-serif uppercase leading-none">
+            <h1 className="text-sm sm:text-2xl font-black text-emerald-950 tracking-tight font-serif uppercase leading-tight print:text-2xl">
               {clinicTheme.clinicName}
             </h1>
-            <div className="flex items-center gap-2 pt-0.5">
+            <div className="hidden sm:flex items-center gap-2 pt-0.5 print:flex">
               <div className="h-px bg-emerald-700 flex-1 max-w-[80px]" />
               <span className="text-emerald-800 text-[10px] select-none font-serif">❧ • ❧</span>
               <div className="h-px bg-emerald-700 flex-1 max-w-[80px]" />
             </div>
-            <p className="text-[11px] text-slate-700 font-bold tracking-wide italic">
+            <p className="text-[9.5px] sm:text-[11px] text-slate-700 font-bold tracking-wide italic print:text-[11px]">
               {clinicTheme.tagline}
             </p>
           </div>
         </div>
 
         {/* Right: Doctor Avatar Photo & Credentials */}
-        <div className="flex items-center gap-3 shrink-0 text-right">
-          <div className="space-y-0.5 text-right">
-            <div className="flex items-center justify-end gap-2">
-              <h2 className="text-base sm:text-lg font-black text-slate-900 font-serif leading-tight">
+        <div className="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0 justify-center sm:justify-end text-center sm:text-right border-t sm:border-t-0 border-slate-200 pt-2 sm:pt-0 print:border-t-0 print:pt-0 print:justify-end print:text-right">
+          <div className="space-y-0.5 text-center sm:text-right print:text-right">
+            <div className="flex items-center justify-center sm:justify-end gap-2 print:justify-end">
+              <h2 className="text-xs sm:text-lg font-black text-slate-900 font-serif leading-tight print:text-lg">
                 {clinicTheme.doctorName}
               </h2>
               {totalPages > 1 && (
@@ -192,21 +192,21 @@ export function PrescriptionRenderer({
                 </span>
               )}
             </div>
-            <div className="flex items-center justify-end gap-1.5">
+            <div className="hidden sm:flex items-center justify-end gap-1.5 print:flex">
               <div className="h-px bg-slate-400 w-12" />
               <span className="text-slate-500 text-[8px]">❧</span>
               <div className="h-px bg-slate-400 w-12" />
             </div>
-            <p className="text-[10px] font-black text-slate-800 uppercase tracking-wider">
+            <p className="text-[9px] sm:text-[10px] font-black text-slate-800 uppercase tracking-wider print:text-[10px]">
               {clinicTheme.credentials}
             </p>
-            <p className="text-[9px] text-slate-500 font-medium">
+            <p className="text-[8.5px] sm:text-[9px] text-slate-500 font-medium">
               Reg. No: <strong className="text-slate-700 font-mono">{clinicTheme.regNo}</strong>
             </p>
           </div>
 
           {/* Circular Doctor Avatar Photo */}
-          <div className="h-14 w-14 rounded-full p-0.5 bg-gradient-to-tr from-amber-600 via-emerald-600 to-teal-800 shadow-md shrink-0 overflow-hidden border border-slate-300">
+          <div className="h-10 w-10 sm:h-14 sm:w-14 rounded-full p-0.5 bg-gradient-to-tr from-amber-600 via-emerald-600 to-teal-800 shadow-md shrink-0 overflow-hidden border border-slate-300 print:h-14 print:w-14">
             {clinicTheme.doctorPhoto ? (
               <img
                 src={clinicTheme.doctorPhoto}
@@ -215,7 +215,7 @@ export function PrescriptionRenderer({
               />
             ) : (
               <div className="h-full w-full rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
-                <User className="h-7 w-7 text-emerald-800" />
+                <User className="h-5 w-5 sm:h-7 sm:w-7 text-emerald-800 print:h-7 print:w-7" />
               </div>
             )}
           </div>
@@ -286,8 +286,7 @@ export function PrescriptionRenderer({
         return (
           <div
             key={pageIdx}
-            className="w-full max-w-[950px] mx-auto bg-white p-4 sm:p-5 md:p-6 shadow-2xl print:shadow-none print:p-0 print:m-0 print:w-full flex flex-col justify-between border-2 border-slate-300 rounded-2xl print:rounded-none print:border-0 text-slate-900 a4-print-sheet a4-page transition-all relative overflow-hidden font-sans"
-            style={{ minHeight: "260mm" }}
+            className="w-full max-w-[950px] mx-auto bg-white p-3 sm:p-5 md:p-6 shadow-2xl print:shadow-none print:p-0 print:m-0 print:w-full flex flex-col justify-between border-2 border-slate-300 rounded-2xl print:rounded-none print:border-0 text-slate-900 a4-print-sheet a4-page transition-all relative overflow-hidden font-sans min-h-0 sm:min-h-[260mm] print:min-h-[275mm]"
           >
             {/* Watermark for Demo Trial */}
             {isDemo && (
