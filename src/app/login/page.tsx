@@ -938,7 +938,7 @@ export default function LoginPage() {
                     required
                     value={rawFirebaseConfig}
                     onChange={(e) => setRawFirebaseConfig(e.target.value)}
-                    placeholder={`const firebaseConfig = {\n  apiKey: "YOUR_API_KEY...",\n  authDomain: "homeorx.firebaseapp.com",\n  projectId: "homeorx"\n};`}
+                    placeholder={`const firebaseConfig = {\n  apiKey: "YOUR_API_KEY",\n  authDomain: "homeorx.firebaseapp.com",\n  projectId: "homeorx"\n};`}
                     className="w-full px-3 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1E50DE] focus:outline-none"
                   />
                 </div>
