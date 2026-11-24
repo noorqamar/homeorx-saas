@@ -86,6 +86,55 @@ interface MedicineBottleProps {
   className?: string;
 }
 
+interface TypographyResult {
+  nameSize: number;
+  potencySize: number;
+}
+
+/**
+ * Dynamically computes pixel-accurate typography for bottle labels to guarantee
+ * that remedy names and potencies fit strictly within the bottle's white label area
+ * without horizontal overflow or awkward wrapping.
+ */
+function getLabelTypography(
+  cleanName: string,
+  fontScale: number,
+  options?: { isNarrow?: boolean; isUppercase?: boolean }
+): TypographyResult {
+  const isNarrow = options?.isNarrow ?? false;
+  const isUppercase = options?.isUppercase ?? false;
+
+  const words = cleanName.trim().split(/\s+/);
+  const maxWordLen = Math.max(...words.map((w) => w.length), 0);
+  const totalLen = cleanName.length;
+
+  // Available label width (px) at size='sm' (width ~55px) with comfortable padding
+  const availableWidth = isNarrow ? 19 : 32;
+  const charFactor = isUppercase ? 0.65 : 0.52;
+
+  // Ideal font size to prevent any horizontal overflow
+  let ideal = availableWidth / (Math.max(maxWordLen, 1) * charFactor);
+
+  // If total length is very large even across 2 lines (e.g. 20+ chars)
+  if (totalLen > 20) {
+    ideal = Math.min(ideal, (availableWidth * 1.8) / (totalLen * charFactor));
+  }
+
+  // Clamp font size
+  const maxFont = isNarrow ? 5.5 : 7.0;
+  const minFont = isNarrow ? 3.0 : 3.4;
+  const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
+
+  // Potency font size
+  const potBase = isNarrow ? 5.2 : 6.2;
+  const potencySize = Math.max(4.2, potBase * fontScale);
+
+  return {
+    nameSize: Number(nameSize.toFixed(1)),
+    potencySize: Number(potencySize.toFixed(1)),
+  };
+}
+
 export function MedicineBottle({
   medicineName,
   potency,
@@ -119,6 +168,11 @@ export function MedicineBottle({
   const fontScale =
     size === "xs" ? 0.85 : size === "sm" ? 1.0 : size === "lg" ? 1.35 : 1.15;
 
+  // Compute typography for active bottle variant
+  const isNarrow = activeVariant === "schwabe";
+  const isUppercase = activeVariant.startsWith("masood");
+  const typo = getLabelTypography(cleanName, fontScale, { isNarrow, isUppercase });
+
   const handleNextVariant = () => {
     const curIdx = ALL_VARIANTS.indexOf(activeVariant);
     const nextIdx = (curIdx + 1) % ALL_VARIANTS.length;
@@ -144,31 +198,31 @@ export function MedicineBottle({
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
-              className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "64.0%",
-                width: "80%",
+                top: "66.5%",
+                left: "50%",
+                width: "66%",
+                maxWidth: "66%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <span
-                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
-                style={{
-                  fontSize: `${(cleanName.length > 15 ? 6.2 : cleanName.length > 10 ? 7.2 : 8.5) * fontScale}px`,
-                }}
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
                   <>
-                    <span className="block truncate">{words[0]}</span>
-                    <span className="block truncate">{words.slice(1).join(" ")}</span>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
                   </>
                 ) : (
-                  cleanName
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
                 )}
-              </span>
+              </div>
               <span
-                className="font-black text-[#1e3a8a] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${8.5 * fontScale}px` }}
+                className="font-black text-[#1e3a8a] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
               </span>
@@ -185,32 +239,31 @@ export function MedicineBottle({
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
-              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "64.5%",
-                left: "69.0%",
-                width: "50%",
+                top: "62.4%",
+                left: "63.5%",
+                width: "38%",
+                maxWidth: "38%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <span
-                className="font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] block font-sans"
-                style={{
-                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.0) * fontScale}px`,
-                }}
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
                   <>
-                    <span className="block truncate">{words[0]}</span>
-                    <span className="block truncate">{words.slice(1).join(" ")}</span>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
                   </>
                 ) : (
-                  cleanName
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
                 )}
-              </span>
+              </div>
               <span
-                className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${8.0 * fontScale}px` }}
+                className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
               </span>
@@ -227,31 +280,31 @@ export function MedicineBottle({
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
-              className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "61.5%",
-                width: "74%",
+                top: "59.5%",
+                left: "50%",
+                width: "66%",
+                maxWidth: "66%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <span
-                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
-                style={{
-                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
-                }}
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
                   <>
-                    <span className="block truncate">{words[0]}</span>
-                    <span className="block truncate">{words.slice(1).join(" ")}</span>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
                   </>
                 ) : (
-                  cleanName
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
                 )}
-              </span>
+              </div>
               <span
-                className="font-black text-[#0f766e] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${8.5 * fontScale}px` }}
+                className="font-black text-[#0f766e] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
               </span>
@@ -268,31 +321,31 @@ export function MedicineBottle({
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
-              className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "67.5%",
-                width: "78%",
+                top: "58.5%",
+                left: "50%",
+                width: "66%",
+                maxWidth: "66%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <span
-                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
-                style={{
-                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
-                }}
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
                   <>
-                    <span className="block truncate">{words[0]}</span>
-                    <span className="block truncate">{words.slice(1).join(" ")}</span>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
                   </>
                 ) : (
-                  cleanName
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
                 )}
-              </span>
+              </div>
               <span
-                className="font-black text-[#15803d] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${8.5 * fontScale}px` }}
+                className="font-black text-[#15803d] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
               </span>
@@ -309,31 +362,31 @@ export function MedicineBottle({
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
-              className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center px-0.5 pointer-events-none"
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "68.0%",
-                width: "72%",
+                top: "66.5%",
+                left: "50%",
+                width: "65%",
+                maxWidth: "65%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <span
-                className="font-black text-[#0f172a] tracking-tight leading-[1.05] block font-sans uppercase"
-                style={{
-                  fontSize: `${(cleanName.length > 15 ? 5.8 : cleanName.length > 10 ? 6.8 : 8.2) * fontScale}px`,
-                }}
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
                   <>
-                    <span className="block truncate">{words[0]}</span>
-                    <span className="block truncate">{words.slice(1).join(" ")}</span>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
                   </>
                 ) : (
-                  cleanName
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
                 )}
-              </span>
+              </div>
               <span
-                className="font-black text-[#b45309] tracking-wider leading-none mt-0.5 block font-sans"
-                style={{ fontSize: `${8.5 * fontScale}px` }}
+                className="font-black text-[#b45309] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
               </span>
