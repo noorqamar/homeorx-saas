@@ -200,7 +200,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "69.0%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
@@ -241,7 +241,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "62.4%",
+                top: "69.5%",
                 left: "63.5%",
                 width: "38%",
                 maxWidth: "38%",
@@ -282,7 +282,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "59.5%",
+                top: "63.0%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
@@ -323,7 +323,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "58.5%",
+                top: "70.0%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
@@ -364,7 +364,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "67.5%",
                 left: "50%",
                 width: "65%",
                 maxWidth: "65%",
