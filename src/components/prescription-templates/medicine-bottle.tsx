@@ -99,9 +99,9 @@ interface TypographyResult {
 function getLabelTypography(
   cleanName: string,
   fontScale: number,
-  options?: { isNarrow?: boolean; isUppercase?: boolean }
+  options?: { isSchwabe?: boolean; isUppercase?: boolean }
 ): TypographyResult {
-  const isNarrow = options?.isNarrow ?? false;
+  const isSchwabe = options?.isSchwabe ?? false;
   const isUppercase = options?.isUppercase ?? false;
 
   const words = cleanName.trim().split(/\s+/);
@@ -109,25 +109,26 @@ function getLabelTypography(
   const totalLen = cleanName.length;
 
   // Available label width (px) at size='sm' (width ~55px) with comfortable padding
-  const availableWidth = isNarrow ? 19 : 32;
+  // Schwabe label is ~52% wide (28px). Others are ~66% wide (34px).
+  const availableWidth = isSchwabe ? 28 : 33;
   const charFactor = isUppercase ? 0.65 : 0.52;
 
   // Ideal font size to prevent any horizontal overflow
   let ideal = availableWidth / (Math.max(maxWordLen, 1) * charFactor);
 
-  // If total length is very large even across 2 lines (e.g. 20+ chars)
-  if (totalLen > 20) {
+  // If total length is very large even across 2 lines (e.g. 22+ chars)
+  if (totalLen > 22) {
     ideal = Math.min(ideal, (availableWidth * 1.8) / (totalLen * charFactor));
   }
 
-  // Clamp font size
-  const maxFont = isNarrow ? 5.5 : 7.0;
-  const minFont = isNarrow ? 3.0 : 3.4;
+  // Healthy font size bounds - ensure high readability
+  const maxFont = 7.4;
+  const minFont = isSchwabe ? 4.2 : 3.6;
   const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
 
   // Potency font size
-  const potBase = isNarrow ? 5.2 : 6.2;
-  const potencySize = Math.max(4.2, potBase * fontScale);
+  const potBase = isSchwabe ? 6.5 : 6.4;
+  const potencySize = Math.max(4.8, potBase * fontScale);
 
   return {
     nameSize: Number(nameSize.toFixed(1)),
@@ -169,9 +170,9 @@ export function MedicineBottle({
     size === "xs" ? 0.85 : size === "sm" ? 1.0 : size === "lg" ? 1.35 : 1.15;
 
   // Compute typography for active bottle variant
-  const isNarrow = activeVariant === "schwabe";
+  const isSchwabe = activeVariant === "schwabe";
   const isUppercase = activeVariant.startsWith("masood");
-  const typo = getLabelTypography(cleanName, fontScale, { isNarrow, isUppercase });
+  const typo = getLabelTypography(cleanName, fontScale, { isSchwabe, isUppercase });
 
   const handleNextVariant = () => {
     const curIdx = ALL_VARIANTS.indexOf(activeVariant);
@@ -241,15 +242,15 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "69.5%",
-                left: "63.5%",
-                width: "38%",
-                maxWidth: "38%",
+                top: "66.5%",
+                left: "70.0%",
+                width: "48%",
+                maxWidth: "48%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-black tracking-tight leading-[1.05] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -282,7 +283,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "63.0%",
+                top: "66.5%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
