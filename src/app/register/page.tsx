@@ -76,7 +76,7 @@ export default function RegisterPage() {
           if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
             router.push("/admin");
           } else {
-            router.push("/");
+            router.push("/dashboard");
           }
           router.refresh();
         }
@@ -134,7 +134,7 @@ export default function RegisterPage() {
       if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
         router.push("/admin");
       } else {
-        router.push("/");
+        router.push("/dashboard");
       }
       router.refresh();
     } catch (err: any) {
@@ -208,7 +208,7 @@ export default function RegisterPage() {
       if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
         router.push("/admin");
       } else {
-        router.push("/");
+        router.push("/dashboard");
       }
       router.refresh();
     } catch (err: any) {

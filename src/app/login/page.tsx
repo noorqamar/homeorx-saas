@@ -76,7 +76,7 @@ export default function LoginPage() {
           if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
             router.push("/admin");
           } else {
-            router.push("/");
+            router.push("/dashboard");
           }
           router.refresh();
         }
@@ -128,7 +128,7 @@ export default function LoginPage() {
         if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
           router.push("/admin");
         } else {
-          router.push("/");
+          router.push("/dashboard");
         }
         router.refresh();
         return;
@@ -241,7 +241,7 @@ export default function LoginPage() {
       if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
         router.push("/admin");
       } else {
-        router.push("/");
+        router.push("/dashboard");
       }
       router.refresh();
     } catch (err: any) {
@@ -332,7 +332,7 @@ export default function LoginPage() {
               if (syncRes.isSuperAdmin || syncRes.role === "SUPER_ADMIN") {
                 router.push("/admin");
               } else {
-                router.push("/");
+                router.push("/dashboard");
               }
               router.refresh();
             }
@@ -376,7 +376,7 @@ export default function LoginPage() {
       if (res.role === "SUPER_ADMIN" || res.isSuperAdmin) {
         router.push("/admin");
       } else {
-        router.push("/");
+        router.push("/dashboard");
       }
       router.refresh();
     } catch (err: any) {
@@ -396,7 +396,7 @@ export default function LoginPage() {
         setIsDemoLoading(false);
         return;
       }
-      router.push("/");
+      router.push("/dashboard");
       router.refresh();
     } catch (err: any) {
       setError(err?.message || "Demo login failed.");

@@ -1,14 +1,18 @@
 # ARCHITECTURE.md
 
 > **System Architecture, Subsystem Data Flow & Invariants**
-> This document outlines the technical design, component boundaries, runtime data flows, and architectural invariants of HomeoRx SaaS. AI agents must preserve these invariants during all code generation, refactoring, and feature additions.
+> This document outlines the technical design, component boundaries, runtime data flows, and architectural invariants of HomeoRx & Dr. Noor ul Qamar Homeopathy Care. AI agents must preserve these invariants during all code generation, refactoring, and feature additions.
 
 ---
 
 ## 1. System Overview
-- **Project Purpose**: High-performance, multi-tenant Homeopathic EHR & Clinical Prescription Suite with bilingual Urdu/English support and luxury Single-Page A4 PDF print generation.
-- **Architecture Pattern**: Full-Stack Next.js 15 (App Router) + Server Actions + Prisma ORM
-- **Target Runtime / Platform**: Node.js / Vercel Serverless (Stateless Lambda) & Self-Hosted Environments
+- **Practice / Brand Name**: Dr. Noor ul Qamar Homeopathy Care
+- **Doctor**: Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) — 10 Years Clinical Experience
+- **Architecture Pattern**: Dual-Tier Architecture:
+  1. **Public Patient Medical Portal**: High-speed, SEO-optimized, responsive public clinic website (SSG/SSR, Schema markup, WhatsApp engine, 66 clinical condition guides).
+  2. **Protected Doctor SaaS Suite**: Multi-tenant clinical management suite, patient records, master homeopathic repertory, and luxury Single-Page A4 PDF prescription generator.
+- **Primary Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, TailwindCSS, Prisma ORM, SQLite
+- **Visual Design Identity**: Forest green (`#143e2e`), Sage green (`#588157`), Warm Ivory (`#faf8f2`), White, and restrained Gold accents (`#c5a059`). Typography: Playfair Display serif headings and Plus Jakarta Sans body.
 
 ---
 
@@ -16,90 +20,75 @@
 
 ```mermaid
 flowchart TD
-    subgraph ClientLayer [Client & UI Layer]
-        Browser([Web Browser / Mobile / Desktop])
-        PrintView([Single-Page A4 PDF Letterhead])
+    subgraph ClientLayer [Client & Public Traffic]
+        PatientVisitor([Patient / Mobile / Desktop])
+        SearchCrawler([Google / Search Engine Crawlers])
+        DoctorUser([Doctor / Clinic Staff])
     end
 
-    subgraph AppRouter [Next.js 15 App Router]
-        AuthMiddleware[Stateless JWT Cookie Auth]
-        DashboardLayout[Tenant Workspace Context]
-        ServerActions[Next.js Server Actions]
+    subgraph EdgeRouting [Edge & Middleware Layer]
+        AuthMiddleware[src/middleware.ts]
     end
 
-    subgraph BusinessLogic [Core Domain Engines]
-        TenantEngine[Multi-Tenant & Feature Gate Engine]
-        PrescriptionEngine[Prescription & Dosage Builder]
-        MasterRepertory[760+ Remedies & Urdu Database]
+    subgraph PublicPortal [Public Clinic Website - Dr. Noor ul Qamar]
+        HomePage[Homepage /]
+        AboutPage[/about]
+        WomensHealth[/womens-health]
+        TreatmentsDir[/treatments & /treatments/:slug]
+        DiseaseKits[/disease-kits]
+        BlogEngine[/blog & /blog/:slug]
+        ContactPage[/contact with Google Map]
+        WhatsAppEngine[WhatsApp Appointment Generator]
+        SchemaEngine[JSON-LD Schema Markup]
     end
 
-    subgraph DataLayer [Storage & Persistence]
+    subgraph DoctorSaaS [Protected Clinic Workspace]
+        DashboardView[/dashboard]
+        PatientRegistry[/patients]
+        PrescriptionStudio[/prescriptions/new]
+        SinglePageA4Print[/prescriptions/:id/print]
+        RepertoryDatabase[/medicines & /repertory]
+    end
+
+    subgraph StorageLayer [Persistence & Models]
+        StaticRepositories[src/data/ - Treatments, Kits, FAQs, Clinic Info]
         PrismaORM[Prisma Client ORM]
-        SQLiteDB[(SQLite Database - dev.db / /tmp)]
+        SQLiteDB[(SQLite Database)]
     end
 
-    Browser -->|HTTP Request / Session Cookie| AuthMiddleware
-    AuthMiddleware --> DashboardLayout
-    DashboardLayout --> ServerActions
-    ServerActions --> TenantEngine
-    ServerActions --> PrescriptionEngine
-    PrescriptionEngine --> MasterRepertory
-    TenantEngine --> PrismaORM
-    PrescriptionEngine --> PrismaORM
-    MasterRepertory --> PrismaORM
+    PatientVisitor -->|Public HTTP| EdgeRouting
+    SearchCrawler -->|SEO Sitemap / Robots| EdgeRouting
+    DoctorUser -->|Session Cookie| EdgeRouting
+
+    EdgeRouting -->|Public Routes| PublicPortal
+    EdgeRouting -->|Protected Routes| DoctorSaaS
+
+    PublicPortal --> StaticRepositories
+    DoctorSaaS --> PrismaORM
     PrismaORM --> SQLiteDB
-    DashboardLayout --> PrintView
 ```
 
-### Subsystem Breakdown
-
-1. **Presentation & UI (`src/app/`, `src/components/`)**:
-   - **App Router Structure**: Grouped under `(dashboard)` for protected routes (`/patients`, `/prescriptions`, `/medicines`, `/repertory`, `/admin`, `/clinic`, `/settings`).
-   - **Bilingual Nastaliq Typography**: Unified token `.urdu-text` and `.font-nastaliq` utilizing Google Noto Nastaliq Urdu font for accurate RTL rendering.
-   - **Clinical Letterhead Engine (`src/components/prescription-templates/`)**: Ultra-responsive single-page A4 prescription layout with luxury clinic header, dermatome pattern mapping, amber glass remedy bottle artwork, and dual-accent wave footer.
-
-2. **Authentication & Session Subsystem (`src/lib/auth.ts`)**:
-   - **Stateless Cryptographic Tokens**: HMAC-SHA256 digitally signed JWT cookies (`homeorx_session_token`) storing `{ doctorId, tenantId, role, email, name, exp }`.
-   - **Cross-Lambda Ephemeral Resilience**: Allows independent Vercel serverless containers to authenticate requests without requiring shared SQLite session row lookups.
-
-3. **Multi-Tenancy & Access Control (`src/lib/tenant.ts`, `src/lib/feature-gate.ts`, `src/lib/account-lifecycle.ts`)**:
-   - **Tenant Scoping**: Enforces data isolation so individual clinic doctors can only query and mutate records belonging to their `tenantId`.
-   - **Super Admin Global Authority**: Grants Super Administrators global visibility across all tenants and bypasses demo creation limits.
-   - **Trial & Feature Lifecycle**: Enforces demo trial limits (e.g. daily prescription quotas, watermarks) and upgrade workflows.
-
-4. **Persistence Layer (`prisma/`, `src/lib/db.ts`)**:
-   - **ORM**: Prisma Client connected via dynamic SQLite datasource URLs (`/tmp/dev.db` on Vercel or local `./prisma/dev.db`).
-   - **Self-Healing Schema Migrations**: Runtime `ensureDbSchema()` executes safe `ALTER TABLE` DDL checks on startup.
-   - **Master Seeding**: Bundled binary seed (`src/lib/db-seed-binary.ts`) hydrates 760+ homeopathic remedies, potencies, dosages, frequencies, and Urdu instructions.
-
 ---
 
-## 3. Core Invariants (Non-Negotiable Constraints)
+## 3. Core Architectural Invariants
 
-1. **Stateless Cross-Instance Integrity**:
-   - Never introduce stateful session tables or in-memory caches that assume a single long-lived Node.js process unless backed by persistent storage.
-2. **Multi-Tenant Data Isolation**:
-   - Doctor queries must always filter by `tenantId` unless the acting user has `role === "SUPER_ADMIN"`.
-3. **Single-Page A4 Geometry**:
-   - The prescription output sheet must strictly adhere to `minHeight: 272mm` and `maxHeight: 284mm`, with overflow hidden and `@media print` exact color adjustments.
-4. **Bilingual Typography Integrity**:
-   - Urdu instructions and medical terms must always render with Nastaliq typography and RTL directionality.
+1. **Strict Public vs. Protected Route Boundary**:
+   - The public clinic website routes (`/`, `/about`, `/womens-health`, `/treatments/**`, `/disease-kits`, `/blog/**`, `/contact`, `/privacy-policy`, `/terms`, `/cancellation-refund`) are entirely public and must never require authentication cookies.
+   - Protected clinical SaaS routes (`/dashboard`, `/patients/**`, `/prescriptions/**`, `/medicines/**`, `/repertory/**`, `/clinic/**`, `/admin/**`, `/settings/**`) are protected by `src/middleware.ts` and require a valid `homeorx_session_token`.
 
----
+2. **Responsible Medical Language & Ethics Invariant**:
+   - All medical copy for Dr. Noor ul Qamar Homeopathy Care must strictly adhere to responsible medical ethics:
+     - No &ldquo;permanent cure&rdquo; claims or 100% guarantees.
+     - Never advise patients to discontinue or alter prescribed conventional medications.
+     - Always include explicit conventional medical caution and emergency red-flag symptoms.
 
-## 4. Technology Stack & Decision Rationale
+3. **Floating WhatsApp & Direct Appointment Integration**:
+   - The floating WhatsApp button must remain persistent across all public pages, configured to open `https://wa.me/923004627881`.
+   - The appointment form generates formatted clinical WhatsApp messages directly linking patients to the clinic.
 
-| Category | Technology | Rationale / Role |
-| :--- | :--- | :--- |
-| Framework | Next.js 15 (App Router) | High-performance full-stack server actions & server-rendered React |
-| UI & Styling | TailwindCSS + Lucide Icons | Responsive modern clinic UI with dark/light theme support |
-| Database / ORM | Prisma + SQLite | Lightweight, zero-config relational database engine |
-| Typography | Noto Nastaliq Urdu | Authentic calligraphic rendering for Urdu prescription instructions |
-| Auth & Crypto | Web Crypto API (HMAC-SHA256) | Zero-dependency stateless cross-lambda session tokens |
+4. **SEO & Structured Data Architecture**:
+   - Every public condition page (`/treatments/[slug]`) and blog page (`/blog/[slug]`) is pre-rendered with Static Site Generation (SSG) via `generateStaticParams`.
+   - Dynamic JSON-LD structured data is injected for `LocalBusiness`, `Physician`, `MedicalClinic`, `FAQPage`, and `BlogPosting`.
 
----
-
-## 5. Security & Isolation Boundaries
-- **Cookie Security**: `homeorx_session_token` cookie configured with `httpOnly: true`, `sameSite: "lax"`, and cryptographic signature validation.
-- **Input Validation**: All client payloads validated using Zod schemas (`src/lib/validations.ts`) before database execution.
-
+5. **Single-Page A4 PDF Print Invariant (Preserved)**:
+   - For prescriptions generated in the doctor workspace (`/prescriptions/[id]/print`), the layout must fit strictly onto a single A4 page (`minHeight: 272mm`, `maxHeight: 284mm`) with zero page-2 overflow.

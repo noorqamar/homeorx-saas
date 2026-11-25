@@ -29,7 +29,8 @@ import { signOutFirebaseUser } from "@/lib/firebase";
 import { UpgradeModal } from "@/components/upgrade-modal";
 
 const navigationItems = [
-  { name: "Dashboard", href: "/", icon: LayoutGrid },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
+  { name: "Public Website", href: "/", icon: Sparkles },
   { name: "Appointment", href: "/patients", icon: CalendarDays },
   { name: "Appointment Page", href: "/prescriptions", icon: FileText },
   { name: "New Prescription", href: "/prescriptions/new", icon: PlusCircle, highlight: true },

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #F4F7FC;
-  --foreground: #2B3674;
+  --background: #fcfbf7;
+  --foreground: #1c2d27;
 }
 
 body {
@@ -15,7 +15,64 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ================= GLOW & LUMINOUS SAAS UTILITIES ================= */
+/* ================= LUXURY BOTANICAL & WELLNESS UTILITIES ================= */
+.font-heading {
+  font-family: var(--font-serif), "Playfair Display", Georgia, serif;
+}
+
+.wellness-card {
+  border: 1px solid rgba(88, 129, 87, 0.12);
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wellness-card:not([class*="bg-"]) {
+  background: #ffffff;
+}
+
+.wellness-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -12px rgba(20, 62, 46, 0.12), 0 4px 12px -2px rgba(20, 62, 46, 0.04);
+  border-color: rgba(197, 160, 89, 0.35);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #b89047 0%, #d4af37 50%, #997334 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.forest-gradient-bg {
+  background: linear-gradient(145deg, #143e2e 0%, #1e523e 60%, #103325 100%);
+}
+
+.hero-gradient-overlay {
+  background: radial-gradient(circle at 80% 20%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
+              radial-gradient(circle at 10% 90%, rgba(88, 129, 87, 0.06) 0%, transparent 50%);
+}
+
+.botanical-pattern {
+  background-image: radial-gradient(rgba(88, 129, 87, 0.09) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f9f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1decb;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7c9d83;
+}
+
+/* ================= GLOW & LUMINOUS SAAS UTILITIES (PRESERVED) ================= */
 .card-glow {
   box-shadow: 0 10px 30px -5px rgba(30, 80, 222, 0.07), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
 }
@@ -55,84 +112,23 @@ body {
   direction: rtl;
 }
 
-/* For bilingual headers/labels where Urdu inherits heading size */
 .urdu-inline {
   font-family: var(--font-urdu), "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", sans-serif !important;
-  line-height: 1.6 !important;
-  direction: rtl;
 }
 
-/* Mobile font-size floor for Urdu text to maintain legibility */
-@media (max-width: 480px) {
-  .urdu-text {
-    font-size: max(14px, 0.85rem) !important;
-  }
-}
-
-/* Touch-friendly controls */
-.touch-target {
-  min-height: 44px;
-  min-width: 44px;
-}
-
-/* Custom modern scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #EEF4FF;
-}
-::-webkit-scrollbar-thumb {
-  background: #BFDBFE;
-  border-radius: 6px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #93C5FD;
-}
-
-/* STRICT A4 MEDICAL PRESCRIPTION PRINT & PAGINATION RULES */
+/* Print Overrides */
 @media print {
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  @page {
+    size: A4 portrait;
+    margin: 6mm;
+  }
+  body {
+    background: white !important;
+    color: black !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-
   .no-print {
     display: none !important;
-  }
-
-  .print-only {
-    display: block !important;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 5mm 6mm !important;
-  }
-
-  .a4-print-sheet {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    box-sizing: border-box !important;
-  }
-
-  .a4-page {
-    page-break-after: always !important;
-    break-after: page !important;
-    box-sizing: border-box !important;
-  }
-
-  .a4-page:last-child {
-    page-break-after: avoid !important;
-    break-after: avoid !important;
   }
 }

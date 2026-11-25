@@ -1,29 +1,43 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  "/patients",
+  "/prescriptions",
+  "/medicines",
+  "/repertory",
+  "/clinic",
+  "/admin",
+  "/settings",
+];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow public static assets and auth endpoints
+  // Allow static assets, public files, and api routes
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/static") ||
-    pathname.includes(".") || // files like favicon.ico, images, fonts
-    pathname === "/login" ||
-    pathname === "/register"
+    pathname.includes(".")
   ) {
     return NextResponse.next();
   }
 
-  // Check for session cookie
   const sessionCookie = request.cookies.get("homeorx_session_token")?.value;
+  const isProtected = PROTECTED_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
 
-  // If not signed in, strictly block access and redirect to login
-  if (!sessionCookie) {
+  // If visiting login/register with an active session, redirect to dashboard
+  if ((pathname === "/login" || pathname === "/register") && sessionCookie) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // If route is protected and no session cookie exists, redirect to login
+  if (isProtected && !sessionCookie) {
     const loginUrl = new URL("/login", request.url);
-    if (pathname !== "/") {
-      loginUrl.searchParams.set("callbackUrl", pathname);
-    }
+    loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

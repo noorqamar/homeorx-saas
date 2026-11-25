@@ -108,27 +108,25 @@ function getLabelTypography(
   const maxWordLen = Math.max(...words.map((w) => w.length), 0);
   const totalLen = cleanName.length;
 
-  // Available label width (px) at size='sm' (width ~55px) with comfortable padding
-  // Schwabe label is ~52% wide (28px). Others are ~66% wide (34px).
-  const availableWidth = isSchwabe ? 28 : 33;
+  // Comfortable available width inside label with generous breathing margins
+  const availableWidth = isSchwabe ? 26 : 30;
   const charFactor = isUppercase ? 0.65 : 0.52;
 
-  // Ideal font size to prevent any horizontal overflow
+  // Precise sizing calculation
   let ideal = availableWidth / (Math.max(maxWordLen, 1) * charFactor);
 
-  // If total length is very large even across 2 lines (e.g. 22+ chars)
-  if (totalLen > 22) {
-    ideal = Math.min(ideal, (availableWidth * 1.8) / (totalLen * charFactor));
+  if (totalLen > 20) {
+    ideal = Math.min(ideal, (availableWidth * 1.6) / (totalLen * charFactor));
   }
 
-  // Healthy font size bounds - ensure high readability
-  const maxFont = 7.4;
-  const minFont = isSchwabe ? 4.2 : 3.6;
+  // Refined upper bound so labels don't get crowded and have an authentic pharmaceutical feel
+  const maxFont = 5.8;
+  const minFont = 3.3;
   const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
 
-  // Potency font size
-  const potBase = isSchwabe ? 6.5 : 6.4;
-  const potencySize = Math.max(4.8, potBase * fontScale);
+  // Balanced potency font size
+  const potBase = isSchwabe ? 5.6 : 5.4;
+  const potencySize = Math.max(4.2, potBase * fontScale);
 
   return {
     nameSize: Number(nameSize.toFixed(1)),
@@ -167,7 +165,7 @@ export function MedicineBottle({
       : "w-[60px] sm:w-[68px] h-[94px] sm:h-[106px]";
 
   const fontScale =
-    size === "xs" ? 0.85 : size === "sm" ? 1.0 : size === "lg" ? 1.35 : 1.15;
+    size === "xs" ? 0.8 : size === "sm" ? 0.9 : size === "lg" ? 1.2 : 1.0;
 
   // Compute typography for active bottle variant
   const isSchwabe = activeVariant === "schwabe";
@@ -201,10 +199,10 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "69.0%",
+                top: "68.5%",
                 left: "50%",
-                width: "66%",
-                maxWidth: "66%",
+                width: "64%",
+                maxWidth: "64%",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -283,10 +281,10 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "65.5%",
                 left: "50%",
-                width: "66%",
-                maxWidth: "66%",
+                width: "64%",
+                maxWidth: "64%",
                 transform: "translate(-50%, -50%)",
               }}
             >
