@@ -61,10 +61,10 @@ export function DoctorPortrait({ className = "", showDetails = true }: DoctorPor
           {/* Bottom Identity Card */}
           {showDetails && (
             <div className="w-full bg-forest-900/70 border border-forest-700/60 rounded-2xl p-3.5 backdrop-blur-xs space-y-1">
-              <h4 className="font-heading text-lg sm:text-xl font-bold text-white tracking-wide">
+              <h4 className="font-heading text-lg sm:text-xl font-normal text-white tracking-wide">
                 {CLINIC_INFO.doctorName}
               </h4>
-              <p className="text-xs text-gold-300 font-medium">
+              <p className="font-sans text-xs text-gold-300 font-semibold tracking-wide">
                 {CLINIC_INFO.qualifications}
               </p>
               <p className="text-[11px] text-sage-300">

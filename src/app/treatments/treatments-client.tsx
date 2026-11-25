@@ -126,7 +126,7 @@ export function TreatmentsClient() {
                   </Link>
                 </div>
 
-                <h3 className="font-heading text-xl font-bold text-forest-950 group-hover:text-forest-800 transition-colors">
+                <h3 className="font-sans text-lg sm:text-xl font-semibold text-forest-950 group-hover:text-forest-800 transition-colors tracking-tight">
                   <Link href={`/treatments/${treatment.slug}`}>{treatment.title}</Link>
                 </h3>
 

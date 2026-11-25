@@ -88,8 +88,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
-        serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "Manrope", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["var(--font-serif)", "DM Serif Display", "Georgia", "serif"],
+        heading: ["var(--font-serif)", "DM Serif Display", "Georgia", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       screens: {

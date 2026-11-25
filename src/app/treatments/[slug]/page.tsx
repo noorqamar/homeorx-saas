@@ -118,7 +118,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 {treatment.category} • Homeopathic Clinical Care
               </span>
 
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
                 {treatment.title}
               </h1>
 
@@ -152,7 +152,10 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
             <div className="flex flex-wrap items-center gap-4 text-xs text-sage-300 pt-3 border-t border-forest-800/80">
               <span className="inline-flex items-center gap-1.5">
                 <Award className="w-3.5 h-3.5 text-gold-400" />
-                <span>Dr. Noor ul Qamar (10 Yrs Exp)</span>
+                <span>
+                  <strong className="font-heading text-white font-normal text-sm">Dr. Noor ul Qamar</strong>{" "}
+                  <span className="font-sans font-semibold text-sage-300">(10 Yrs Exp)</span>
+                </span>
               </span>
               <span>•</span>
               <span className="inline-flex items-center gap-1.5">
@@ -177,7 +180,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
               <div className="wellness-card p-6 sm:p-8 bg-white space-y-4 shadow-xs">
                 <div className="flex items-center gap-2 text-forest-900">
                   <Activity className="w-5 h-5 text-gold-500" />
-                  <h2 className="font-heading text-xl sm:text-2xl font-bold">
+                  <h2 className="font-heading text-xl sm:text-2xl font-normal">
                     Common Concerns & Symptoms Evaluated
                   </h2>
                 </div>
@@ -202,7 +205,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
               <div className="wellness-card p-6 sm:p-8 bg-white space-y-5 shadow-xs">
                 <div className="flex items-center gap-2 text-forest-900">
                   <HeartHandshake className="w-5 h-5 text-gold-500" />
-                  <h2 className="font-heading text-xl sm:text-2xl font-bold">
+                  <h2 className="font-heading text-xl sm:text-2xl font-normal">
                     How the Consultation Process Works
                   </h2>
                 </div>
@@ -222,7 +225,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                         {idx + 1}
                       </div>
                       <div className="space-y-1">
-                        <h3 className="font-heading text-base font-bold text-forest-950">
+                        <h3 className="font-sans text-base font-semibold text-forest-950">
                           {item.step}
                         </h3>
                         <p className="text-xs sm:text-sm text-sage-700 leading-relaxed">
@@ -238,7 +241,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
               <div className="rounded-2xl p-6 sm:p-8 bg-amber-50/80 border border-amber-200 text-amber-950 space-y-4">
                 <div className="flex items-center gap-2.5 text-amber-900">
                   <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0" />
-                  <h2 className="font-heading text-lg sm:text-xl font-bold">
+                  <h2 className="font-heading text-lg sm:text-xl font-normal">
                     When to Seek Urgent Conventional Medical Care
                   </h2>
                 </div>
@@ -265,7 +268,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
               <div className="wellness-card p-6 sm:p-8 bg-white space-y-5 shadow-xs">
                 <div className="flex items-center gap-2 text-forest-900">
                   <HelpCircle className="w-5 h-5 text-gold-500" />
-                  <h2 className="font-heading text-xl sm:text-2xl font-bold">
+                  <h2 className="font-heading text-xl sm:text-2xl font-normal">
                     Frequently Asked Questions About {treatment.title}
                   </h2>
                 </div>
@@ -276,7 +279,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                       key={idx}
                       className="group p-4 rounded-xl border border-sage-200/80 bg-[#fcfbf7] open:border-forest-300 transition-all cursor-pointer"
                     >
-                      <summary className="font-heading text-sm sm:text-base font-bold text-forest-950 list-none flex items-center justify-between">
+                      <summary className="font-sans text-sm sm:text-base font-semibold text-forest-950 list-none flex items-center justify-between">
                         <span>{faq.question}</span>
                         <span className="ml-2 w-5 h-5 rounded-full bg-forest-50 text-forest-900 flex items-center justify-center text-xs group-open:rotate-180 transition-transform">
                           ↓

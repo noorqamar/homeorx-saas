@@ -10,14 +10,16 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-sans), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), 'Manrope', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.625;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ================= LUXURY BOTANICAL & WELLNESS UTILITIES ================= */
 .font-heading {
-  font-family: var(--font-serif), "Playfair Display", Georgia, serif;
+  font-family: var(--font-serif), "DM Serif Display", Georgia, serif;
 }
 
 .wellness-card {

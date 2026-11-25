@@ -27,7 +27,7 @@ export default function TreatmentsPage() {
             <span className="text-xs font-bold text-gold-400 tracking-wider uppercase bg-forest-800/80 px-3.5 py-1.5 rounded-full border border-gold-500/30 inline-block">
               Comprehensive Clinical Directory
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
               Homeopathic Treatments Directory
             </h1>
             <p className="text-sm sm:text-base text-sage-200 max-w-2xl mx-auto leading-relaxed">

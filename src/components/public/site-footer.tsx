@@ -20,11 +20,13 @@ export function SiteFooter() {
       <div className="border-b border-forest-800/60 bg-forest-900/50 py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h3 className="font-heading text-xl sm:text-2xl font-normal text-white tracking-tight">
               Looking for Thoughtful, Individualised Homeopathic Care?
             </h3>
-            <p className="text-sage-300 text-sm max-w-2xl">
-              Consult Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) with 10 years of clinical experience.
+            <p className="text-sage-300 text-sm max-w-2xl font-normal">
+              Consult <span className="font-heading text-white font-normal text-base">Dr. Noor ul Qamar</span>{" "}
+              <span className="font-sans text-gold-300 font-semibold">(D.H.M.S, R.H.M.P)</span> with{" "}
+              <span className="font-sans text-white font-semibold">10 years of clinical experience</span>.
               In-clinic visits at LDA Avenue 1, Lahore, and private online consultations worldwide.
             </p>
           </div>
@@ -69,10 +71,10 @@ export function SiteFooter() {
                 </svg>
               </div>
               <div>
-                <span className="font-heading text-xl font-bold text-white block">
+                <span className="font-heading text-xl font-normal text-white block">
                   {CLINIC_INFO.brandName}
                 </span>
-                <span className="text-xs text-gold-400 font-medium">
+                <span className="font-sans text-xs text-gold-400 font-semibold tracking-wide">
                   {CLINIC_INFO.doctorName} • {CLINIC_INFO.qualifications}
                 </span>
               </div>

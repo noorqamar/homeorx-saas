@@ -122,10 +122,10 @@ export function SiteHeader() {
               </svg>
             </div>
             <div className="flex flex-col">
-              <span className="font-heading text-base sm:text-lg font-bold text-forest-950 tracking-tight leading-snug group-hover:text-forest-800 transition-colors whitespace-nowrap">
+              <span className="font-heading text-base sm:text-lg font-normal text-forest-950 tracking-tight leading-snug group-hover:text-forest-800 transition-colors whitespace-nowrap">
                 Dr. Noor ul Qamar
               </span>
-              <span className="text-[10px] sm:text-[11px] font-medium text-sage-600 tracking-wide uppercase whitespace-nowrap">
+              <span className="font-sans text-[10px] sm:text-[11px] font-semibold text-sage-600 tracking-wider uppercase whitespace-nowrap">
                 Homeopathy Care
               </span>
             </div>

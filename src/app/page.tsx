@@ -73,16 +73,16 @@ export default function HomePage() {
                 </div>
 
                 {/* Main Heading */}
-                <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-forest-950 tracking-tight leading-[1.15]">
+                <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal text-forest-950 tracking-tight leading-[1.18]">
                   Thoughtful Homeopathic Care for Your Health and Wellbeing
                 </h1>
 
                 {/* Subtext */}
-                <p className="text-base sm:text-lg text-sage-800 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                  Consult <strong className="text-forest-950 font-bold">Dr. Noor ul Qamar</strong>,{" "}
-                  <span className="text-forest-800 font-semibold">D.H.M.S, R.H.M.P</span>, for
+                <p className="text-base sm:text-lg text-sage-800 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+                  Consult <strong className="font-heading text-forest-950 font-normal text-lg sm:text-xl">Dr. Noor ul Qamar</strong>,{" "}
+                  <span className="font-sans text-forest-900 font-semibold">D.H.M.S, R.H.M.P</span>, for
                   individualised homeopathic care with{" "}
-                  <strong className="text-forest-950 font-bold">10 years of experience</strong>.
+                  <span className="font-sans text-forest-900 font-semibold">10 years of experience</span>.
                   Experience gentle, evidence-informed consultations tailored to your unique
                   constitution.
                 </p>
@@ -111,24 +111,24 @@ export default function HomePage() {
                 {/* Three Trust / Statistic Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-sage-200/80">
                   <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-sage-200/70 shadow-2xs text-center lg:text-left">
-                    <span className="block font-heading text-2xl font-bold text-forest-900">
+                    <span className="block font-heading text-2xl font-normal text-forest-900">
                       10+ Years
                     </span>
-                    <span className="text-xs text-sage-700 font-medium">Clinical Experience</span>
+                    <span className="text-xs text-sage-700 font-medium font-sans">Clinical Experience</span>
                   </div>
 
                   <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-sage-200/70 shadow-2xs text-center lg:text-left">
-                    <span className="block font-heading text-2xl font-bold text-forest-900">
+                    <span className="block font-heading text-2xl font-normal text-forest-900">
                       Detailed
                     </span>
-                    <span className="text-xs text-sage-700 font-medium">Personalised Consultation</span>
+                    <span className="text-xs text-sage-700 font-medium font-sans">Personalised Consultation</span>
                   </div>
 
                   <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-sage-200/70 shadow-2xs text-center lg:text-left">
-                    <span className="block font-heading text-2xl font-bold text-forest-900">
+                    <span className="block font-heading text-2xl font-normal text-forest-900">
                       Worldwide
                     </span>
-                    <span className="text-xs text-sage-700 font-medium">Online Consultations</span>
+                    <span className="text-xs text-sage-700 font-medium font-sans">Online Consultations</span>
                   </div>
                 </div>
 
@@ -167,10 +167,10 @@ export default function HomePage() {
             <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-forest-50 px-3 py-1 rounded-full border border-forest-200/60 inline-block">
               Clinical Specialisations
             </span>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
               Featured Treatment Categories
             </h2>
-            <p className="text-sm sm:text-base text-sage-700">
+            <p className="text-sm sm:text-base text-sage-700 leading-relaxed">
               Explore our core areas of clinical focus. Every condition is evaluated through an
               individualised constitutional lens respecting the whole person.
             </p>
@@ -185,13 +185,13 @@ export default function HomePage() {
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-forest-800 uppercase tracking-wider bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100">
+                    <span className="text-[11px] font-semibold text-forest-800 uppercase tracking-wider bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100 font-sans">
                       {treatment.category}
                     </span>
                     <ArrowRight className="w-4 h-4 text-sage-400 group-hover:text-forest-900 group-hover:translate-x-1 transition-all" />
                   </div>
 
-                  <h3 className="font-heading text-lg font-bold text-forest-950 group-hover:text-forest-800 transition-colors">
+                  <h3 className="font-sans text-lg font-semibold text-forest-950 group-hover:text-forest-800 transition-colors tracking-tight">
                     {treatment.title}
                   </h3>
 
@@ -228,7 +228,7 @@ export default function HomePage() {
                 <Heart className="w-3.5 h-3.5 fill-current" />
                 <span>Dedicated Women&apos;s Health & Fertility Wing</span>
               </div>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight">
                 Empowering Women’s Hormonal & Reproductive Wellbeing
               </h2>
               <p className="text-sage-200 text-sm sm:text-base leading-relaxed max-w-2xl">
@@ -274,7 +274,7 @@ export default function HomePage() {
             <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-forest-50 px-3 py-1 rounded-full border border-forest-200/60 inline-block">
               Supportive Wellness Kits
             </span>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
               Homeopathic Disease & Wellness Kits
             </h2>
             <p className="text-sm sm:text-base text-sage-700">
@@ -369,10 +369,10 @@ export default function HomePage() {
                 <span>About Your Doctor</span>
               </div>
 
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-forest-950 tracking-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl font-normal text-forest-950 tracking-tight">
                 Meet Dr. Noor ul Qamar
               </h2>
-              <p className="text-sm font-semibold text-gold-600">
+              <p className="font-sans text-sm font-semibold text-gold-700 tracking-wide">
                 D.H.M.S, R.H.M.P • 10 Years of Clinical Practice
               </p>
 
@@ -443,7 +443,7 @@ export default function HomePage() {
               <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-white px-3 py-1 rounded-full border border-sage-200 inline-block">
                 Patient Experiences
               </span>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
                 Reflections on Patient-Centred Care
               </h2>
               <p className="text-sm sm:text-base text-sage-700">
@@ -504,7 +504,7 @@ export default function HomePage() {
             <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-forest-50 px-3 py-1 rounded-full border border-forest-200/60 inline-block">
               Clinical Insights
             </span>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
               Health & Wellness Articles
             </h2>
             <p className="text-sm sm:text-base text-sage-700">
@@ -528,7 +528,7 @@ export default function HomePage() {
                     <span>{post.readingTime}</span>
                   </div>
 
-                  <h3 className="font-heading text-lg font-bold text-forest-950 group-hover:text-forest-800 transition-colors leading-snug">
+                  <h3 className="font-sans text-lg font-semibold text-forest-950 group-hover:text-forest-800 transition-colors leading-snug">
                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h3>
 
@@ -569,7 +569,7 @@ export default function HomePage() {
               <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-white px-3 py-1 rounded-full border border-sage-200 inline-block">
                 Patient Questions
               </span>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
                 Frequently Asked Questions
               </h2>
               <p className="text-sm sm:text-base text-sage-700">
@@ -584,7 +584,7 @@ export default function HomePage() {
                   key={faq.id}
                   className="group wellness-card bg-white p-5 sm:p-6 transition-all duration-200 open:border-forest-300 open:shadow-md cursor-pointer"
                 >
-                  <summary className="flex items-center justify-between font-heading text-base sm:text-lg font-bold text-forest-950 list-none group-hover:text-forest-800">
+                  <summary className="flex items-center justify-between font-sans text-base sm:text-lg font-semibold text-forest-950 list-none group-hover:text-forest-800">
                     <span>{faq.question}</span>
                     <span className="ml-4 flex items-center justify-center w-7 h-7 rounded-full bg-forest-50 text-forest-900 group-open:rotate-180 transition-transform shrink-0">
                       ↓

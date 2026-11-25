@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Playfair_Display, Noto_Nastaliq_Urdu } from "next/font/google";
+import { Manrope, DM_Serif_Display, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const playfairDisplay = Playfair_Display({
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "400",
 });
 
 const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
@@ -80,7 +80,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`h-full scroll-smooth ${plusJakartaSans.variable} ${playfairDisplay.variable} ${notoNastaliqUrdu.variable}`}
+      className={`h-full scroll-smooth ${manrope.variable} ${dmSerifDisplay.variable} ${notoNastaliqUrdu.variable}`}
       suppressHydrationWarning
     >
       <body className="h-full bg-[#fcfbf7] text-[#1c2d27] antialiased font-sans selection:bg-forest-100 selection:text-forest-900" suppressHydrationWarning>
