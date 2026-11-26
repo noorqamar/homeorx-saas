@@ -195,7 +195,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-sage-50 overflow-hidden">
                   <Image
                     src={`/images/treatments/${treatment.slug}-primary.webp`}
-                    alt={`Clinical evaluation and constitutional homeopathic care for ${treatment.title} - Dr. Noor ul Qamar`}
+                    alt={`Medical illustration of clinical pathology, anatomy and symptom presentation for ${treatment.title} - Dr. Noor ul Qamar Homeopathy Care`}
                     width={1200}
                     height={800}
                     priority
@@ -292,7 +292,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-sage-50 border border-sage-200/60 shadow-xs">
                   <Image
                     src={`/images/treatments/${treatment.slug}-secondary.webp`}
-                    alt={`Holistic protocol, lifestyle advice and consultation framework for ${treatment.title}`}
+                    alt={`Constitutional homeopathic clinical protocol and lifestyle integration diagram for ${treatment.title} - Dr. Noor ul Qamar`}
                     width={1200}
                     height={800}
                     loading="lazy"

@@ -121,7 +121,7 @@ export function TreatmentsClient() {
                 >
                   <Image
                     src={`/images/treatments/${treatment.slug}-primary.webp`}
-                    alt={`Clinical evaluation for ${treatment.title} - Dr. Noor ul Qamar Homeopathy`}
+                    alt={`Medical illustration and clinical pathology guide for ${treatment.title} - Dr. Noor ul Qamar Homeopathy Care`}
                     width={400}
                     height={250}
                     loading="lazy"

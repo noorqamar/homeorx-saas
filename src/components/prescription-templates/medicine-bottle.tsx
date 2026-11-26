@@ -125,18 +125,15 @@ interface TypographyResult {
  */
 function getLabelTypography(
   cleanName: string,
-  fontScale: number,
-  options?: { isUppercase?: boolean }
+  fontScale: number
 ): TypographyResult {
-  const isUppercase = options?.isUppercase ?? false;
-
   const words = cleanName.trim().split(/\s+/);
   const maxWordLen = Math.max(...words.map((w) => w.length), 0);
   const totalLen = cleanName.length;
 
   // Comfortable available width inside label with generous breathing margins
-  const availableWidth = 30;
-  const charFactor = isUppercase ? 0.65 : 0.52;
+  const availableWidth = 32;
+  const charFactor = 0.52;
 
   // Precise sizing calculation
   let ideal = availableWidth / (Math.max(maxWordLen, 1) * charFactor);
@@ -145,14 +142,14 @@ function getLabelTypography(
     ideal = Math.min(ideal, (availableWidth * 1.6) / (totalLen * charFactor));
   }
 
-  // Refined upper bound so labels don't get crowded and have an authentic pharmaceutical feel
-  const maxFont = 5.8;
-  const minFont = 3.3;
+  // Refined upper and lower bounds so labels are consistently bold and crisp across all brands
+  const maxFont = 5.6;
+  const minFont = 4.0;
   const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
 
   // Balanced potency font size
-  const potBase = 5.4;
-  const potencySize = Math.max(4.2, potBase * fontScale);
+  const potBase = 5.2;
+  const potencySize = Math.max(4.4, potBase * fontScale);
 
   return {
     nameSize: Number(nameSize.toFixed(1)),
@@ -194,9 +191,8 @@ export function MedicineBottle({
   const fontScale =
     size === "xs" ? 0.8 : size === "sm" ? 0.9 : size === "lg" ? 1.2 : 1.0;
 
-  // Compute typography for active bottle variant
-  const isUppercase = activeVariant.startsWith("masood");
-  const typo = getLabelTypography(cleanName, fontScale, { isUppercase });
+  // Uniform typography across all brands for consistent bold contrast
+  const typo = getLabelTypography(cleanName, fontScale);
 
   const handleNextVariant = () => {
     const curIdx = ALL_VARIANTS.indexOf(activeVariant);
@@ -225,15 +221,15 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "69.0%",
                 left: "50%",
-                width: "68%",
-                maxWidth: "68%",
+                width: "70%",
+                maxWidth: "70%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-extrabold text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -246,7 +242,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#1e3a8a] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#1e3a8a] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -266,7 +262,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "69.0%",
                 left: "50%",
                 width: "74%",
                 maxWidth: "74%",
@@ -274,7 +270,7 @@ export function MedicineBottle({
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -287,7 +283,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#b91c1c] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -307,7 +303,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "57.5%",
+                top: "63.0%",
                 left: "50%",
                 width: "72%",
                 maxWidth: "72%",
@@ -315,7 +311,7 @@ export function MedicineBottle({
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -328,7 +324,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#b91c1c] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -348,7 +344,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "63.0%",
+                top: "67.0%",
                 left: "50%",
                 width: "74%",
                 maxWidth: "74%",
@@ -356,7 +352,7 @@ export function MedicineBottle({
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -369,7 +365,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#0284c7] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#0284c7] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -378,7 +374,7 @@ export function MedicineBottle({
           </>
         )}
 
-        {/* 3. LOCAL: Dr. Masood Mother Tincture 30ml (White Ribbed Cap) */}
+        {/* 5. LOCAL: Dr. Masood Mother Tincture 30ml (White Ribbed Cap) */}
         {activeVariant === "masood-tincture" && (
           <>
             <img
@@ -389,15 +385,15 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "64.5%",
+                top: "67.0%",
                 left: "50%",
-                width: "64%",
-                maxWidth: "64%",
+                width: "66%",
+                maxWidth: "66%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -410,7 +406,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#0f766e] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#0f766e] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -419,7 +415,7 @@ export function MedicineBottle({
           </>
         )}
 
-        {/* 4. LOCAL: Dr. Masood Dilution (Green Cap) */}
+        {/* 6. LOCAL: Dr. Masood Dilution (Green Cap) */}
         {activeVariant === "masood-dilution" && (
           <>
             <img
@@ -430,7 +426,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.0%",
+                top: "64.0%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
@@ -438,7 +434,7 @@ export function MedicineBottle({
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -451,7 +447,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#15803d] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#15803d] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
@@ -460,7 +456,7 @@ export function MedicineBottle({
           </>
         )}
 
-        {/* 5. LOCAL: Dr. Masood Biochemic / Tablets 20gm (Yellow Cap) */}
+        {/* 7. LOCAL: Dr. Masood Biochemic / Tablets 20gm (Yellow Cap) */}
         {activeVariant === "masood-biochemic" && (
           <>
             <img
@@ -471,7 +467,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
+                top: "67.5%",
                 left: "50%",
                 width: "65%",
                 maxWidth: "65%",
@@ -479,7 +475,7 @@ export function MedicineBottle({
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0f172a] tracking-tight leading-[1.05] font-sans uppercase"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-slate-950 tracking-tight leading-[0.98] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -492,7 +488,7 @@ export function MedicineBottle({
                 )}
               </div>
               <span
-                className="font-black text-[#b45309] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                className="font-black text-[#b45309] tracking-wider leading-none mt-[1px] block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}
