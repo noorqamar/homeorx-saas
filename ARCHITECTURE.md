@@ -15,6 +15,12 @@
 - **Primary Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, TailwindCSS, Prisma ORM, SQLite
 - **Visual Design Identity**: Forest green (`#143e2e`), Sage green (`#588157`), Warm Ivory (`#faf8f2`), White, and restrained Gold accents (`#c5a059`). Typography: DM Serif Display serif headings and Manrope modern sans-serif body.
 
+- **Last Synchronized**: 2026-11-26 (Comprehensive Visual Assets Integration - 153 Local High-Definition WebP Visuals)
+- **Visual Asset Architecture**:
+  - 100% self-hosted local WebP images under `public/images/` (153 total assets: 132 treatment visuals, 8 category visuals, 6 kit visuals, 5 blog covers, 2 women's health hero/lifestyle visuals).
+  - Fixed aspect ratios (`aspect-[16/10]`, `aspect-[16/9]`, `aspect-[21/9]`) and responsive `sizes` preventing Cumulative Layout Shift (CLS = 0).
+  - Strict zero-image-reuse policy across all medical conditions and health topics.
+
 ---
 
 ## 2. Component Topology & Data Flow

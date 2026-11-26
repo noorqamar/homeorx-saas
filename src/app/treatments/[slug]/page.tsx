@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Calendar,
   MessageCircle,
@@ -15,6 +16,7 @@ import {
   Activity,
   Award,
   MapPin,
+  Sparkles,
 } from "lucide-react";
 import { TREATMENTS, getTreatmentBySlug } from "@/data/treatments";
 import { CLINIC_INFO } from "@/data/clinic-info";
@@ -188,6 +190,33 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Main Column */}
             <div className="lg:col-span-8 space-y-12">
+              {/* Primary HD Clinical Illustration */}
+              <div className="wellness-card overflow-hidden bg-white border border-sage-200/80 shadow-md">
+                <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-sage-50 overflow-hidden">
+                  <Image
+                    src={`/images/treatments/${treatment.slug}-primary.webp`}
+                    alt={`Clinical evaluation and constitutional homeopathic care for ${treatment.title} - Dr. Noor ul Qamar`}
+                    width={1200}
+                    height={800}
+                    priority
+                    className="w-full h-full object-cover object-center"
+                    sizes="(max-width: 1024px) 100vw, 800px"
+                  />
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-forest-950/85 text-gold-300 text-xs font-bold backdrop-blur-sm border border-gold-500/30">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Clinical Guidance • {treatment.category}</span>
+                  </div>
+                </div>
+                <div className="p-4 sm:p-5 bg-gradient-to-r from-forest-50/70 to-sage-50/40 border-t border-sage-200/60 flex items-center justify-between text-xs text-sage-700">
+                  <p className="italic">
+                    Personalized case-taking focuses on your constitutional vitality and specific symptom etiology.
+                  </p>
+                  <span className="shrink-0 font-sans font-semibold text-forest-900 hidden sm:inline">
+                    Lahore &amp; Online
+                  </span>
+                </div>
+              </div>
+
               {/* 1. Common Concerns & Symptoms */}
               <div className="wellness-card p-6 sm:p-8 bg-white space-y-4 shadow-xs">
                 <div className="flex items-center gap-2 text-forest-900">
@@ -247,6 +276,33 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Secondary Supporting Protocol & Lifestyle Illustration */}
+              <div className="wellness-card p-6 sm:p-8 bg-white space-y-4 shadow-xs border border-sage-200/80">
+                <div className="flex items-center gap-2 text-forest-900">
+                  <Sparkles className="w-5 h-5 text-gold-500" />
+                  <h3 className="font-heading text-lg sm:text-xl font-normal">
+                    Holistic Constitutional Protocol &amp; Lifestyle Integration
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-sage-700 leading-relaxed">
+                  Complementary homeopathic management for {treatment.title} harmonizes individualized remedy dilutions with targeted lifestyle modifications, dietary pacing, and gentle recovery support.
+                </p>
+                <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-sage-50 border border-sage-200/60 shadow-xs">
+                  <Image
+                    src={`/images/treatments/${treatment.slug}-secondary.webp`}
+                    alt={`Holistic protocol, lifestyle advice and consultation framework for ${treatment.title}`}
+                    width={1200}
+                    height={800}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-center"
+                    sizes="(max-width: 1024px) 100vw, 800px"
+                  />
+                </div>
+                <p className="text-[11px] sm:text-xs text-sage-600 italic">
+                  Educational illustration: Every patient presents a unique physiological constitution requiring dedicated diagnostic dialogue.
+                </p>
               </div>
 
               {/* 3. Red Flags & Urgent Medical Care Notice */}
@@ -379,10 +435,20 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                       <Link
                         key={rel.slug}
                         href={`/treatments/${rel.slug}`}
-                        className="flex items-center justify-between p-2.5 rounded-xl hover:bg-forest-50 text-xs font-semibold text-forest-950 group transition-colors"
+                        className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-forest-50 text-xs font-semibold text-forest-950 group transition-colors"
                       >
-                        <span className="truncate">{rel.title}</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-sage-400 group-hover:text-forest-900 group-hover:translate-x-0.5 transition-all" />
+                        <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 bg-sage-100 border border-sage-200/60">
+                          <Image
+                            src={`/images/treatments/${rel.slug}-primary.webp`}
+                            alt={rel.title}
+                            width={60}
+                            height={60}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span className="truncate flex-1">{rel.title}</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-sage-400 group-hover:text-forest-900 group-hover:translate-x-0.5 transition-all shrink-0" />
                       </Link>
                     ))}
                   </div>

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {
   Search,
@@ -113,7 +114,28 @@ export function TreatmentsClient() {
               className="wellness-card p-6 bg-white flex flex-col justify-between group hover:border-gold-400/60 shadow-xs"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                {/* Visual Thumbnail */}
+                <Link
+                  href={`/treatments/${treatment.slug}`}
+                  className="block relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-sage-50 border border-sage-200/60 group-hover:border-gold-400/50 transition-colors shadow-xs"
+                >
+                  <Image
+                    src={`/images/treatments/${treatment.slug}-primary.webp`}
+                    alt={`Clinical evaluation for ${treatment.title} - Dr. Noor ul Qamar Homeopathy`}
+                    width={400}
+                    height={250}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                  />
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="text-[10px] font-bold text-forest-900 uppercase tracking-wider bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded shadow-xs border border-sage-200/50">
+                      {treatment.category}
+                    </span>
+                  </div>
+                </Link>
+
+                <div className="flex items-center justify-between pt-1">
                   <span className="text-[11px] font-bold text-forest-800 uppercase tracking-wider bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100">
                     {treatment.category}
                   </span>

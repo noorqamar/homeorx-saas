@@ -27,6 +27,24 @@ export interface Treatment {
   faqs: TreatmentFAQ[];
   metaDescription: string;
   featured?: boolean;
+  image?: string;
+  imageAlt?: string;
+  imageCaption?: string;
+  supportingImage?: string;
+  supportingImageAlt?: string;
+  supportingImageCaption?: string;
+}
+
+export function getTreatmentPrimaryImage(slug: string): string {
+  return `/images/treatments/${slug}-primary.webp`;
+}
+
+export function getTreatmentSecondaryImage(slug: string): string {
+  return `/images/treatments/${slug}-secondary.webp`;
+}
+
+export function getCategoryImageUrl(slug: string): string {
+  return `/images/categories/${slug}.webp`;
 }
 
 export const TREATMENT_CATEGORIES: {

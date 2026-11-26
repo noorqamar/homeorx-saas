@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Package,
   Calendar,
@@ -96,19 +97,18 @@ export default function DiseaseKitsPage() {
                 className="wellness-card bg-white p-6 sm:p-7 flex flex-col justify-between shadow-xs border border-sage-200/80 hover:border-gold-400/60 transition-all"
               >
                 <div className="space-y-4">
-                  {/* Product Placeholder Image Box */}
-                  <div className="relative aspect-16/10 rounded-2xl bg-gradient-to-br from-forest-50 via-sage-50 to-sage-100/80 border border-sage-200/80 flex flex-col items-center justify-center p-6 text-center overflow-hidden shadow-inner">
-                    <div className="w-14 h-14 rounded-2xl bg-white/90 shadow-xs flex items-center justify-center text-forest-900 border border-sage-200/60 mb-2">
-                      <Package className="w-7 h-7 text-forest-800" />
-                    </div>
-                    <span className="font-heading text-base font-bold text-forest-950">
-                      {kit.title}
-                    </span>
-                    <span className="text-xs text-sage-600 mt-0.5">
-                      Personalised Homeopathic Formulations
-                    </span>
-
-                    <span className="absolute top-3 right-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-forest-900 text-gold-300 shadow-xs">
+                  {/* Product Visual */}
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-sage-200/80 shadow-inner bg-sage-50 group-hover:border-gold-400/50 transition-colors">
+                    <Image
+                      src={`/images/kits/${kit.slug}.webp`}
+                      alt={kit.imageAlt}
+                      width={600}
+                      height={375}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                    />
+                    <span className="absolute top-3 right-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-forest-950/85 text-gold-300 shadow-xs backdrop-blur-xs border border-gold-500/30">
                       {kit.badge}
                     </span>
                   </div>

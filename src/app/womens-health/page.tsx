@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Heart,
   Calendar,
@@ -137,6 +138,63 @@ export default function WomensHealthPage() {
           </div>
         </section>
 
+        {/* ================= CLINICAL & LIFESTYLE VISUAL GALLERY ================= */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-10 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="wellness-card overflow-hidden bg-white border border-sage-200/80 shadow-md">
+              <div className="relative aspect-[16/10] bg-sage-50 overflow-hidden">
+                <Image
+                  src="/images/womens-health/hero.webp"
+                  alt="Empathetic, confidential clinical consultation for women's reproductive health - Dr. Noor ul Qamar"
+                  width={800}
+                  height={500}
+                  priority
+                  className="w-full h-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 600px"
+                />
+                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-forest-950/85 text-gold-300 text-xs font-bold backdrop-blur-xs border border-gold-500/30">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Clinical Excellence</span>
+                </div>
+              </div>
+              <div className="p-4 sm:p-5 bg-gradient-to-r from-forest-50/70 to-sage-50/40 border-t border-sage-200/60">
+                <h3 className="font-heading text-base font-normal text-forest-950">
+                  Empathetic Constitutional Diagnostic Dialogue
+                </h3>
+                <p className="text-xs text-sage-700 mt-1 leading-relaxed">
+                  Every case study involves extensive evaluation of hormonal markers, menstrual chronology, emotional health, and constitutional vitality.
+                </p>
+              </div>
+            </div>
+
+            <div className="wellness-card overflow-hidden bg-white border border-sage-200/80 shadow-md">
+              <div className="relative aspect-[16/10] bg-sage-50 overflow-hidden">
+                <Image
+                  src="/images/womens-health/lifestyle.webp"
+                  alt="Holistic lifestyle pacing, nutritional guidance and restorative wellness for women"
+                  width={800}
+                  height={500}
+                  priority
+                  className="w-full h-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 600px"
+                />
+                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-forest-950/85 text-gold-300 text-xs font-bold backdrop-blur-xs border border-gold-500/30">
+                  <Sparkles className="w-3.5 h-3.5 text-gold-400" />
+                  <span>Holistic Vitality</span>
+                </div>
+              </div>
+              <div className="p-4 sm:p-5 bg-gradient-to-r from-forest-50/70 to-sage-50/40 border-t border-sage-200/60">
+                <h3 className="font-heading text-base font-normal text-forest-950">
+                  Nutritional Harmony &amp; Cycle Synchronization
+                </h3>
+                <p className="text-xs text-sage-700 mt-1 leading-relaxed">
+                  Supportive constitutional remedies paired with lifestyle rhythm guidance, sleep hygiene, and stress-modulation strategies.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ================= KEY SPECIALISATIONS GRID ================= */}
         <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -159,7 +217,23 @@ export default function WomensHealthPage() {
                 className="wellness-card p-6 bg-white flex flex-col justify-between group hover:border-gold-400/60 shadow-xs"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
+                  {/* Thumbnail Image */}
+                  <Link
+                    href={`/treatments/${treatment.slug}`}
+                    className="block relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-sage-50 border border-sage-200/60 group-hover:border-gold-400/50 transition-colors shadow-xs"
+                  >
+                    <Image
+                      src={`/images/treatments/${treatment.slug}-primary.webp`}
+                      alt={`Evaluation and care for ${treatment.title} - Dr. Noor ul Qamar`}
+                      width={400}
+                      height={250}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 360px"
+                    />
+                  </Link>
+
+                  <div className="flex items-center justify-between pt-1">
                     <span className="text-[11px] font-bold text-forest-800 uppercase tracking-wider bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100">
                       Women&apos;s Health
                     </span>

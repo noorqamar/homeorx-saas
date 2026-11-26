@@ -12,12 +12,11 @@ export type BottleVariant =
   | "masood-biochemic";
 
 const ALL_VARIANTS: BottleVariant[] = [
-  "reckeweg",
   "schwabe",
-  "schwabe-tincture",
-  "schwabe-biochemic",
   "masood-dilution",
+  "schwabe-tincture",
   "masood-tincture",
+  "schwabe-biochemic",
   "masood-biochemic",
 ];
 
@@ -73,25 +72,23 @@ export function getDefaultBottleVariant(
   // 5. Alternate aesthetically across imported German and local styles if index is provided
   if (typeof index === "number") {
     const cycle: BottleVariant[] = [
-      "reckeweg",
       "schwabe",
-      "schwabe-tincture",
-      "schwabe-biochemic",
       "masood-dilution",
+      "schwabe-tincture",
       "masood-tincture",
+      "schwabe-biochemic",
       "masood-biochemic",
     ];
     return cycle[index % cycle.length];
   }
 
   // 6. Standard German Dilutions fallback
-  return "reckeweg";
+  return "schwabe";
 }
 
 export function getBrandDisplayName(variant: BottleVariant): string {
   switch (variant) {
     case "reckeweg":
-      return "Dr. Reckeweg";
     case "schwabe":
     case "schwabe-tincture":
     case "schwabe-biochemic":
@@ -101,7 +98,7 @@ export function getBrandDisplayName(variant: BottleVariant): string {
     case "masood-biochemic":
       return "Dr. Masood";
     default:
-      return "Dr. Reckeweg";
+      return "Dr. Schwabe";
   }
 }
 
@@ -210,14 +207,14 @@ export function MedicineBottle({
   return (
     <div
       className={`relative inline-flex flex-col items-center group cursor-pointer select-none ${className}`}
-      title="Click to cycle bottle styles (Reckeweg • Schwabe Dilution • Schwabe Tincture • Schwabe Tablets • Masood Dilution • Masood Tincture • Masood Tablets)"
+      title="Click to cycle bottle styles (Schwabe Dilution • Masood Dilution • Schwabe Tincture • Masood Tincture • Schwabe Tablets • Masood Tablets)"
       onClick={handleNextVariant}
     >
       {/* Bottle Container with Crisp Drop-Shadow */}
       <div
         className={`relative ${sizeClasses} flex items-center justify-center transition-transform duration-200 group-hover:scale-105`}
       >
-        {/* 1. GERMAN: Dr. Reckeweg Amber Dropper Bottle */}
+        {/* 1. GERMAN: Dr. Reckeweg Amber Dropper Bottle (Fallback) */}
         {activeVariant === "reckeweg" && (
           <>
             <img
@@ -228,10 +225,10 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "68.5%",
+                top: "66.5%",
                 left: "50%",
-                width: "64%",
-                maxWidth: "64%",
+                width: "68%",
+                maxWidth: "68%",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -269,7 +266,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "69.2%",
+                top: "66.5%",
                 left: "50%",
                 width: "74%",
                 maxWidth: "74%",
@@ -310,10 +307,10 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "62.2%",
+                top: "57.5%",
                 left: "50%",
-                width: "74%",
-                maxWidth: "74%",
+                width: "72%",
+                maxWidth: "72%",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -351,7 +348,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.2%",
+                top: "63.0%",
                 left: "50%",
                 width: "74%",
                 maxWidth: "74%",
@@ -392,7 +389,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "65.5%",
+                top: "64.5%",
                 left: "50%",
                 width: "64%",
                 maxWidth: "64%",
@@ -433,7 +430,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "70.0%",
+                top: "69.5%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
@@ -474,7 +471,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "67.5%",
+                top: "66.5%",
                 left: "50%",
                 width: "65%",
                 maxWidth: "65%",

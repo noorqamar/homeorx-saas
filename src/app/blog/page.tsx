@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   BookOpen,
   Calendar,
@@ -93,14 +94,16 @@ export default function BlogIndexPage() {
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 aspect-16/10 rounded-2xl bg-gradient-to-br from-forest-50 via-sage-100 to-forest-100 border border-sage-200/80 flex flex-col items-center justify-center p-6 text-center shadow-inner">
-                  <BookOpen className="w-12 h-12 text-forest-800 mb-2" />
-                  <span className="font-heading text-base font-bold text-forest-950">
-                    Clinical Case Discussion
-                  </span>
-                  <span className="text-xs text-sage-600 mt-1">
-                    By Dr. Noor ul Qamar, D.H.M.S, R.H.M.P
-                  </span>
+                <div className="lg:col-span-5 relative aspect-[16/10] rounded-2xl overflow-hidden border border-sage-200/80 shadow-md bg-sage-50 group-hover:border-gold-400/50 transition-colors">
+                  <Image
+                    src={`/images/blog/${featuredPost.slug}.webp`}
+                    alt={featuredPost.coverImageAlt}
+                    width={600}
+                    height={375}
+                    priority
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 100vw, 450px"
+                  />
                 </div>
               </div>
             </div>
@@ -125,6 +128,22 @@ export default function BlogIndexPage() {
                 className="wellness-card overflow-hidden bg-white p-6 flex flex-col justify-between group shadow-xs hover:border-gold-400/60 transition-all"
               >
                 <div className="space-y-3">
+                  {/* Thumbnail Image */}
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="block relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-sage-50 border border-sage-200/60 shadow-xs mb-3 group-hover:border-gold-400/50 transition-colors"
+                  >
+                    <Image
+                      src={`/images/blog/${post.slug}.webp`}
+                      alt={post.coverImageAlt}
+                      width={450}
+                      height={280}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 360px"
+                    />
+                  </Link>
+
                   <div className="flex items-center justify-between text-xs text-sage-600">
                     <span className="font-bold text-forest-800 bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100">
                       {post.category}

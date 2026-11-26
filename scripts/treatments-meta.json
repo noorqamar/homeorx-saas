@@ -1,0 +1,332 @@
+[
+  {
+    "slug": "hair-loss",
+    "title": "Hair Loss",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "alopecia-areata",
+    "title": "Alopecia Areata",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "dandruff-scalp-concerns",
+    "title": "Dandruff & Scalp Concerns",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "acne",
+    "title": "Acne",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "eczema",
+    "title": "Eczema",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "psoriasis",
+    "title": "Psoriasis",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "skin-allergy",
+    "title": "Skin Allergy",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "lichen-planus",
+    "title": "Lichen Planus",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "vitiligo",
+    "title": "Vitiligo",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "hyperpigmentation-melasma",
+    "title": "Hyperpigmentation / Melasma",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "pcos",
+    "title": "PCOS (Polycystic Ovary Syndrome)",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "irregular-periods",
+    "title": "Irregular Periods",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "leucorrhoea",
+    "title": "Leucorrhoea",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "uterine-fibroids",
+    "title": "Uterine Fibroids",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "endometriosis-support",
+    "title": "Endometriosis Support",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "female-infertility-support",
+    "title": "Female Infertility Support",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "thyroid-fertility-support",
+    "title": "Thyroid & Fertility Support",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "low-amh-guidance",
+    "title": "Low AMH Guidance",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "unexplained-infertility-support",
+    "title": "Unexplained Infertility Support",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "recurrent-miscarriage-support",
+    "title": "Recurrent Miscarriage Support",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "homeopathy-support-during-ivf-iui",
+    "title": "Homeopathy Support During IVF / IUI",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "thyroid-concerns",
+    "title": "Thyroid Concerns",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "goitre",
+    "title": "Goitre",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "diabetes-wellness-support",
+    "title": "Diabetes Wellness Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "high-blood-pressure-wellness-support",
+    "title": "High Blood Pressure Wellness Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "fatty-liver",
+    "title": "Fatty Liver",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "hepatitis-support",
+    "title": "Hepatitis Support",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "acidity-gerd",
+    "title": "Acidity & GERD",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "gastritis",
+    "title": "Gastritis",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "peptic-ulcer",
+    "title": "Peptic Ulcer",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "indigestion-dyspepsia",
+    "title": "Indigestion & Dyspepsia",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "ibs",
+    "title": "IBS (Irritable Bowel Syndrome)",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "constipation",
+    "title": "Constipation",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "piles",
+    "title": "Piles (Haemorrhoids)",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "anal-fissure",
+    "title": "Anal Fissure",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "fistula-support",
+    "title": "Fistula Support",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "gallbladder-stone-support",
+    "title": "Gallbladder Stone Support",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "kidney-stone-support",
+    "title": "Kidney Stone Support",
+    "category": "Digestive Health"
+  },
+  {
+    "slug": "asthma",
+    "title": "Asthma",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "bronchitis",
+    "title": "Bronchitis",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "copd-support",
+    "title": "COPD Support",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "allergic-rhinitis",
+    "title": "Allergic Rhinitis",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "sinusitis",
+    "title": "Sinusitis",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "tonsillitis",
+    "title": "Tonsillitis",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "breathlessness-assessment-support",
+    "title": "Breathlessness Assessment Support",
+    "category": "Respiratory Health"
+  },
+  {
+    "slug": "sun-allergy",
+    "title": "Sun Allergy (Polymorphous Light Eruption)",
+    "category": "Skin & Hair"
+  },
+  {
+    "slug": "arthritis",
+    "title": "Arthritis",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "rheumatoid-arthritis-support",
+    "title": "Rheumatoid Arthritis Support",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "osteoarthritis-support",
+    "title": "Osteoarthritis Support",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "ankylosing-spondylitis-support",
+    "title": "Ankylosing Spondylitis Support",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "sciatica",
+    "title": "Sciatica",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "low-back-pain",
+    "title": "Low Back Pain",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "gout-high-uric-acid",
+    "title": "Gout & High Uric Acid",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "varicose-veins",
+    "title": "Varicose Veins",
+    "category": "Joint & Pain Care"
+  },
+  {
+    "slug": "migraine",
+    "title": "Migraine",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "tension-headache",
+    "title": "Tension Headache",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "anxiety-sleep-support",
+    "title": "Anxiety & Sleep Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "epilepsy-support",
+    "title": "Epilepsy Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "ear-infection-support",
+    "title": "Ear Infection Support (Otitis Media)",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "uti-support",
+    "title": "UTI Support (Recurrent Urinary Tract Infections)",
+    "category": "Women's Health"
+  },
+  {
+    "slug": "eosinophilia-support",
+    "title": "Eosinophilia Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "anaemia-support",
+    "title": "Anaemia Support",
+    "category": "General Wellness"
+  },
+  {
+    "slug": "child-health",
+    "title": "Child Health & Pediatric Wellness",
+    "category": "Child Health"
+  },
+  {
+    "slug": "erectile-dysfunction-mens-wellness",
+    "title": "Erectile Dysfunction & Men’s Wellness",
+    "category": "Men's Health"
+  },
+  {
+    "slug": "premature-ejaculation-support",
+    "title": "Premature Ejaculation Support",
+    "category": "Men's Health"
+  },
+  {
+    "slug": "prostate-enlargement-support",
+    "title": "Prostate Enlargement Support (BPH)",
+    "category": "Men's Health"
+  }
+]

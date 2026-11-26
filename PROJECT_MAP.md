@@ -38,6 +38,11 @@
 | File Path | Description | Role |
 | :--- | :--- | :--- |
 | `public/images/dr-noorul-qamar.jpg` | Official Doctor Portrait | High-resolution portrait of Dr. Noorul Qamar (926x1024) in medical coat & stethoscope with soft green arch backdrop |
+| `public/images/treatments/` | 132 Treatment Condition Visuals | 66 primary clinical condition cards (`{slug}-primary.webp`) + 66 secondary holistic lifestyle protocol illustrations (`{slug}-secondary.webp`) |
+| `public/images/categories/` | 8 Category Visuals | High-resolution category header visuals (`{slug}.webp`) for all 8 clinical categories |
+| `public/images/kits/` | 6 Disease Kit Visuals | Premium product visuals (`{slug}.webp`) for all 6 specialized supportive health kits |
+| `public/images/blog/` | 5 Health Blog Visuals | Cover visuals (`{slug}.webp`) for all 5 evidence-based clinical articles |
+| `public/images/womens-health/` | 2 Women's Health Visuals | Dedicated clinical consultation (`hero.webp`) and lifestyle pacing (`lifestyle.webp`) visuals |
 | `src/app/page.tsx` | Clinic Homepage | Hero with official doctor portrait & side credentials, featured treatments, women's health spotlight, disease kits, doctor profile, reviews, FAQs, appointment form |
 | `src/app/about/page.tsx` | About Dr. Noor ul Qamar | Professional profile, credentials (D.H.M.S, R.H.M.P), 10 years experience, clinical philosophy |
 | `src/app/womens-health/page.tsx` | Women's Health & Fertility Wing | PCOS, irregular cycles, low AMH, recurrent miscarriage, endometriosis, IVF/IUI companion care, specialist red flags |

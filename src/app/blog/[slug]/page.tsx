@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Calendar,
   Clock,
@@ -136,6 +137,25 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Article Content */}
             <div className="lg:col-span-8 space-y-8">
+              {/* Featured Article Image */}
+              <div className="wellness-card overflow-hidden bg-white border border-sage-200/80 shadow-md">
+                <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-sage-50 overflow-hidden">
+                  <Image
+                    src={`/images/blog/${post.slug}.webp`}
+                    alt={post.coverImageAlt}
+                    width={1200}
+                    height={800}
+                    priority
+                    className="w-full h-full object-cover object-center"
+                    sizes="(max-width: 1024px) 100vw, 800px"
+                  />
+                </div>
+                <div className="p-4 bg-forest-50/70 border-t border-sage-200/60 text-xs text-sage-700 italic flex items-center justify-between">
+                  <span>Clinical educational article written by Dr. Noor ul Qamar (D.H.M.S, R.H.M.P)</span>
+                  <span className="font-semibold text-forest-900 hidden sm:inline">{post.category}</span>
+                </div>
+              </div>
+
               {/* Key Takeaways Box */}
               <div className="wellness-card p-6 sm:p-7 bg-forest-50/70 border border-forest-200/80 space-y-3 shadow-xs">
                 <h2 className="font-heading text-lg font-normal text-forest-950 flex items-center gap-2">

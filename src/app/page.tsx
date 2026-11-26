@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Calendar,
   MessageCircle,
@@ -184,6 +185,19 @@ export default function HomePage() {
                 className="wellness-card p-5 group flex flex-col justify-between hover:border-gold-400/60 transition-all duration-300 bg-white"
               >
                 <div className="space-y-3">
+                  {/* Thumbnail Image */}
+                  <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-sage-50 border border-sage-200/60">
+                    <Image
+                      src={`/images/treatments/${treatment.slug}-primary.webp`}
+                      alt={`Clinical consultation for ${treatment.title} - Dr. Noor ul Qamar`}
+                      width={400}
+                      height={250}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+                    />
+                  </div>
+
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-semibold text-forest-800 uppercase tracking-wider bg-forest-50 px-2.5 py-0.5 rounded-md border border-forest-100 font-sans">
                       {treatment.category}
@@ -223,7 +237,7 @@ export default function HomePage() {
         {/* ================= 3. WOMEN'S HEALTH SPOTLIGHT BANNER ================= */}
         <section className="bg-forest-950 text-white py-16 px-4 sm:px-6 lg:px-8 border-y border-forest-800">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-8 space-y-4">
+            <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900 text-gold-300 text-xs font-bold border border-gold-500/30">
                 <Heart className="w-3.5 h-3.5 fill-current" />
                 <span>Dedicated Women&apos;s Health & Fertility Wing</span>
@@ -248,22 +262,35 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
-              <Link
-                href="/womens-health"
-                className="w-full py-3.5 px-5 rounded-xl bg-gold-500 hover:bg-gold-400 text-forest-950 font-bold text-center text-sm shadow-md transition-all"
-              >
-                Explore Women&apos;s Health Care
-              </Link>
-              <a
-                href={`https://wa.me/${CLINIC_INFO.whatsapp}?text=Hello%20Dr.%20Noor%20ul%20Qamar%2C%20I%20would%20like%20to%20enquire%20about%20a%20private%20women%27s%20health%20consultation.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 px-5 rounded-xl bg-forest-900 hover:bg-forest-800 border border-forest-700 text-white font-bold text-center text-sm transition-all flex items-center justify-center gap-2"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-400 fill-emerald-400" />
-                <span>Private WhatsApp Enquiry</span>
-              </a>
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-forest-700/80 shadow-lg bg-forest-900">
+                <Image
+                  src="/images/womens-health/hero.webp"
+                  alt="Women's Health & Fertility Wing - Dr. Noor ul Qamar Homeopathy"
+                  width={600}
+                  height={375}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                  sizes="(max-width: 1024px) 100vw, 450px"
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/womens-health"
+                  className="flex-1 py-3 px-5 rounded-xl bg-gold-500 hover:bg-gold-400 text-forest-950 font-bold text-center text-xs sm:text-sm shadow-md transition-all"
+                >
+                  Explore Women&apos;s Wing
+                </Link>
+                <a
+                  href={`https://wa.me/${CLINIC_INFO.whatsapp}?text=Hello%20Dr.%20Noor%20ul%20Qamar%2C%20I%20would%20like%20to%20enquire%20about%20a%20private%20women%27s%20health%20consultation.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-3 px-5 rounded-xl bg-forest-900 hover:bg-forest-800 border border-forest-700 text-white font-bold text-center text-xs sm:text-sm transition-all flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-400 fill-emerald-400" />
+                  <span>WhatsApp</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -290,16 +317,18 @@ export default function HomePage() {
                 className="wellness-card p-6 flex flex-col justify-between bg-white border border-sage-200/80 shadow-xs"
               >
                 <div className="space-y-4">
-                  {/* Product Image Placeholder Box */}
-                  <div className="aspect-16/10 rounded-xl bg-gradient-to-br from-forest-50 to-sage-100 flex flex-col items-center justify-center p-4 text-center border border-sage-200/60 relative overflow-hidden">
-                    <Package className="w-10 h-10 text-forest-800 mb-2" />
-                    <span className="font-heading text-sm font-bold text-forest-950">
-                      {kit.title}
-                    </span>
-                    <span className="text-[11px] text-sage-600 mt-0.5">
-                      Personalised Consultation Required
-                    </span>
-                    <span className="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-forest-900 text-gold-300">
+                  {/* Product Visual */}
+                  <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-sage-50 border border-sage-200/60 shadow-inner group-hover:border-gold-400/50 transition-colors">
+                    <Image
+                      src={`/images/kits/${kit.slug}.webp`}
+                      alt={kit.imageAlt}
+                      width={500}
+                      height={312}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 360px"
+                    />
+                    <span className="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-forest-950/85 text-gold-300 backdrop-blur-xs border border-gold-500/30">
                       {kit.badge}
                     </span>
                   </div>
