@@ -88,6 +88,15 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
           slug: treatment.slug,
         }}
         faqItems={treatment.faqs}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Treatments", url: "/treatments" },
+          {
+            name: treatment.category,
+            url: `/treatments?category=${encodeURIComponent(treatment.category)}`,
+          },
+          { name: treatment.title, url: `/treatments/${treatment.slug}` },
+        ]}
       />
 
       <SiteHeader />

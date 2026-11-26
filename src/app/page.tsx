@@ -33,9 +33,9 @@ import { DoctorPortrait } from "@/components/public/doctor-card";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Dr. Noor ul Qamar Homeopathy Care | Clinic in Lahore & Online Consultation",
+  title: "Doctor | Dr. Noor ul Qamar Homeopathy Care — Leading Homeopathic Doctor in Lahore & Online",
   description:
-    "Personalised homeopathic care in Lahore & online. Consult Dr. Noor ul Qamar, D.H.M.S, R.H.M.P, with 10 years of experience. Thoughtful care for women's health, skin, hair, allergies, and digestive wellness.",
+    "Consult Doctor Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) with 10 years of clinical experience. Top-rated homeopathic clinic in Lahore & private online consultations for women's health, PCOS, hair, skin, allergies, and chronic wellness.",
 };
 
 export default function HomePage() {

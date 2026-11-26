@@ -20,9 +20,9 @@ import { DoctorPortrait } from "@/components/public/doctor-card";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "About Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) | 10 Years Experience",
+  title: "About Doctor Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) | Top Homeopathic Doctor in Lahore",
   description:
-    "Learn about Dr. Noor ul Qamar, registered homeopathic medical practitioner with 10 years experience in Lahore. Dedicated to patient-centred, individualised constitutional care.",
+    "Meet Doctor Dr. Noor ul Qamar, leading registered homeopathic medical practitioner (D.H.M.S, R.H.M.P) with 10 years of clinical experience in Lahore. Specialising in women's health, PCOS, hair, skin, and constitutional care.",
   alternates: {
     canonical: "/about",
   },
@@ -31,7 +31,13 @@ export const metadata = {
 export default function AboutDoctorPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf7] text-[#1c2d27]">
-      <SchemaMarkup type="clinic" />
+      <SchemaMarkup
+        type="clinic"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "About Dr. Noor ul Qamar", url: "/about" },
+        ]}
+      />
       <SiteHeader />
 
       <main className="flex-1">

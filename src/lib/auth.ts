@@ -60,7 +60,15 @@ export function verifySessionToken(token: string): SessionPayload | null {
     .update(data)
     .digest("base64url");
 
-  if (signature !== expectedSignature) return null;
+  // Constant-time HMAC comparison to eliminate timing side-channel attacks
+  const sigBuffer = Buffer.from(signature, "utf8");
+  const expectedBuffer = Buffer.from(expectedSignature, "utf8");
+  if (
+    sigBuffer.length !== expectedBuffer.length ||
+    !crypto.timingSafeEqual(sigBuffer, expectedBuffer)
+  ) {
+    return null;
+  }
 
   try {
     const payload: SessionPayload = JSON.parse(

@@ -5,15 +5,19 @@ import React, { useState } from "react";
 export type BottleVariant =
   | "reckeweg"
   | "schwabe"
-  | "masood-tincture"
+  | "schwabe-tincture"
+  | "schwabe-biochemic"
   | "masood-dilution"
+  | "masood-tincture"
   | "masood-biochemic";
 
 const ALL_VARIANTS: BottleVariant[] = [
   "reckeweg",
   "schwabe",
-  "masood-tincture",
+  "schwabe-tincture",
+  "schwabe-biochemic",
   "masood-dilution",
+  "masood-tincture",
   "masood-biochemic",
 ];
 
@@ -33,7 +37,10 @@ export function getDefaultBottleVariant(
     pot.includes("mother") ||
     f.includes("tincture")
   ) {
-    return "masood-tincture";
+    if (f.includes("masood") || f.includes("local")) {
+      return "masood-tincture";
+    }
+    return "schwabe-tincture";
   }
 
   // 2. Biochemic / 6X / 12X / Tablets
@@ -44,7 +51,10 @@ export function getDefaultBottleVariant(
     f.includes("powder") ||
     f.includes("biochemic")
   ) {
-    return "masood-biochemic";
+    if (f.includes("masood") || f.includes("local")) {
+      return "masood-biochemic";
+    }
+    return "schwabe-biochemic";
   }
 
   // 3. Masood Green-Cap Dilution
@@ -60,11 +70,13 @@ export function getDefaultBottleVariant(
     return "reckeweg";
   }
 
-  // 5. Alternate aesthetically across all 5 styles if index is provided
+  // 5. Alternate aesthetically across imported German and local styles if index is provided
   if (typeof index === "number") {
     const cycle: BottleVariant[] = [
       "reckeweg",
       "schwabe",
+      "schwabe-tincture",
+      "schwabe-biochemic",
       "masood-dilution",
       "masood-tincture",
       "masood-biochemic",
@@ -81,6 +93,8 @@ export function getBrandDisplayName(variant: BottleVariant): string {
     case "reckeweg":
       return "Dr. Reckeweg";
     case "schwabe":
+    case "schwabe-tincture":
+    case "schwabe-biochemic":
       return "Dr. Schwabe";
     case "masood-tincture":
     case "masood-dilution":
@@ -115,9 +129,8 @@ interface TypographyResult {
 function getLabelTypography(
   cleanName: string,
   fontScale: number,
-  options?: { isSchwabe?: boolean; isUppercase?: boolean }
+  options?: { isUppercase?: boolean }
 ): TypographyResult {
-  const isSchwabe = options?.isSchwabe ?? false;
   const isUppercase = options?.isUppercase ?? false;
 
   const words = cleanName.trim().split(/\s+/);
@@ -125,7 +138,7 @@ function getLabelTypography(
   const totalLen = cleanName.length;
 
   // Comfortable available width inside label with generous breathing margins
-  const availableWidth = isSchwabe ? 26 : 30;
+  const availableWidth = 30;
   const charFactor = isUppercase ? 0.65 : 0.52;
 
   // Precise sizing calculation
@@ -141,7 +154,7 @@ function getLabelTypography(
   const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
 
   // Balanced potency font size
-  const potBase = isSchwabe ? 5.6 : 5.4;
+  const potBase = 5.4;
   const potencySize = Math.max(4.2, potBase * fontScale);
 
   return {
@@ -185,9 +198,8 @@ export function MedicineBottle({
     size === "xs" ? 0.8 : size === "sm" ? 0.9 : size === "lg" ? 1.2 : 1.0;
 
   // Compute typography for active bottle variant
-  const isSchwabe = activeVariant === "schwabe";
   const isUppercase = activeVariant.startsWith("masood");
-  const typo = getLabelTypography(cleanName, fontScale, { isSchwabe, isUppercase });
+  const typo = getLabelTypography(cleanName, fontScale, { isUppercase });
 
   const handleNextVariant = () => {
     const curIdx = ALL_VARIANTS.indexOf(activeVariant);
@@ -198,7 +210,7 @@ export function MedicineBottle({
   return (
     <div
       className={`relative inline-flex flex-col items-center group cursor-pointer select-none ${className}`}
-      title="Click to cycle bottle styles (Reckeweg • Schwabe • Masood Tincture • Masood Dilution • Masood Biochemic)"
+      title="Click to cycle bottle styles (Reckeweg • Schwabe Dilution • Schwabe Tincture • Schwabe Tablets • Masood Dilution • Masood Tincture • Masood Tablets)"
       onClick={handleNextVariant}
     >
       {/* Bottle Container with Crisp Drop-Shadow */}
@@ -246,26 +258,26 @@ export function MedicineBottle({
           </>
         )}
 
-        {/* 2. GERMAN: Dr. Willmar Schwabe Amber Dilution Bottle */}
+        {/* 2. GERMAN: Dr. Willmar Schwabe 10ml Dilution (Front-Facing) */}
         {activeVariant === "schwabe" && (
           <>
             <img
-              src="/images/homeo-bottle-schwabe-transparent.webp"
-              alt={`${cleanName} ${cleanPotency} Homeopathic Medicine Bottle`}
+              src="/images/homeo-bottle-schwabe-dilution-transparent.webp"
+              alt={`${cleanName} ${cleanPotency} Dr. Willmar Schwabe Dilution Bottle`}
               className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
             />
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "66.5%",
-                left: "70.0%",
-                width: "48%",
-                maxWidth: "48%",
+                top: "69.2%",
+                left: "50%",
+                width: "74%",
+                maxWidth: "74%",
                 transform: "translate(-50%, -50%)",
               }}
             >
               <div
-                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-black tracking-tight leading-[1.05] font-sans"
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
                 style={{ fontSize: `${typo.nameSize}px` }}
               >
                 {isMultiWord ? (
@@ -279,6 +291,88 @@ export function MedicineBottle({
               </div>
               <span
                 className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
+              >
+                {cleanPotency}
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* 3. GERMAN: Dr. Willmar Schwabe 20ml Mother Tincture (Front-Facing) */}
+        {activeVariant === "schwabe-tincture" && (
+          <>
+            <img
+              src="/images/homeo-bottle-schwabe-tincture-transparent.webp"
+              alt={`${cleanName} ${cleanPotency} Dr. Willmar Schwabe Mother Tincture Bottle`}
+              className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
+            />
+            <div
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
+              style={{
+                top: "62.2%",
+                left: "50%",
+                width: "74%",
+                maxWidth: "74%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                style={{ fontSize: `${typo.nameSize}px` }}
+              >
+                {isMultiWord ? (
+                  <>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
+                  </>
+                ) : (
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
+                )}
+              </div>
+              <span
+                className="font-black text-[#b91c1c] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
+                style={{ fontSize: `${typo.potencySize}px` }}
+              >
+                {cleanPotency}
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* 4. GERMAN: Dr. Willmar Schwabe 20g Biochemic Tablets (Front-Facing) */}
+        {activeVariant === "schwabe-biochemic" && (
+          <>
+            <img
+              src="/images/homeo-bottle-schwabe-biochemic-transparent.webp"
+              alt={`${cleanName} ${cleanPotency} Dr. Willmar Schwabe Biochemic Bottle`}
+              className="w-full h-full object-contain filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.18)]"
+            />
+            <div
+              className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
+              style={{
+                top: "66.2%",
+                left: "50%",
+                width: "74%",
+                maxWidth: "74%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <div
+                className="w-full max-w-full overflow-hidden flex flex-col items-center justify-center font-black text-[#0a0a0a] tracking-tight leading-[1.05] font-sans"
+                style={{ fontSize: `${typo.nameSize}px` }}
+              >
+                {isMultiWord ? (
+                  <>
+                    <span className="block w-full max-w-full truncate">{words[0]}</span>
+                    <span className="block w-full max-w-full truncate">{words.slice(1).join(" ")}</span>
+                  </>
+                ) : (
+                  <span className="block w-full max-w-full truncate">{cleanName}</span>
+                )}
+              </div>
+              <span
+                className="font-black text-[#0284c7] tracking-wider leading-none mt-0.5 block font-sans truncate max-w-full w-full"
                 style={{ fontSize: `${typo.potencySize}px` }}
               >
                 {cleanPotency}

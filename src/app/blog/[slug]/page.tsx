@@ -77,6 +77,11 @@ export default async function BlogPostPage({ params }: PageProps) {
           date: post.date,
           slug: post.slug,
         }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+          { name: post.title, url: `/blog/${post.slug}` },
+        ]}
       />
       <SiteHeader />
 

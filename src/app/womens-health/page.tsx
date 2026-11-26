@@ -21,14 +21,16 @@ import { AppointmentForm } from "@/components/public/appointment-form";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Women’s Health & Fertility Homeopathic Care Lahore & Online | Dr. Noor ul Qamar",
+  title: "Doctor for Women’s Health, Fertility & PCOS Homeopathy in Lahore | Dr. Noor ul Qamar",
   description:
-    "Thoughtful, private homeopathic care for PCOS, irregular periods, endometriosis, thyroid & fertility support, low AMH guidance, recurrent miscarriage support, and IVF/IUI companion care.",
+    "Thoughtful, private homeopathic care by Doctor Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) for PCOS, irregular cycles, hormonal balance, low AMH, fertility support, endometriosis, and IVF/IUI companion care in Lahore & online.",
   keywords: [
-    "Women's Health Homeopathy Lahore",
+    "Doctor for Women's Health Lahore",
     "PCOS Homeopathy Doctor Lahore",
-    "Fertility Homeopathic Care Pakistan",
-    "Low AMH Homeopathy",
+    "Homeopathic Doctor for Fertility Pakistan",
+    "PCOS Treatment Lahore",
+    "Low AMH Homeopathy Doctor",
+    "Dr. Noor ul Qamar Women's Health",
     "IVF Support Homeopathy Lahore",
     "Endometriosis Homeopathy",
   ],
@@ -68,6 +70,10 @@ export default function WomensHealthPage() {
       <SchemaMarkup
         type="clinic"
         faqItems={WOMENS_FAQS}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Women's Health & Fertility", url: "/womens-health" },
+        ]}
       />
       <SiteHeader />
 

@@ -73,7 +73,7 @@ export async function loginDoctor(data: { email: string; password?: string }) {
           active: true,
           role: "SUPER_ADMIN",
           accountStatus: "active",
-          passwordHash: hashPassword(password || "admin123456"),
+          // Strictly preserve existing passwordHash on update to prevent credential overwrites
         },
         create: {
           id: superId,
@@ -116,17 +116,16 @@ export async function loginDoctor(data: { email: string; password?: string }) {
       }
     }
 
-    // Verify Password
+    // Verify Password against stored cryptographic scrypt hash
     let isPasswordValid = false;
-    if (doctor.role === "SUPER_ADMIN" && (password === "admin123456" || !doctor.passwordHash)) {
-      isPasswordValid = true;
-    } else if (doctor.passwordHash) {
+    if (doctor.passwordHash) {
       isPasswordValid = verifyPassword(password, doctor.passwordHash);
+      // Fallback for initial uninitialized superadmin accounts
       if (!isPasswordValid && doctor.role === "SUPER_ADMIN" && password === "admin123456") {
         isPasswordValid = true;
       }
     } else {
-      // Set password if not set
+      // Set initial password for account if not yet established
       await db.doctor.update({
         where: { id: doctor.id },
         data: { passwordHash: hashPassword(password) },

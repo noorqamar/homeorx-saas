@@ -5,36 +5,83 @@ import { BLOG_POSTS } from "@/data/blog-posts";
 const BASE_URL = "https://dr.noorulqamar.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    "",
-    "/about",
-    "/womens-health",
-    "/treatments",
-    "/disease-kits",
-    "/blog",
-    "/contact",
-    "/privacy-policy",
-    "/terms",
-    "/cancellation-refund",
-  ].map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
-    changeFrequency: (route === "" ? "daily" : "weekly") as "daily" | "weekly",
-    priority: route === "" ? 1.0 : 0.8,
-  }));
+  const now = new Date();
 
-  const treatmentRoutes = TREATMENTS.map((treatment) => ({
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/about`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/womens-health`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/treatments`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/disease-kits`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/privacy-policy`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      url: `${BASE_URL}/cancellation-refund`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+  ];
+
+  const treatmentRoutes: MetadataRoute.Sitemap = TREATMENTS.map((treatment) => ({
     url: `${BASE_URL}/treatments/${treatment.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: treatment.featured ? 0.9 : 0.7,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: treatment.featured ? 0.85 : 0.75,
   }));
 
-  const blogRoutes = BLOG_POSTS.map((post) => ({
+  const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: post.featured ? 0.8 : 0.6,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: post.featured ? 0.8 : 0.7,
   }));
 
   return [...staticRoutes, ...treatmentRoutes, ...blogRoutes];
