@@ -430,7 +430,7 @@ export function MedicineBottle({
             <div
               className="absolute flex flex-col items-center justify-center text-center px-0.5 pointer-events-none overflow-hidden select-none"
               style={{
-                top: "69.5%",
+                top: "66.0%",
                 left: "50%",
                 width: "66%",
                 maxWidth: "66%",
