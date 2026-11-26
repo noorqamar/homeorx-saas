@@ -506,14 +506,14 @@ export function MedicineBottle({
       </div>
       {showBrand && (
         <span
-          className={`inline-flex items-center justify-center font-bold tracking-tight text-center mt-1 px-1.5 py-0.5 rounded bg-slate-100/90 border border-slate-200/80 text-slate-700 print:text-slate-900 print:bg-transparent print:border-none font-sans shrink-0 shadow-2xs ${
+          className={`inline-flex items-center justify-center font-bold tracking-tight text-center mt-0.5 px-1 py-[1.5px] rounded bg-slate-50 border border-slate-200/70 text-slate-600 print:text-slate-900 print:bg-transparent print:border-none font-sans shrink-0 shadow-2xs ${
             size === "xs"
-              ? "text-[7.5px] leading-tight"
+              ? "text-[6.5px] leading-none"
               : size === "sm"
-              ? "text-[8.5px] leading-tight"
+              ? "text-[7px] leading-none"
               : size === "lg"
-              ? "text-[10px] leading-tight"
-              : "text-[9px] leading-tight"
+              ? "text-[8px] leading-none"
+              : "text-[7px] sm:text-[7.5px] leading-none"
           }`}
         >
           {getBrandDisplayName(activeVariant)}

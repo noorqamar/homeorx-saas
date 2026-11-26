@@ -16,9 +16,9 @@ import { FloatingWhatsApp } from "@/components/public/floating-whatsapp";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Health & Wellness Blog | Thoughtful Homeopathy Insights | Dr. Noor ul Qamar",
+  title: "Health & Wellness Blog | Thoughtful Homeopathy Insights | Doctor Dr. Noor ul Qamar",
   description:
-    "Evidence-grounded health insights on hair fall, PCOS, stress, digestive wellness, allergies, and joint health written by Dr. Noor ul Qamar (D.H.M.S, R.H.M.P).",
+    "Evidence-grounded health insights on hair fall, PCOS, stress, digestive wellness, allergies, and joint health written by Doctor Dr. Noor ul Qamar (D.H.M.S, R.H.M.P).",
   alternates: {
     canonical: "/blog",
   },
@@ -30,7 +30,13 @@ export default function BlogIndexPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf7] text-[#1c2d27]">
-      <SchemaMarkup type="clinic" />
+      <SchemaMarkup
+        type="clinic"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Health & Wellness Blog", url: "/blog" },
+        ]}
+      />
       <SiteHeader />
 
       <main className="flex-1">

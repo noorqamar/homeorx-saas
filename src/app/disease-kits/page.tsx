@@ -18,9 +18,9 @@ import { FloatingWhatsApp } from "@/components/public/floating-whatsapp";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Homeopathic Disease Kits & Supportive Care | Dr. Noor ul Qamar",
+  title: "Homeopathic Disease Kits & Supportive Care | Doctor Dr. Noor ul Qamar",
   description:
-    "Curated homeopathic wellness kits for hair care, skin, PCOS, digestive ease, respiratory health, and joint mobility. Personalised consultation required before dispensing.",
+    "Curated homeopathic wellness kits by Doctor Dr. Noor ul Qamar for hair care, skin, PCOS, digestive ease, respiratory health, and joint mobility. Personalised consultation required before dispensing.",
   alternates: {
     canonical: "/disease-kits",
   },
@@ -29,7 +29,13 @@ export const metadata = {
 export default function DiseaseKitsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf7] text-[#1c2d27]">
-      <SchemaMarkup type="clinic" />
+      <SchemaMarkup
+        type="clinic"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Homeopathic Disease Kits", url: "/disease-kits" },
+        ]}
+      />
       <SiteHeader />
 
       <main className="flex-1">

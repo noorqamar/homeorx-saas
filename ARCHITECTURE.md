@@ -97,3 +97,17 @@ flowchart TD
 6. **Official Doctor Portrait Invariant**:
    - The authentic professional portrait of Dr. Noorul Qamar (`public/images/dr-noorul-qamar.jpg`, 926x1024) must be used across the website without AI modification, cropping of face/hair/hands, or alteration of the doctor's attire, stethoscope, or soft green arch background.
    - Displayed prominently in the Homepage Hero (with side credential card), About Doctor page, and Contact Page consultation trust banner.
+
+7. **Enterprise Security & Defense-in-Depth Invariant**:
+   - Next.js configured with `poweredByHeader: false` to eliminate technology fingerprinting.
+   - Comprehensive HTTP security headers applied across all routes: Strict HSTS (`max-age=63072000; includeSubDomains; preload`), CSP (strict source directives for Google Fonts, Maps, Firebase Auth, and WhatsApp), X-Frame-Options (`SAMEORIGIN`), X-Content-Type-Options (`nosniff`), X-XSS-Protection (`1; mode=block`), Referrer-Policy (`strict-origin-when-cross-origin`), and COOP (`same-origin-allow-popups`).
+   - Edge Middleware enforces path traversal and exploit scanner blocking (403 on malicious signatures).
+   - In-memory sliding-window IP rate limiter protects authentication routes (max 20 req/min) and general endpoints (max 200 req/min) against brute-force and scraping attacks.
+   - Session HMAC tokens use constant-time comparisons (`crypto.timingSafeEqual`) to eliminate timing side-channel attacks.
+   - Passwords use scrypt hashing with 16-byte random salt. All Prisma ORM queries are parameterized to eliminate SQL injection.
+
+8. **Medical Authority SEO Architecture (Benchmarked)**:
+   - Built to match and exceed top medical doctor authority websites (e.g., `drtariqkhan.com`).
+   - Targets primary keyword entities ("Doctor", "Dr. Noor ul Qamar", "Homeopathic Doctor in Lahore", "Best Homeopath Pakistan", "PCOS Homeopathy Doctor", "Online Homeopathy Consultation Pakistan").
+   - Emits rich Google Knowledge Graph JSON-LD schemas: `Physician`, `MedicalClinic`, `LocalBusiness`, `Person` (with D.H.M.S & R.H.M.P credentials and NCH Pakistan registration), `WebSite` with `SearchAction` (Sitelinks SearchBox), `BreadcrumbList` across all condition/blog pages, `MedicalWebPage`, `MedicalCondition`, and `FAQPage`.
+   - Embeds geo-targeting metadata (`PK-PB`, Lahore, lat/long `31.370597, 74.195612`) and multi-locale OpenGraph / Twitter cards with explicit 1200x630 dimensions.
