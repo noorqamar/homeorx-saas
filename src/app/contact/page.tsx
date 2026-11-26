@@ -20,11 +20,12 @@ import { AppointmentForm } from "@/components/public/appointment-form";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Contact & Clinic Location | Dr. Noor ul Qamar Homeopathy Care Lahore",
+  title: "Contact & Clinic Location Lahore | Doctor Dr. Noor ul Qamar Homeopathy Care",
   description:
-    "Visit Dr. Noor ul Qamar at Noor Street, LDA Avenue 1, Lahore, Pakistan, or book an online WhatsApp consultation. Call 03004627881. Clinic timings: 6:00 PM – 10:00 PM.",
+    "Visit Doctor Dr. Noor ul Qamar at Noor Street, LDA Avenue 1, Lahore, Pakistan, or book an online WhatsApp consultation. Call 03004627881. Clinic timings: 6:00 PM – 10:00 PM.",
   keywords: [
     "Homeopathy Clinic LDA Avenue Lahore",
+    "Doctor in Lahore Contact",
     "Dr. Noor ul Qamar Contact Number",
     "Homeopathy Doctor Lahore Phone Number",
     "LDA Avenue 1 Homeopathic Clinic",
@@ -37,7 +38,13 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf7] text-[#1c2d27]">
-      <SchemaMarkup type="clinic" />
+      <SchemaMarkup
+        type="clinic"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Contact & Location", url: "/contact" },
+        ]}
+      />
       <SiteHeader />
 
       <main className="flex-1">

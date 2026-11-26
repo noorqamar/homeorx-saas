@@ -9,9 +9,9 @@ import { TreatmentsClient } from "./treatments-client";
 import { SchemaMarkup } from "@/components/public/schema-markup";
 
 export const metadata = {
-  title: "Treatments Directory | Complete 60+ Conditions | Dr. Noor ul Qamar",
+  title: "Homeopathic Treatments & Conditions Directory Lahore | Doctor Dr. Noor ul Qamar",
   description:
-    "Explore our complete directory of 60+ chronic and acute conditions managed through thoughtful constitutional homeopathy. Women's health, skin, hair, allergies, joints, and digestion.",
+    "Explore 60+ chronic and acute conditions treated through constitutional homeopathy by Doctor Dr. Noor ul Qamar (D.H.M.S, R.H.M.P). Women's health, PCOS, hair, skin, allergies, joints, and digestion in Lahore & online.",
   alternates: {
     canonical: "/treatments",
   },
@@ -20,7 +20,13 @@ export const metadata = {
 export default function TreatmentsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf7] text-[#1c2d27]">
-      <SchemaMarkup type="clinic" />
+      <SchemaMarkup
+        type="clinic"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Treatments Directory", url: "/treatments" },
+        ]}
+      />
       <SiteHeader />
 
       <main className="flex-1">
