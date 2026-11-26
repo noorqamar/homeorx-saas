@@ -8,11 +8,12 @@
 ## 1. System Overview
 - **Practice / Brand Name**: Dr. Noor ul Qamar Homeopathy Care
 - **Doctor**: Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) — 10 Years Clinical Experience
+- **Primary Canonical Domain**: `https://dr.noorulqamar.com`
 - **Architecture Pattern**: Dual-Tier Architecture:
   1. **Public Patient Medical Portal**: High-speed, SEO-optimized, responsive public clinic website (SSG/SSR, Schema markup, WhatsApp engine, 66 clinical condition guides).
   2. **Protected Doctor SaaS Suite**: Multi-tenant clinical management suite, patient records, master homeopathic repertory, and luxury Single-Page A4 PDF prescription generator.
 - **Primary Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, TailwindCSS, Prisma ORM, SQLite
-- **Visual Design Identity**: Forest green (`#143e2e`), Sage green (`#588157`), Warm Ivory (`#faf8f2`), White, and restrained Gold accents (`#c5a059`). Typography: Playfair Display serif headings and Plus Jakarta Sans body.
+- **Visual Design Identity**: Forest green (`#143e2e`), Sage green (`#588157`), Warm Ivory (`#faf8f2`), White, and restrained Gold accents (`#c5a059`). Typography: DM Serif Display serif headings and Manrope modern sans-serif body.
 
 ---
 
@@ -92,3 +93,7 @@ flowchart TD
 
 5. **Single-Page A4 PDF Print Invariant (Preserved)**:
    - For prescriptions generated in the doctor workspace (`/prescriptions/[id]/print`), the layout must fit strictly onto a single A4 page (`minHeight: 272mm`, `maxHeight: 284mm`) with zero page-2 overflow.
+
+6. **Official Doctor Portrait Invariant**:
+   - The authentic professional portrait of Dr. Noorul Qamar (`public/images/dr-noorul-qamar.jpg`, 926x1024) must be used across the website without AI modification, cropping of face/hair/hands, or alteration of the doctor's attire, stethoscope, or soft green arch background.
+   - Displayed prominently in the Homepage Hero (with side credential card), About Doctor page, and Contact Page consultation trust banner.

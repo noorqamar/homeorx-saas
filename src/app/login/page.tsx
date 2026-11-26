@@ -50,6 +50,7 @@ export default function LoginPage() {
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [popupBlocked, setPopupBlocked] = useState(false);
+  const [unauthorizedDomain, setUnauthorizedDomain] = useState(false);
 
   // Check for returning redirect authentication from Google
   useEffect(() => {
@@ -103,6 +104,7 @@ export default function LoginPage() {
     setIsGoogleLoading(true);
     setError(null);
     setPopupBlocked(false);
+    setUnauthorizedDomain(false);
 
     // If Firebase is already configured, attempt official Google Popup!
     if (isFirebaseConfigured()) {
@@ -151,6 +153,17 @@ export default function LoginPage() {
           return;
         }
 
+        // If domain is unauthorized in Firebase (auth/unauthorized-domain)
+        if (
+          err?.code === "auth/unauthorized-domain" ||
+          err?.message?.includes("unauthorized-domain")
+        ) {
+          setUnauthorizedDomain(true);
+          setError(null);
+          setIsGoogleLoading(false);
+          return;
+        }
+
         // If API key is not valid or domain is unauthorized, open setup assistant
         if (
           err?.code === "auth/api-key-not-valid" ||
@@ -178,6 +191,7 @@ export default function LoginPage() {
     setIsGoogleLoading(true);
     setError(null);
     setPopupBlocked(false);
+    setUnauthorizedDomain(false);
 
     if (isFirebaseConfigured()) {
       try {
@@ -185,6 +199,15 @@ export default function LoginPage() {
         return;
       } catch (err: any) {
         console.warn("Google redirect error:", err);
+        if (
+          err?.code === "auth/unauthorized-domain" ||
+          err?.message?.includes("unauthorized-domain")
+        ) {
+          setUnauthorizedDomain(true);
+          setError(null);
+          setIsGoogleLoading(false);
+          return;
+        }
         setError(err?.message || "Failed to start direct Google sign in.");
         setIsGoogleLoading(false);
         return;
@@ -626,6 +649,73 @@ export default function LoginPage() {
                     <span>{isGoogleLoading ? "Redirecting to Google..." : "🚀 Continue with Direct Google Sign-In"}</span>
                     <ArrowRight className="h-4 w-4 text-white" />
                   </button>
+                </div>
+              )}
+
+              {/* FIREBASE UNAUTHORIZED DOMAIN RECOVERY CARD */}
+              {unauthorizedDomain && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border-2 border-amber-300 text-amber-950 space-y-3.5 animate-in fade-in shadow-md">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-amber-900">
+                      <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+                      <span>Firebase Authorized Domain Required</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-md bg-amber-200/80 text-[10px] font-bold text-amber-800">
+                      auth/unauthorized-domain
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-amber-900/90 leading-relaxed">
+                    The new domain <strong className="font-mono text-amber-950 bg-amber-200/60 px-1.5 py-0.5 rounded">dr.noorulqamar.com</strong> must be whitelisted under Authorized Domains in the Firebase Console for Google sign-in.
+                  </p>
+
+                  <div className="p-3 bg-white/90 rounded-xl border border-amber-200 text-[11px] text-slate-800 space-y-1.5">
+                    <div className="font-bold flex items-center gap-1.5 text-slate-900">
+                      <span>Quick 30-Second Fix in Firebase Console:</span>
+                    </div>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-700">
+                      <li>
+                        Open{" "}
+                        <a
+                          href="https://console.firebase.google.com/project/homeorx-4d877/authentication/settings"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[#1E50DE] font-bold underline inline-flex items-center gap-0.5"
+                        >
+                          Firebase Console &gt; Settings &gt; Authorized Domains <ExternalLink className="h-3 w-3 inline" />
+                        </a>
+                      </li>
+                      <li>
+                        Click <strong>Add domain</strong> and enter: <code className="font-mono bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-900">dr.noorulqamar.com</code>
+                      </li>
+                      <li>Click <strong>Save</strong> — Google Sign-In will start working immediately.</li>
+                    </ol>
+                  </div>
+
+                  {/* Immediate 1-Click Bypass to avoid any block */}
+                  <div className="space-y-2 pt-1">
+                    <div className="text-[11px] font-bold text-amber-900">Or sign in right now without waiting:</div>
+                    <button
+                      type="button"
+                      onClick={handleQuickAdminClick}
+                      disabled={isGoogleLoading}
+                      className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+                    >
+                      <Crown className="h-4 w-4 text-amber-300" />
+                      <span>{isGoogleLoading ? "Entering..." : "⚡ Quick Sign In as Dr. Noor ul Qamar (Super Admin)"}</span>
+                      <ArrowRight className="h-4 w-4 text-blue-200" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleDemoClick}
+                      disabled={isDemoLoading}
+                      className="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                      <span>{isDemoLoading ? "Entering..." : "Enter Instant Demo Mode"}</span>
+                    </button>
+                  </div>
                 </div>
               )}
 

@@ -76,6 +76,21 @@ export function getDefaultBottleVariant(
   return "reckeweg";
 }
 
+export function getBrandDisplayName(variant: BottleVariant): string {
+  switch (variant) {
+    case "reckeweg":
+      return "Dr. Reckeweg";
+    case "schwabe":
+      return "Dr. Schwabe";
+    case "masood-tincture":
+    case "masood-dilution":
+    case "masood-biochemic":
+      return "Dr. Masood";
+    default:
+      return "Dr. Reckeweg";
+  }
+}
+
 interface MedicineBottleProps {
   medicineName: string;
   potency: string;
@@ -84,6 +99,7 @@ interface MedicineBottleProps {
   index?: number;
   size?: "xs" | "sm" | "md" | "lg";
   className?: string;
+  showBrand?: boolean;
 }
 
 interface TypographyResult {
@@ -142,6 +158,7 @@ export function MedicineBottle({
   index,
   size = "sm",
   className = "",
+  showBrand = true,
 }: MedicineBottleProps) {
   const initialVariant = variant || getDefaultBottleVariant(potency, form, index);
   const [activeVariant, setActiveVariant] = useState<BottleVariant>(initialVariant);
@@ -393,7 +410,21 @@ export function MedicineBottle({
           </>
         )}
       </div>
-      {/* Note: Bottom brand text has been removed as requested */}
+      {showBrand && (
+        <span
+          className={`inline-flex items-center justify-center font-bold tracking-tight text-center mt-1 px-1.5 py-0.5 rounded bg-slate-100/90 border border-slate-200/80 text-slate-700 print:text-slate-900 print:bg-transparent print:border-none font-sans shrink-0 shadow-2xs ${
+            size === "xs"
+              ? "text-[7.5px] leading-tight"
+              : size === "sm"
+              ? "text-[8.5px] leading-tight"
+              : size === "lg"
+              ? "text-[10px] leading-tight"
+              : "text-[9px] leading-tight"
+          }`}
+        >
+          {getBrandDisplayName(activeVariant)}
+        </span>
+      )}
     </div>
   );
 }

@@ -32,6 +32,9 @@ export const metadata = {
     "IVF Support Homeopathy Lahore",
     "Endometriosis Homeopathy",
   ],
+  alternates: {
+    canonical: "/womens-health",
+  },
 };
 
 const WOMENS_FAQS = [
@@ -77,7 +80,7 @@ export default function WomensHealthPage() {
               <span>Dedicated Women’s Health & Fertility Wing</span>
             </div>
 
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15]">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight leading-[1.18]">
               Thoughtful, Gentle Care for Women’s Health & Fertility
             </h1>
 
@@ -134,7 +137,7 @@ export default function WomensHealthPage() {
             <span className="text-xs font-bold text-forest-800 tracking-wider uppercase bg-forest-50 px-3 py-1 rounded-full border border-forest-200/60 inline-block">
               Areas of Supportive Care
             </span>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-forest-950 tracking-tight">
               Comprehensive Support Across Every Stage of Life
             </h2>
             <p className="text-sm sm:text-base text-sage-700">
@@ -157,7 +160,7 @@ export default function WomensHealthPage() {
                     <ArrowRight className="w-4 h-4 text-sage-400 group-hover:text-forest-900 group-hover:translate-x-0.5 transition-all" />
                   </div>
 
-                  <h3 className="font-heading text-xl font-bold text-forest-950 group-hover:text-forest-800 transition-colors">
+                  <h3 className="font-sans text-lg sm:text-xl font-semibold text-forest-950 group-hover:text-forest-800 transition-colors tracking-tight">
                     <Link href={`/treatments/${treatment.slug}`}>{treatment.title}</Link>
                   </h3>
 
@@ -207,7 +210,7 @@ export default function WomensHealthPage() {
           <div className="max-w-4xl mx-auto space-y-5">
             <div className="flex items-center gap-3 text-amber-900">
               <AlertTriangle className="w-6 h-6 text-amber-700 shrink-0" />
-              <h2 className="font-heading text-xl sm:text-2xl font-bold">
+              <h2 className="font-heading text-xl sm:text-2xl font-normal">
                 When to See a Gynaecologist or Fertility Specialist Immediately
               </h2>
             </div>
@@ -248,7 +251,7 @@ export default function WomensHealthPage() {
         {/* ================= FAQS ACCORDION ================= */}
         <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-forest-950">
+            <h2 className="font-heading text-2xl sm:text-3xl font-normal text-forest-950">
               Women’s Health & Fertility FAQs
             </h2>
             <p className="text-xs sm:text-sm text-sage-700">
@@ -262,7 +265,7 @@ export default function WomensHealthPage() {
                 key={idx}
                 className="group wellness-card bg-white p-5 sm:p-6 transition-all duration-200 open:border-forest-300 open:shadow-md cursor-pointer"
               >
-                <summary className="flex items-center justify-between font-heading text-base font-bold text-forest-950 list-none group-hover:text-forest-800">
+                <summary className="flex items-center justify-between font-sans text-base font-semibold text-forest-950 list-none group-hover:text-forest-800">
                   <span>{faq.question}</span>
                   <span className="ml-4 flex items-center justify-center w-6 h-6 rounded-full bg-forest-50 text-forest-900 group-open:rotate-180 transition-transform shrink-0">
                     ↓

@@ -10,6 +10,7 @@
 - **Detected Language(s)**: TypeScript (React 19), CSS (TailwindCSS), Next.js 15 (App Router), Prisma
 - **Brand / Practice**: Dr. Noor ul Qamar Homeopathy Care
 - **Doctor**: Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) — 10 Years of Experience
+- **Primary Canonical Domain**: `https://dr.noorulqamar.com`
 - **Total Tracked Directories**: 20+
 - **Total Tracked Files**: 45+
 - **Last Synchronized**: 2026-11-25
@@ -36,7 +37,8 @@
 
 | File Path | Description | Role |
 | :--- | :--- | :--- |
-| `src/app/page.tsx` | Clinic Homepage | Hero, featured treatments, women's health spotlight, disease kits, doctor profile, reviews, FAQs, appointment form |
+| `public/images/dr-noorul-qamar.jpg` | Official Doctor Portrait | High-resolution portrait of Dr. Noorul Qamar (926x1024) in medical coat & stethoscope with soft green arch backdrop |
+| `src/app/page.tsx` | Clinic Homepage | Hero with official doctor portrait & side credentials, featured treatments, women's health spotlight, disease kits, doctor profile, reviews, FAQs, appointment form |
 | `src/app/about/page.tsx` | About Dr. Noor ul Qamar | Professional profile, credentials (D.H.M.S, R.H.M.P), 10 years experience, clinical philosophy |
 | `src/app/womens-health/page.tsx` | Women's Health & Fertility Wing | PCOS, irregular cycles, low AMH, recurrent miscarriage, endometriosis, IVF/IUI companion care, specialist red flags |
 | `src/app/treatments/page.tsx` | Treatments Directory | Searchable, filterable 60+ conditions directory with category tabs |

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   MapPin,
@@ -9,6 +10,7 @@ import {
   Navigation,
   ShieldCheck,
   CheckCircle2,
+  Award,
 } from "lucide-react";
 import { CLINIC_INFO } from "@/data/clinic-info";
 import { SiteHeader } from "@/components/public/site-header";
@@ -27,6 +29,9 @@ export const metadata = {
     "Homeopathy Doctor Lahore Phone Number",
     "LDA Avenue 1 Homeopathic Clinic",
   ],
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {
@@ -42,7 +47,7 @@ export default function ContactPage() {
             <span className="text-xs font-bold text-gold-400 tracking-wider uppercase bg-forest-800/80 px-3.5 py-1.5 rounded-full border border-gold-500/30 inline-block">
               Clinic Location & Appointments
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
               Contact & Visit Dr. Noor ul Qamar
             </h1>
             <p className="text-sm sm:text-base text-sage-200 leading-relaxed max-w-2xl mx-auto">
@@ -61,7 +66,7 @@ export default function ContactPage() {
                 <div className="w-12 h-12 rounded-2xl bg-forest-50 text-forest-900 flex items-center justify-center border border-forest-200/60">
                   <Phone className="w-6 h-6 text-gold-600" />
                 </div>
-                <h3 className="font-heading text-lg font-bold text-forest-950">Direct Phone Call</h3>
+                <h3 className="font-sans text-lg font-semibold text-forest-950">Direct Phone Call</h3>
                 <p className="text-xs text-sage-600 leading-relaxed">
                   Call our clinic desk directly during practice hours for appointment enquiries and
                   general information.
@@ -86,7 +91,7 @@ export default function ContactPage() {
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-200">
                   <MessageCircle className="w-6 h-6 fill-current" />
                 </div>
-                <h3 className="font-heading text-lg font-bold text-forest-950">WhatsApp Consultation</h3>
+                <h3 className="font-sans text-lg font-semibold text-forest-950">WhatsApp Consultation</h3>
                 <p className="text-xs text-sage-600 leading-relaxed">
                   Fastest way to book an appointment, share medical reports, or enquire about
                   homeopathic disease kits.
@@ -113,7 +118,7 @@ export default function ContactPage() {
                 <div className="w-12 h-12 rounded-2xl bg-forest-50 text-forest-900 flex items-center justify-center border border-forest-200/60">
                   <Clock className="w-6 h-6 text-gold-600" />
                 </div>
-                <h3 className="font-heading text-lg font-bold text-forest-950">Clinic Timings</h3>
+                <h3 className="font-sans text-lg font-semibold text-forest-950">Clinic Timings</h3>
                 <p className="text-xs text-sage-600 leading-relaxed">
                   Monday to Saturday: <strong>{CLINIC_INFO.clinicTimings}</strong> (PKT).
                   Sunday: Closed for routine clinic visits.
@@ -146,7 +151,7 @@ export default function ContactPage() {
                 <span className="text-xs font-bold text-forest-800 uppercase tracking-wider block">
                   Find Us in Lahore
                 </span>
-                <h2 className="font-heading text-2xl font-bold text-forest-950">
+                <h2 className="font-heading text-2xl font-normal text-forest-950">
                   Clinic Map & Directions
                 </h2>
                 <p className="text-xs sm:text-sm text-sage-700 mt-0.5">
@@ -198,7 +203,42 @@ export default function ContactPage() {
         </section>
 
         {/* ================= APPOINTMENT FORM SECTION ================= */}
-        <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <section id="book" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8">
+          {/* Compact Doctor Consultation Trust Card */}
+          <div className="bg-white rounded-3xl p-5 sm:p-6 border border-sage-200 shadow-md flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-[#f7f9f5] border border-sage-300 shrink-0 shadow-xs">
+              <Image
+                src="/images/dr-noorul-qamar.jpg"
+                alt="Dr. Noor ul Qamar, D.H.M.S, R.H.M.P — Homeopathy Doctor in Lahore"
+                width={160}
+                height={177}
+                className="w-full h-full object-cover object-[center_top]"
+              />
+            </div>
+            <div className="flex-1 text-center sm:text-left space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-forest-50 border border-forest-200 text-forest-800 text-[11px] font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Direct Clinician Consultation</span>
+              </div>
+              <h2 className="font-heading text-xl sm:text-2xl font-normal text-forest-950">
+                Consult Dr. Noor ul Qamar Directly
+              </h2>
+              <p className="font-sans text-xs sm:text-sm text-forest-800 font-semibold">
+                D.H.M.S, R.H.M.P • 10 Years of Clinical Experience
+              </p>
+              <p className="font-sans text-xs text-sage-600 leading-relaxed">
+                Your appointment enquiry is reviewed personally by Dr. Noor ul Qamar. We ensure strict confidentiality, dedicated clinical attention, and prompt confirmation.
+              </p>
+            </div>
+            <div className="shrink-0 flex flex-col items-center sm:items-end gap-1.5 text-xs text-forest-900 font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-forest-950 text-white shadow-2xs font-sans text-xs">
+                <Award className="w-3.5 h-3.5 text-gold-400" />
+                <span>10 Years Experience</span>
+              </div>
+              <span className="text-[11px] text-sage-600">LDA Avenue 1 & Online</span>
+            </div>
+          </div>
+
           <AppointmentForm />
         </section>
       </main>

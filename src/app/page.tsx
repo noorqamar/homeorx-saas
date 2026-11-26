@@ -88,10 +88,10 @@ export default function HomePage() {
                 </p>
 
                 {/* CTAs */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
                   <Link
                     href="/contact#book"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all transform active:scale-98"
+                    className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all transform active:scale-98 text-center"
                   >
                     <Calendar className="w-4 h-4 text-gold-400" />
                     <span>Book Appointment</span>
@@ -101,7 +101,7 @@ export default function HomePage() {
                     href={CLINIC_INFO.whatsappDefaultUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 text-emerald-900 border border-emerald-300 font-bold text-sm sm:text-base shadow-xs hover:shadow-sm transition-all"
+                    className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 text-emerald-900 border border-emerald-300 font-bold text-sm sm:text-base shadow-xs hover:shadow-sm transition-all text-center"
                   >
                     <MessageCircle className="w-4 h-4 text-emerald-600 fill-emerald-600" />
                     <span>Chat on WhatsApp</span>
@@ -154,7 +154,7 @@ export default function HomePage() {
               {/* Right Column: Doctor Portrait Card */}
               <div className="lg:col-span-5 flex justify-center">
                 <div className="w-full max-w-md">
-                  <DoctorPortrait />
+                  <DoctorPortrait heroSideBadge={true} priority={true} />
                 </div>
               </div>
             </div>

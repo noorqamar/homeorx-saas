@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "Skin Disease Homeopathic Doctor Lahore",
   ],
   authors: [{ name: "Dr. Noor ul Qamar (D.H.M.S, R.H.M.P)" }],
-  metadataBase: new URL("https://drnoorulqamarhomeopathy.com"),
+  metadataBase: new URL("https://dr.noorulqamar.com"),
   alternates: {
     canonical: "/",
   },
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "Dr. Noor ul Qamar Homeopathy Care | Clinic in Lahore & Online Consultations",
     description:
       "Patient-centred, gentle, and individualised homeopathic care led by Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) with 10 years of clinical experience.",
-    url: "https://drnoorulqamarhomeopathy.com",
+    url: "https://dr.noorulqamar.com",
     siteName: "Dr. Noor ul Qamar Homeopathy Care",
     locale: "en_GB",
     type: "website",

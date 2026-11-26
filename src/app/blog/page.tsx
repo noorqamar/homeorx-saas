@@ -19,6 +19,9 @@ export const metadata = {
   title: "Health & Wellness Blog | Thoughtful Homeopathy Insights | Dr. Noor ul Qamar",
   description:
     "Evidence-grounded health insights on hair fall, PCOS, stress, digestive wellness, allergies, and joint health written by Dr. Noor ul Qamar (D.H.M.S, R.H.M.P).",
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 export default function BlogIndexPage() {
@@ -37,7 +40,7 @@ export default function BlogIndexPage() {
             <span className="text-xs font-bold text-gold-400 tracking-wider uppercase bg-forest-800/80 px-3.5 py-1.5 rounded-full border border-gold-500/30 inline-block">
               Patient Education & Clinical Guidance
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
               Health & Homeopathy Blog
             </h1>
             <p className="text-sm sm:text-base text-sage-200 leading-relaxed max-w-2xl mx-auto">
@@ -65,7 +68,7 @@ export default function BlogIndexPage() {
                     <span>{featuredPost.date}</span>
                   </div>
 
-                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-forest-950 hover:text-forest-800 transition-colors">
+                  <h2 className="font-heading text-2xl sm:text-3xl font-normal text-forest-950 hover:text-forest-800 transition-colors">
                     <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
                   </h2>
 
@@ -101,7 +104,7 @@ export default function BlogIndexPage() {
         {/* ================= ALL ARTICLES GRID ================= */}
         <section className="pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="border-t border-sage-200 pt-10 mb-8 flex items-center justify-between">
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-forest-950">
+            <h3 className="font-heading text-xl sm:text-2xl font-normal text-forest-950">
               All Health Articles
             </h3>
             <span className="text-xs text-sage-600 font-medium">
@@ -126,7 +129,7 @@ export default function BlogIndexPage() {
                     </span>
                   </div>
 
-                  <h4 className="font-heading text-lg font-bold text-forest-950 group-hover:text-forest-800 transition-colors leading-snug">
+                  <h4 className="font-sans text-lg font-semibold text-forest-950 group-hover:text-forest-800 transition-colors leading-snug">
                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h4>
 

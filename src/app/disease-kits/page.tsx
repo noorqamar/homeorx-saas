@@ -21,6 +21,9 @@ export const metadata = {
   title: "Homeopathic Disease Kits & Supportive Care | Dr. Noor ul Qamar",
   description:
     "Curated homeopathic wellness kits for hair care, skin, PCOS, digestive ease, respiratory health, and joint mobility. Personalised consultation required before dispensing.",
+  alternates: {
+    canonical: "/disease-kits",
+  },
 };
 
 export default function DiseaseKitsPage() {
@@ -36,7 +39,7 @@ export default function DiseaseKitsPage() {
             <span className="text-xs font-bold text-gold-400 tracking-wider uppercase bg-forest-800/80 px-3.5 py-1.5 rounded-full border border-gold-500/30 inline-block">
               Curated Supportive Regimens
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
               Homeopathic Disease & Wellness Kits
             </h1>
             <p className="text-sm sm:text-base text-sage-200 leading-relaxed max-w-2xl mx-auto">
@@ -105,7 +108,7 @@ export default function DiseaseKitsPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-heading text-2xl font-bold text-forest-950">
+                    <h3 className="font-heading text-2xl font-normal text-forest-950">
                       {kit.title}
                     </h3>
                     <p className="text-xs text-gold-700 font-semibold mt-0.5">{kit.subtitle}</p>
@@ -180,7 +183,7 @@ export default function DiseaseKitsPage() {
         {/* ================= INTEGRATED WELLNESS PHILOSOPHY ================= */}
         <section className="bg-forest-950 text-white py-16 px-4 sm:px-6 lg:px-8 border-t border-forest-800">
           <div className="max-w-4xl mx-auto text-center space-y-4">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-normal tracking-tight">
               Why Consultation Always Precedes Dispensing
             </h2>
             <p className="text-xs sm:text-sm text-sage-200 leading-relaxed max-w-2xl mx-auto">

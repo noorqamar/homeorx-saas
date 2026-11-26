@@ -66,7 +66,7 @@ export function AppointmentForm({
           <Calendar className="w-3.5 h-3.5 text-gold-500" />
           <span>Priority Consultation Booking</span>
         </div>
-        <h3 className="font-heading text-2xl sm:text-3xl font-bold text-forest-950 tracking-tight">
+        <h3 className="font-heading text-2xl sm:text-3xl font-normal text-forest-950 tracking-tight">
           Book Your Consultation
         </h3>
         <p className="text-sm text-sage-700 leading-relaxed">
@@ -81,7 +81,7 @@ export function AppointmentForm({
           <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h4 className="font-heading text-lg font-bold text-emerald-900">
+          <h4 className="font-sans text-lg font-semibold text-emerald-900">
             WhatsApp Enquiry Prepared!
           </h4>
           <p className="text-xs sm:text-sm text-emerald-800 max-w-md mx-auto">
@@ -120,11 +120,11 @@ export function AppointmentForm({
             <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider mb-2">
               Select Consultation Mode
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <button
                 type="button"
                 onClick={() => setConsultationType("Online Consultation")}
-                className={`py-3 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`min-h-[44px] py-3 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 active:scale-98 ${
                   consultationType === "Online Consultation"
                     ? "bg-forest-900 text-white border-forest-900 shadow-sm"
                     : "bg-sage-50 text-forest-900 border-sage-200 hover:bg-sage-100"
@@ -136,7 +136,7 @@ export function AppointmentForm({
               <button
                 type="button"
                 onClick={() => setConsultationType("In-Clinic Visit (Lahore)")}
-                className={`py-3 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`min-h-[44px] py-3 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 active:scale-98 ${
                   consultationType === "In-Clinic Visit (Lahore)"
                     ? "bg-forest-900 text-white border-forest-900 shadow-sm"
                     : "bg-sage-50 text-forest-900 border-sage-200 hover:bg-sage-100"
@@ -165,9 +165,9 @@ export function AppointmentForm({
                   placeholder="e.g. Fatima Tariq / Ahmad Khan"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
                 />
-                <User className="w-4 h-4 text-sage-400 absolute right-3.5 top-3 pointer-events-none" />
+                <User className="w-4 h-4 text-sage-400 absolute right-3.5 top-3.5 pointer-events-none" />
               </div>
             </div>
 
@@ -186,9 +186,9 @@ export function AppointmentForm({
                   placeholder="e.g. 0300 1234567"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
                 />
-                <Phone className="w-4 h-4 text-sage-400 absolute right-3.5 top-3 pointer-events-none" />
+                <Phone className="w-4 h-4 text-sage-400 absolute right-3.5 top-3.5 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -206,7 +206,7 @@ export function AppointmentForm({
                 id="patient-time"
                 value={preferredTime}
                 onChange={(e) => setPreferredTime(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
               >
                 <option value="6:00 PM - 7:00 PM">6:00 PM – 7:00 PM</option>
                 <option value="7:00 PM - 8:00 PM">7:00 PM – 8:00 PM</option>
@@ -214,7 +214,7 @@ export function AppointmentForm({
                 <option value="9:00 PM - 10:00 PM">9:00 PM – 10:00 PM</option>
                 <option value="Earliest Available">Earliest Available Slot</option>
               </select>
-              <Clock className="w-4 h-4 text-sage-400 absolute right-3.5 top-3 pointer-events-none" />
+              <Clock className="w-4 h-4 text-sage-400 absolute right-3.5 top-3.5 pointer-events-none" />
             </div>
           </div>
 
@@ -233,7 +233,7 @@ export function AppointmentForm({
               placeholder="Briefly describe your symptoms, duration (e.g., hair fall since 3 months, PCOS, chronic acidity), and any previous treatments..."
               value={concern}
               onChange={(e) => setConcern(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-sage-200 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-white"
             />
           </div>
 
@@ -241,7 +241,7 @@ export function AppointmentForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200 transform active:scale-99 focus:outline-hidden focus:ring-2 focus:ring-forest-700"
+            className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200 transform active:scale-99 focus:outline-hidden focus:ring-2 focus:ring-forest-700"
           >
             <Send className="w-4 h-4 text-gold-400" />
             <span>Send Enquiry on WhatsApp</span>

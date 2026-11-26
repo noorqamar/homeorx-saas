@@ -12,6 +12,9 @@ export const metadata = {
   title: "Treatments Directory | Complete 60+ Conditions | Dr. Noor ul Qamar",
   description:
     "Explore our complete directory of 60+ chronic and acute conditions managed through thoughtful constitutional homeopathy. Women's health, skin, hair, allergies, joints, and digestion.",
+  alternates: {
+    canonical: "/treatments",
+  },
 };
 
 export default function TreatmentsPage() {

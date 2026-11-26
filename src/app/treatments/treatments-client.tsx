@@ -62,14 +62,14 @@ export function TreatmentsClient() {
               placeholder="Search by condition, symptom (e.g. PCOS, acne, cough, sciatica)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-sage-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-[#fcfbf7]"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-sage-200 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-forest-600 focus:border-forest-600 bg-[#fcfbf7]"
             />
             <Search className="w-4 h-4 text-sage-400 absolute left-3.5 top-3.5 pointer-events-none" />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-3 text-xs text-sage-500 hover:text-forest-900 font-bold"
+                className="absolute right-3 top-3 text-xs text-sage-500 hover:text-forest-900 font-bold p-1"
               >
                 Clear
               </button>
@@ -91,7 +91,7 @@ export function TreatmentsClient() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+                className={`min-h-[40px] px-3.5 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap shrink-0 active:scale-95 ${
                   isSelected
                     ? "bg-forest-900 text-white shadow-sm"
                     : "bg-sage-50 text-forest-900/80 hover:bg-sage-100 border border-sage-200/60"
@@ -164,7 +164,7 @@ export function TreatmentsClient() {
                   href={`https://wa.me/${CLINIC_INFO.whatsapp}?text=Hello%20Dr.%20Noor%20ul%20Qamar%2C%20I%20would%20like%20to%20consult%20regarding%20${encodeURIComponent(treatment.title)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition-colors shrink-0"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition-colors shrink-0 active:scale-95"
                   title={`WhatsApp enquiry for ${treatment.title}`}
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />

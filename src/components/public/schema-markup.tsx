@@ -27,15 +27,15 @@ export function SchemaMarkup({
   const clinicSchema = {
     "@context": "https://schema.org",
     "@type": ["MedicalClinic", "Physician", "LocalBusiness"],
-    "@id": "https://drnoorulqamarhomeopathy.com/#clinic",
+    "@id": "https://dr.noorulqamar.com/#clinic",
     name: CLINIC_INFO.brandName,
     alternateName: "Dr. Noor ul Qamar Clinic",
     description:
       "Specialised homeopathic medical practice led by Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) with 10 years experience. In-clinic consultations in Lahore and online consultations worldwide.",
-    url: "https://drnoorulqamarhomeopathy.com",
+    url: "https://dr.noorulqamar.com",
     telephone: CLINIC_INFO.phoneFormatted,
     priceRange: "PKR 1500 - 2500",
-    image: "https://drnoorulqamarhomeopathy.com/doctor-portrait.jpg",
+    image: "https://dr.noorulqamar.com/images/dr-noorul-qamar.jpg",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Noor Street, LDA Avenue 1",
@@ -109,11 +109,11 @@ export function SchemaMarkup({
       publisher: {
         "@type": "Organization",
         name: CLINIC_INFO.brandName,
-        url: "https://drnoorulqamarhomeopathy.com",
+        url: "https://dr.noorulqamar.com",
       },
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `https://drnoorulqamarhomeopathy.com/blog/${blogData.slug}`,
+        "@id": `https://dr.noorulqamar.com/blog/${blogData.slug}`,
       },
     };
   }

@@ -122,44 +122,44 @@ export function SiteFooter() {
           {/* Quick Links */}
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider">Quick Links</h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
+            <ul className="space-y-1.5 text-xs sm:text-sm">
               <li>
-                <Link href="/" className="hover:text-gold-300 transition-colors">
+                <Link href="/" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-gold-300 transition-colors">
+                <Link href="/about" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   About Dr. Noor ul Qamar
                 </Link>
               </li>
               <li>
-                <Link href="/womens-health" className="hover:text-gold-300 transition-colors">
+                <Link href="/womens-health" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Women’s Health & Fertility
                 </Link>
               </li>
               <li>
-                <Link href="/treatments" className="hover:text-gold-300 transition-colors">
+                <Link href="/treatments" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Treatments Directory (60+)
                 </Link>
               </li>
               <li>
-                <Link href="/disease-kits" className="hover:text-gold-300 transition-colors">
+                <Link href="/disease-kits" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Disease Kits
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-gold-300 transition-colors">
+                <Link href="/blog" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Health Blog
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-gold-300 transition-colors">
+                <Link href="/contact" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Contact & Location
                 </Link>
               </li>
               <li>
-                <Link href="/login" className="hover:text-gold-300 transition-colors">
+                <Link href="/login" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Doctor Login
                 </Link>
               </li>
@@ -169,12 +169,12 @@ export function SiteFooter() {
           {/* Popular Treatment Categories */}
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider">Treatments</h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
+            <ul className="space-y-1.5 text-xs sm:text-sm">
               {TREATMENT_CATEGORIES.map((cat) => (
                 <li key={cat.slug}>
                   <Link
                     href={`/treatments?category=${encodeURIComponent(cat.name)}`}
-                    className="hover:text-gold-300 transition-colors flex items-center gap-1 group"
+                    className="py-1 inline-flex items-center gap-1 hover:text-gold-300 transition-colors group"
                   >
                     <ChevronRight className="w-3 h-3 text-sage-400 group-hover:text-gold-400 group-hover:translate-x-0.5 transition-all" />
                     <span>{cat.name}</span>
@@ -187,19 +187,19 @@ export function SiteFooter() {
           {/* Legal, Trust & Safety */}
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider">Patient Policies</h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
+            <ul className="space-y-1.5 text-xs sm:text-sm">
               <li>
-                <Link href="/privacy-policy" className="hover:text-gold-300 transition-colors">
+                <Link href="/privacy-policy" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-gold-300 transition-colors">
+                <Link href="/terms" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="/cancellation-refund" className="hover:text-gold-300 transition-colors">
+                <Link href="/cancellation-refund" className="py-1 inline-block hover:text-gold-300 transition-colors">
                   Cancellation & Refund Policy
                 </Link>
               </li>

@@ -9,6 +9,9 @@ export const metadata = {
   title: "Privacy Policy | Dr. Noor ul Qamar Homeopathy Care",
   description:
     "Patient confidentiality, medical records security, and privacy policies of Dr. Noor ul Qamar Homeopathy Care.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {
@@ -22,7 +25,7 @@ export default function PrivacyPolicyPage() {
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
             <span>Patient Confidentiality Commitment</span>
           </div>
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-forest-950">
+          <h1 className="font-heading text-3xl sm:text-4xl font-normal text-forest-950">
             Privacy Policy
           </h1>
           <p className="text-xs sm:text-sm text-sage-600">
@@ -32,7 +35,7 @@ export default function PrivacyPolicyPage() {
 
         <div className="wellness-card p-6 sm:p-10 bg-white border border-sage-200/80 shadow-xs space-y-6 text-sm text-sage-800 leading-relaxed">
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               1. Our Ethical Commitment to Patient Privacy
             </h2>
             <p>
@@ -44,7 +47,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               2. Information We Collect
             </h2>
             <p>During appointment bookings and consultations, we collect:</p>
@@ -62,7 +65,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               3. How Your Information Is Used
             </h2>
             <p>
@@ -74,7 +77,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               4. WhatsApp & Digital Communications
             </h2>
             <p>
@@ -85,7 +88,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               5. Contacting the Clinic
             </h2>
             <p>

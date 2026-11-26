@@ -41,10 +41,14 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${post.title} | Dr. Noor ul Qamar Health Blog`,
     description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
+      url: `https://dr.noorulqamar.com/blog/${post.slug}`,
       publishedTime: post.date,
       authors: ["Dr. Noor ul Qamar"],
     },
@@ -98,7 +102,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 {post.category} • Clinical Guidance
               </span>
 
-              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight leading-tight">
                 {post.title}
               </h1>
 
@@ -129,7 +133,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="lg:col-span-8 space-y-8">
               {/* Key Takeaways Box */}
               <div className="wellness-card p-6 sm:p-7 bg-forest-50/70 border border-forest-200/80 space-y-3 shadow-xs">
-                <h2 className="font-heading text-lg font-bold text-forest-950 flex items-center gap-2">
+                <h2 className="font-heading text-lg font-normal text-forest-950 flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                   <span>Key Clinical Takeaways</span>
                 </h2>
@@ -147,7 +151,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <div className="wellness-card p-6 sm:p-10 bg-white space-y-8 shadow-xs border border-sage-200/80">
                 {post.content.map((section, idx) => (
                   <div key={idx} className="space-y-3">
-                    <h3 className="font-heading text-xl sm:text-2xl font-bold text-forest-950">
+                    <h3 className="font-heading text-xl sm:text-2xl font-normal text-forest-950">
                       {section.heading}
                     </h3>
                     <div className="space-y-3 text-sm sm:text-base text-sage-800 leading-relaxed">
@@ -164,10 +168,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                     Dr. N
                   </div>
                   <div>
-                    <span className="font-heading text-base font-bold text-forest-950 block">
+                    <span className="font-heading text-base font-normal text-forest-950 block">
                       {CLINIC_INFO.doctorName}
                     </span>
-                    <span className="text-xs text-gold-700 font-semibold block">
+                    <span className="font-sans text-xs text-gold-700 font-semibold block tracking-wide">
                       {CLINIC_INFO.qualifications} • 10 Years Experience
                     </span>
                     <span className="text-[11px] text-sage-600">
@@ -185,7 +189,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <span className="text-[11px] font-bold text-gold-400 uppercase tracking-wider block">
                   Clinical Consultation
                 </span>
-                <h3 className="font-heading text-xl font-bold">
+                <h3 className="font-heading text-xl font-normal">
                   Discuss Your Symptoms With Dr. Noor ul Qamar
                 </h3>
                 <p className="text-xs text-sage-200 leading-relaxed">

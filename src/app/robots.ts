@@ -19,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: "https://drnoorulqamarhomeopathy.com/sitemap.xml",
+    sitemap: "https://dr.noorulqamar.com/sitemap.xml",
   };
 }

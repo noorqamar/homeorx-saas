@@ -240,14 +240,14 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp Dr. Noor ul Qamar"
-              className="p-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 active:scale-95 transition-transform"
             >
               <MessageCircle className="w-5 h-5 fill-current" />
             </a>
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl text-forest-900 hover:bg-sage-100 focus:outline-hidden"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl text-forest-900 hover:bg-sage-100 focus:outline-hidden active:scale-95 transition-transform"
               aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -263,7 +263,7 @@ export function SiteHeader() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                  className={`min-h-[44px] flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                     pathname === link.href || (link.isDropdown && pathname.startsWith("/treatments"))
                       ? "bg-forest-50 text-forest-900 font-bold"
                       : "text-forest-900/80 hover:bg-sage-50"
@@ -284,7 +284,7 @@ export function SiteHeader() {
                   <Link
                     key={cat.slug}
                     href={`/treatments?category=${encodeURIComponent(cat.name)}`}
-                    className="px-3 py-1.5 rounded-lg text-xs text-forest-900/90 hover:bg-forest-50 truncate"
+                    className="min-h-[38px] flex items-center px-3 py-1.5 rounded-lg text-xs text-forest-900/90 hover:bg-forest-50 truncate"
                   >
                     • {cat.name}
                   </Link>
@@ -295,7 +295,7 @@ export function SiteHeader() {
             <div className="pt-3 border-t border-sage-100 space-y-2">
               <Link
                 href="/contact#book"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-forest-900 text-white text-sm font-bold shadow-md"
+                className="w-full min-h-[44px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-forest-900 text-white text-sm font-bold shadow-md active:scale-98 transition-transform"
               >
                 <Calendar className="w-4 h-4 text-gold-400" />
                 <span>Book Appointment</span>
@@ -304,7 +304,7 @@ export function SiteHeader() {
                 href={CLINIC_INFO.whatsappDefaultUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-sm font-bold"
+                className="w-full min-h-[44px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-sm font-bold active:scale-98 transition-transform"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-600 fill-emerald-600" />
                 <span>Chat on WhatsApp</span>

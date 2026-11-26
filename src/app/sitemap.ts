@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { TREATMENTS } from "@/data/treatments";
 import { BLOG_POSTS } from "@/data/blog-posts";
 
-const BASE_URL = "https://drnoorulqamarhomeopathy.com";
+const BASE_URL = "https://dr.noorulqamar.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

@@ -23,6 +23,9 @@ export const metadata = {
   title: "About Dr. Noor ul Qamar (D.H.M.S, R.H.M.P) | 10 Years Experience",
   description:
     "Learn about Dr. Noor ul Qamar, registered homeopathic medical practitioner with 10 years experience in Lahore. Dedicated to patient-centred, individualised constitutional care.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutDoctorPage() {
@@ -38,10 +41,10 @@ export default function AboutDoctorPage() {
             <span className="text-xs font-bold text-gold-400 tracking-wider uppercase bg-forest-800/80 px-3.5 py-1.5 rounded-full border border-gold-500/30 inline-block">
               Consultant Homeopathic Physician
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
               About Dr. Noor ul Qamar
             </h1>
-            <p className="text-sm sm:text-base text-gold-300 font-semibold">
+            <p className="font-sans text-sm sm:text-base text-gold-300 font-semibold tracking-wide">
               D.H.M.S, R.H.M.P • 10 Years of Clinical Practice
             </p>
             <p className="text-xs sm:text-sm text-sage-200 max-w-2xl mx-auto leading-relaxed">
@@ -61,31 +64,31 @@ export default function AboutDoctorPage() {
               {/* Four Core Badges */}
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="wellness-card p-4 text-center bg-white border border-sage-200">
-                  <span className="block font-heading text-2xl font-bold text-forest-900">
+                  <span className="block font-heading text-2xl font-normal text-forest-900">
                     10+ Years
                   </span>
-                  <span className="text-xs text-sage-600 font-medium">Clinical Experience</span>
+                  <span className="text-xs text-sage-600 font-medium font-sans">Clinical Experience</span>
                 </div>
 
                 <div className="wellness-card p-4 text-center bg-white border border-sage-200">
-                  <span className="block font-heading text-2xl font-bold text-forest-900">
+                  <span className="block font-heading text-2xl font-normal text-forest-900">
                     Online
                   </span>
-                  <span className="text-xs text-sage-600 font-medium">Consultations Worldwide</span>
+                  <span className="text-xs text-sage-600 font-medium font-sans">Consultations Worldwide</span>
                 </div>
 
                 <div className="wellness-card p-4 text-center bg-white border border-sage-200">
-                  <span className="block font-heading text-2xl font-bold text-forest-900">
+                  <span className="block font-heading text-2xl font-normal text-forest-900">
                     In-Clinic
                   </span>
-                  <span className="text-xs text-sage-600 font-medium">LDA Avenue 1, Lahore</span>
+                  <span className="text-xs text-sage-600 font-medium font-sans">LDA Avenue 1, Lahore</span>
                 </div>
 
                 <div className="wellness-card p-4 text-center bg-white border border-sage-200">
-                  <span className="block font-heading text-2xl font-bold text-forest-900">
+                  <span className="block font-heading text-2xl font-normal text-forest-900">
                     Personalised
                   </span>
-                  <span className="text-xs text-sage-600 font-medium">Constitutional Care</span>
+                  <span className="text-xs text-sage-600 font-medium font-sans">Constitutional Care</span>
                 </div>
               </div>
 
@@ -117,7 +120,7 @@ export default function AboutDoctorPage() {
                   <span>A Decade of Dedicated Practice</span>
                 </div>
 
-                <h2 className="font-heading text-3xl sm:text-4xl font-bold text-forest-950 tracking-tight">
+                <h2 className="font-heading text-3xl sm:text-4xl font-normal text-forest-950 tracking-tight">
                   Patient-Centred, Detailed, and Thoughtful Care
                 </h2>
 
@@ -148,7 +151,7 @@ export default function AboutDoctorPage() {
 
               {/* What to Expect in a Consultation */}
               <div className="wellness-card p-6 sm:p-8 bg-white border border-sage-200/80 shadow-xs space-y-4">
-                <h3 className="font-heading text-xl font-bold text-forest-950 flex items-center gap-2">
+                <h3 className="font-heading text-xl font-normal text-forest-950 flex items-center gap-2">
                   <HeartHandshake className="w-5 h-5 text-gold-500" />
                   <span>What You Can Expect in Every Consultation</span>
                 </h3>

@@ -9,6 +9,9 @@ export const metadata = {
   title: "Cancellation & Refund Policy | Dr. Noor ul Qamar Homeopathy Care",
   description:
     "Appointment cancellation, rescheduling, and refund policies of Dr. Noor ul Qamar Homeopathy Care.",
+  alternates: {
+    canonical: "/cancellation-refund",
+  },
 };
 
 export default function CancellationRefundPage() {
@@ -22,7 +25,7 @@ export default function CancellationRefundPage() {
             <ShieldCheck className="w-3.5 h-3.5 text-gold-600" />
             <span>Clinic Transparency</span>
           </div>
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-forest-950">
+          <h1 className="font-heading text-3xl sm:text-4xl font-normal text-forest-950">
             Cancellation & Refund Policy
           </h1>
           <p className="text-xs sm:text-sm text-sage-600">
@@ -32,7 +35,7 @@ export default function CancellationRefundPage() {
 
         <div className="wellness-card p-6 sm:p-10 bg-white border border-sage-200/80 shadow-xs space-y-6 text-sm text-sage-800 leading-relaxed">
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               1. Rescheduling & Cancelling Appointments
             </h2>
             <p>
@@ -44,7 +47,7 @@ export default function CancellationRefundPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               2. Consultation Fee Policy
             </h2>
             <p>
@@ -57,7 +60,7 @@ export default function CancellationRefundPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               3. Custom Prepared Remedies & Dispatches
             </h2>
             <p>
@@ -69,7 +72,7 @@ export default function CancellationRefundPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-heading text-lg font-bold text-forest-950">
+            <h2 className="font-sans text-base sm:text-lg font-semibold text-forest-950">
               4. Damaged or Incomplete Shipments
             </h2>
             <p>

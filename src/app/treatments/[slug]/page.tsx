@@ -54,10 +54,13 @@ export async function generateMetadata({ params }: PageProps) {
       "Dr. Noor ul Qamar",
       "LDA Avenue 1 Homeopathy",
     ],
+    alternates: {
+      canonical: `/treatments/${treatment.slug}`,
+    },
     openGraph: {
       title: `${treatment.title} Homeopathic Care | Dr. Noor ul Qamar`,
       description: treatment.metaDescription,
-      url: `https://drnoorulqamarhomeopathy.com/treatments/${treatment.slug}`,
+      url: `https://dr.noorulqamar.com/treatments/${treatment.slug}`,
     },
   };
 }
