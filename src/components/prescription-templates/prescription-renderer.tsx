@@ -395,14 +395,17 @@ export function PrescriptionRenderer({
                       </div>
 
                       {/* Medicine Items List (Starts immediately from top, tightly spaced) */}
-                      <div className="p-3 space-y-2.5 divide-y divide-slate-100 flex-1 flex flex-col justify-start">
+                      <div className={`p-2.5 sm:p-3 divide-y divide-slate-100 flex-1 flex flex-col justify-start ${
+                        pageItems.length >= 5 ? "space-y-1.5" : pageItems.length === 4 ? "space-y-2" : "space-y-2.5"
+                      }`}>
                         {pageItems.map((item: any, idx: number) => {
                           const itemDose = parseBilingual(item.dose || "Single dose orally • 5 drops");
                           const itemFreq = parseBilingual(item.frequency || "Twice daily (BD)");
                           const globalIdx = idx + 1;
+                          const ptClass = idx > 0 ? (pageItems.length >= 5 ? "pt-1.5" : pageItems.length === 4 ? "pt-2" : "pt-2.5") : "";
 
                           return (
-                            <div key={idx} className={`flex items-center justify-between gap-2.5 ${idx > 0 ? "pt-2.5" : ""}`}>
+                            <div key={idx} className={`flex items-center justify-between gap-2 sm:gap-2.5 ${ptClass}`}>
                               {/* Left: Remedy Details */}
                               <div className="space-y-1 flex-1 min-w-0">
                                 <div className="flex items-start gap-2">
@@ -440,7 +443,7 @@ export function PrescriptionRenderer({
                               </div>
 
                               {/* Right: Authentic Dropper Bottle Artwork with Dynamic Name */}
-                              <div className="shrink-0 flex flex-col items-center pl-2">
+                              <div className="shrink-0 flex flex-col items-center pl-1 sm:pl-2">
                                 <MedicineBottle
                                   medicineName={item.medicineName}
                                   potency={item.potency}

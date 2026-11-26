@@ -1,0 +1,1379 @@
+[
+  {
+    "key": "hair-loss-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Alopecia.jpg",
+    "description": "Clinical close-up photograph of androgenetic hair loss showing scalp thinning at crown and vertex",
+    "rationale": "Demonstrates exact pattern of hair follicle miniaturization without identifying patient facial features",
+    "source": "Wikimedia Commons (Clinical Dermatology)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "alopecia-areata-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Allopecia_areata.JPG/960px-Allopecia_areata.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of circumscribed smooth circular patch of alopecia areata on scalp",
+    "rationale": "Shows characteristic focal autoimmune hair loss with pristine exclamation mark follicles",
+    "source": "Wikimedia Commons (Clinical Dermatology Archive)",
+    "license": "Public Domain / CC-BY-SA"
+  },
+  {
+    "key": "dandruff-scalp-concerns-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Dandruff01.jpg/960px-Dandruff01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical scalp close-up showing epidermal flaking and dry seborrheic scalp scales",
+    "rationale": "Accurately depicts scalp flaking and stratum corneum desquamation without cosmetic product imagery",
+    "source": "Wikimedia Commons",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "key": "acne-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Acne_vulgaris_on_a_very_oily_skin.jpg/960px-Acne_vulgaris_on_a_very_oily_skin.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical dermatology photograph of acne vulgaris showing inflammatory papules and comedones",
+    "rationale": "Respectful non-graphic depiction of cutaneous follicular inflammation and sebum imbalance",
+    "source": "Wikimedia Commons (Dermatological Clinical Collection)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "eczema-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Dermatitis2015.jpg/960px-Dermatitis2015.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of atopic eczema dermatitis showing erythematous dry skin patch on flexor surface",
+    "rationale": "Demonstrates epidermal barrier compromise and erythema in respectful clinical lighting",
+    "source": "Wikimedia Commons (Medical Photography)",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "key": "psoriasis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Psoriasis_on_back1.jpg",
+    "description": "Clinical photograph of chronic plaque psoriasis showing well-demarcated silvery scaly erythematous plaque",
+    "rationale": "Standard clinical representation of psoriasis plaques on back/torso respecting patient dignity",
+    "source": "Wikimedia Commons (Clinical Dermatology)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "skin-allergy-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Contact_dermatitis_around_wound.jpg",
+    "description": "Clinical photograph of contact dermatitis hypersensitivity reaction showing localized cutaneous erythema",
+    "rationale": "Illustrates acute mast cell and histamine reactivity on skin surface",
+    "source": "Wikimedia Commons (Clinical Allergy Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "lichen-planus-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Skin_Tumors-171.jpg/960px-Skin_Tumors-171.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical dermoscopic examination photograph of lichenoid papular cutaneous lesions",
+    "rationale": "Demonstrates characteristic polygonal violaceous cutaneous papules under dermatological inspection",
+    "source": "Wikimedia Commons (Dermatopathology Archive)",
+    "license": "Public Domain / CC-BY"
+  },
+  {
+    "key": "vitiligo-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Vitiligo2.JPG/960px-Vitiligo2.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of sharply demarcated amelanotic depigmented vitiligo macules on dorsal skin",
+    "rationale": "Respectful, authentic clinical documentation of melanocyte absence without stigmatisation",
+    "source": "Wikimedia Commons (Medical Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "hyperpigmentation-melasma-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Melasmablemish.jpg",
+    "description": "Clinical facial close-up photograph of symmetrical hyperpigmented melasma macules on cheek and malar region",
+    "rationale": "Directly reflects epidermal melanin deposition and hormonal chloasma pattern",
+    "source": "Wikimedia Commons (Clinical Dermatology)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "pcos-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.unsplash.com/photo-1654931800911-7a9cfb3b7c17?auto=format&fit=crop&w=1200&h=800&q=82",
+    "description": "Patient and specialist reviewing diagnostic pelvic ultrasound scan showing ovarian follicular morphology",
+    "rationale": "Direct clinical imaging context for polycystic ovarian syndrome and hormonal cycle tracking",
+    "source": "Unsplash Healthcare Collection",
+    "license": "Unsplash Free License"
+  },
+  {
+    "key": "irregular-periods-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and female patient reviewing menstrual cycle calendar and endocrine blood results during consultation",
+    "rationale": "Represents clinical evaluation of ovulatory regularity and hypothalamic-pituitary-ovarian axis",
+    "source": "Pexels Healthcare / Women's Health Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "leucorrhoea-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5327590/pexels-photo-5327590.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Female physician consulting patient in private clinic room regarding mucosal barrier health and pelvic comfort",
+    "rationale": "Professional, dignified setting for confidential vaginal microflora and discharge evaluation",
+    "source": "Pexels Healthcare / Gynecology Practice Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "uterine-fibroids-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089010/pexels-photo-7089010.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient analyzing pelvic diagnostic scan documenting uterine myoma dimensions and menorrhagia",
+    "rationale": "Clinical visual context for conservative homeopathic management of uterine leiomyomas",
+    "source": "Pexels Healthcare / Clinical Diagnostics Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "endometriosis-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452208/pexels-photo-5452208.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician listening attentively to patient describing chronic cyclic pelvic pain and inflammatory flare-ups",
+    "rationale": "Compassionate clinical focus on chronic pelvic pain syndrome and individualised constitutional relief",
+    "source": "Pexels Healthcare / Patient Care Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "female-infertility-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5327588/pexels-photo-5327588.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor reviewing preconception follicular monitoring reports and ovulation timeline with patient",
+    "rationale": "Captures detailed reproductive clinical case-taking and fertility optimization protocol",
+    "source": "Pexels Healthcare / Reproductive Medicine Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "thyroid-fertility-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089015/pexels-photo-7089015.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician explaining relationship between TSH thyroid markers and reproductive cycle regularity",
+    "rationale": "Demonstrates clinical review of endocrine-metabolic axis in conception planning",
+    "source": "Pexels Healthcare / Clinical Endocrinology Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "low-amh-guidance-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7579822/pexels-photo-7579822.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient examining laboratory blood test results showing Anti-Müllerian Hormone (AMH) values",
+    "rationale": "Accurately represents clinical consultation for ovarian reserve evaluation and follicular vitality",
+    "source": "Pexels Healthcare / Laboratory Diagnostics Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "unexplained-infertility-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5327592/pexels-photo-5327592.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting comprehensive constitutional case-taking with patient exploring holistic reproductive factors",
+    "rationale": "Reflects in-depth clinical analysis when standard diagnostic workups reveal idiopathic infertility",
+    "source": "Pexels Healthcare / Holistic Medicine Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "recurrent-miscarriage-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452210/pexels-photo-5452210.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Empathetic clinical consultation reviewing immunological markers and luteal phase stability",
+    "rationale": "Offers warm, professional clinical reassurance and personalized preconception care",
+    "source": "Pexels Healthcare / Specialized Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "homeopathy-support-during-ivf-iui-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089020/pexels-photo-7089020.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient coordinating companion homeopathic care alongside assisted reproductive protocols",
+    "rationale": "Depicts collaborative clinical approach supporting endometrial receptivity and procedural calm",
+    "source": "Pexels Healthcare / Integrative Medicine Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "thyroid-concerns-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460122/pexels-photo-8460122.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician performing anterior bimanual neck palpation to assess thyroid gland symmetry and nodules",
+    "rationale": "Standard physical examination procedure for thyroid endocrine disorders",
+    "source": "Pexels Healthcare / Endocrinology Clinical Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "goitre-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Thyroid%2C_Diffuse_Hyperplasia.jpg/960px-Thyroid%2C_Diffuse_Hyperplasia.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of visible diffuse anterior neck thyroid enlargement (goitre)",
+    "rationale": "Accurately documents thyromegaly in authentic clinical lighting",
+    "source": "Wikimedia Commons (Clinical Pathology Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "diabetes-wellness-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205500/pexels-photo-6205500.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical blood glucose monitoring with glucometer and digital blood sugar reading in medical setting",
+    "rationale": "Direct clinical representation of glycemic management and metabolic evaluation",
+    "source": "Pexels Healthcare / Diabetes Care Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "high-blood-pressure-wellness-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089626/pexels-photo-7089626.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor checking patient arterial blood pressure using clinical sphygmomanometer and stethoscope on arm",
+    "rationale": "Authentic clinical photograph of diagnostic blood pressure measurement in clinic examination room",
+    "source": "Pexels Healthcare / Cardiology Clinical Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "fatty-liver-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089025/pexels-photo-7089025.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Gastroenterologist reviewing liver enzyme ultrasound imaging and metabolic lipid profile with patient",
+    "rationale": "Direct clinical context for hepatic steatosis and dietary lipid harmonization",
+    "source": "Pexels Healthcare / Gastroenterology Clinic Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "hepatitis-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7579826/pexels-photo-7579826.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical evaluation of liver function markers and viral serology reports in medical office",
+    "rationale": "Accurate representation of clinical hepatology monitoring and constitutional liver protection",
+    "source": "Pexels Healthcare / Medical Laboratory Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "acidity-gerd-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460130/pexels-photo-8460130.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor explaining lower esophageal sphincter dynamics and acid reflux mechanics to patient",
+    "rationale": "Clinical visual context for GERD, heartburn, and diaphragmatic pressure relief",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gastritis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452212/pexels-photo-5452212.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician performing gentle epigastric palpation to locate stomach wall tenderness and mucosal inflammation",
+    "rationale": "Standard physical examination procedure for acute and chronic gastritis",
+    "source": "Pexels Healthcare / Abdominal Exam Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "peptic-ulcer-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021769/pexels-photo-4021769.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor reviewing upper endoscopy report and discussing mucosal barrier soothing remedies with patient",
+    "rationale": "Captures clinical diagnosis of gastroduodenal ulceration and personalized homeopathic care",
+    "source": "Pexels Healthcare / Gastroenterology Practice Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "indigestion-dyspepsia-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021773/pexels-photo-4021773.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician examining patient abdominal discomfort and discussing post-meal bloating and digestive fire",
+    "rationale": "Authentic clinical setting for functional dyspepsia and enzymatic stimulation",
+    "source": "Pexels Healthcare / Clinic Visit Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ibs-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452216/pexels-photo-5452216.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient analyzing gut-brain symptom log and visceral sensitivity triggers",
+    "rationale": "Represents comprehensive clinical consultation for irritable bowel syndrome management",
+    "source": "Pexels Healthcare / Clinical Dialogue Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "constipation-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089030/pexels-photo-7089030.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor explaining colonic peristalsis mechanisms and hydration architecture in medical consultation",
+    "rationale": "Clinical visual context for bowel motility restoration and natural constitutional support",
+    "source": "Pexels Healthcare / Digestive Wellness Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "piles-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021780/pexels-photo-4021780.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor consulting patient privately on venous tone, anorectal comfort, and stool softening",
+    "rationale": "Dignified, respectful medical consultation for hemorrhoidal venous pressure alleviation",
+    "source": "Pexels Healthcare / Confidential Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "anal-fissure-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021782/pexels-photo-4021782.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician discussing sphincter relaxation techniques and mucosal tissue healing with patient",
+    "rationale": "Professional clinical discussion addressing anal fissure spasm and epithelial repair",
+    "source": "Pexels Healthcare / Medical Advice Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "fistula-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021785/pexels-photo-4021785.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting clinical evaluation and ongoing wound hygiene monitoring consultation",
+    "rationale": "Represents clinical care coordination and infection control for anal fistula management",
+    "source": "Pexels Healthcare / Clinical Monitoring Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gallbladder-stone-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089035/pexels-photo-7089035.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient examining abdominal ultrasound report showing gallbladder biliary dynamics",
+    "rationale": "Direct clinical imaging context for cholelithiasis and biliary colic minimization",
+    "source": "Pexels Healthcare / Diagnostic Review Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kidney-stone-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Nefrolit.jpg",
+    "description": "Clinical macroscopic specimen photograph of surgically passed nephrolithiasis renal calculus",
+    "rationale": "Authentic clinical visual of kidney stone composition and urinary crystal formation",
+    "source": "Wikimedia Commons (Urology Archive)",
+    "license": "Public Domain / CC-BY-SA"
+  },
+  {
+    "key": "asthma-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/AsthmaInhaler.jpg",
+    "description": "Clinical photograph of pressurized metered-dose asthma inhaler and canister on medical consultation desk",
+    "rationale": "Directly reflects clinical asthma management and bronchodilator delivery without landscape/lifestyle fluff",
+    "source": "Wikimedia Commons (Pulmonology Collection)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "bronchitis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&h=800&q=82",
+    "description": "Physician preparing clinical stethoscope for bronchial and pulmonary chest auscultation",
+    "rationale": "Direct clinical equipment used to detect rhonchi, wheezing, and bronchial inflammation",
+    "source": "Unsplash Medical Collection (Free Commercial License)",
+    "license": "Unsplash Free License"
+  },
+  {
+    "key": "copd-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460117/pexels-photo-8460117.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Pulmonologist monitoring oxygen saturation and reviewing pulmonary spirometry volume with patient",
+    "rationale": "Captures clinical evaluation of expiratory volume and chronic airflow limitation",
+    "source": "Pexels Healthcare / Clinical Pulmonology Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "allergic-rhinitis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452219/pexels-photo-5452219.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor examining nasal airflow and patient allergy symptom chart during clinical consultation",
+    "rationale": "Represents clinical assessment of allergic rhinitis and upper airway hyperreactivity",
+    "source": "Pexels Healthcare / ENT & Allergy Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sinusitis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460126/pexels-photo-8460126.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician palpating facial paranasal sinus pressure points to detect maxillary and frontal congestion",
+    "rationale": "Standard clinical diagnostic maneuver for acute and chronic rhinosinusitis",
+    "source": "Pexels Healthcare / Clinical Physical Exam",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "tonsillitis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Pos_strep.JPG/960px-Pos_strep.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical intraoral photograph of pharynx showing inflamed erythematous palatine tonsils with exudate",
+    "rationale": "Direct clinical photograph of acute tonsillitis in clinical lighting",
+    "source": "Wikimedia Commons (Otolaryngology Archive)",
+    "license": "Public Domain / CC-BY"
+  },
+  {
+    "key": "breathlessness-assessment-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089012/pexels-photo-7089012.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical measurement of arterial pulse and oxygen saturation using a medical pulse oximeter on finger",
+    "rationale": "Immediate clinical objective metric for triage and dyspnea assessment",
+    "source": "Pexels Healthcare / Emergency & Triage Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sun-allergy-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021764/pexels-photo-4021764.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical evaluation of photodermatitis and cutaneous erythema on sun-exposed forearm and neck",
+    "rationale": "Demonstrates acute cutaneous sun hypersensitivity and mast cell response under clinical lighting",
+    "source": "Pexels Healthcare / Clinical Photobiology Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "arthritis-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Rheumatoid_Arthritis.JPG/960px-Rheumatoid_Arthritis.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of hands demonstrating inflammatory interphalangeal and MCP joint swelling in arthritis",
+    "rationale": "Clinical visual evidence of synovial inflammation and articular stiffness in clinical lighting",
+    "source": "Wikimedia Commons (Rheumatology Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "rheumatoid-arthritis-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205509/pexels-photo-6205509.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician conducting clinical palpation and mobility examination of hand and wrist joints",
+    "rationale": "Captures specialized rheumatological assessment and morning stiffness evaluation",
+    "source": "Pexels Healthcare / Model Released Clinical Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "osteoarthritis-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205505/pexels-photo-6205505.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician conducting clinical range-of-motion and joint space assessment on patient knee",
+    "rationale": "Direct clinical demonstration of degenerative joint evaluation and weight-bearing alignment",
+    "source": "Pexels Healthcare / Physical Medicine & Orthopedics Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ankylosing-spondylitis-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205517/pexels-photo-6205517.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician evaluating patient spinal curvature and lumbar posture in clinical examination room",
+    "rationale": "Direct clinical demonstration of spinal axial mobility assessment for ankylosing spondylitis",
+    "source": "Pexels Healthcare / Clinical Ergonomics Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sciatica-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/da/Sciatic_nerve2.jpg",
+    "description": "Clinical anatomical dissection photograph demonstrating the sciatic nerve pathway through gluteal region",
+    "rationale": "Provides precise anatomical understanding of sciatic nerve path and radicular compression",
+    "source": "Wikimedia Commons (Anatomical Clinical Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "low-back-pain-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205524/pexels-photo-6205524.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor performing manual palpation of lumbar paraspinal musculature to locate spasm and disc tenderness",
+    "rationale": "Captures hands-on medical examination for acute and chronic lumbosacral pain",
+    "source": "Pexels Healthcare / Physical Medicine Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gout-high-uric-acid-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gout_Signs_and_Symptoms.jpg/960px-Gout_Signs_and_Symptoms.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of acute podagra showing erythematous swelling of first metatarsophalangeal joint",
+    "rationale": "Definitive clinical image of uric acid crystal deposition in acute gouty arthritis",
+    "source": "Wikimedia Commons (Clinical Rheumatology)",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "key": "varicose-veins-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Leg_Before_1.jpg/960px-Leg_Before_1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "description": "Clinical photograph of tortuous dilated superficial varicose veins along the medial lower leg and calf",
+    "rationale": "Standard clinical documentation of lower extremity chronic venous insufficiency",
+    "source": "Wikimedia Commons (Vascular Surgery Archive)",
+    "license": "CC-BY-SA 3.0"
+  },
+  {
+    "key": "migraine-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/5452203/pexels-photo-5452203.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Patient holding temporal head during clinical consultation discussing neurovascular migraine attacks",
+    "rationale": "Accurately captures unilateral headache pain and photophobia in clinical context",
+    "source": "Pexels Healthcare / Neurology Patient Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "tension-headache-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/6205520/pexels-photo-6205520.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician examining suboccipital and upper trapezius myofascial tension trigger points",
+    "rationale": "Demonstrates physical examination for cervicogenic and tension-type cephalalgia",
+    "source": "Pexels Healthcare / Clinical Physiotherapy Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "anxiety-sleep-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089018/pexels-photo-7089018.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Compassionate mental wellness consultation between doctor and patient in calm clinic office",
+    "rationale": "Depicts professional, supportive clinical dialogue addressing autonomic stress and sleep disruption",
+    "source": "Pexels Healthcare / Clinical Psychology Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "epilepsy-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460105/pexels-photo-8460105.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor reviewing neurological EEG report and discussing seizure diary with patient",
+    "rationale": "Captures clinical neurology consultation and seizure management plan",
+    "source": "Pexels Healthcare / Neurology Clinic Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ear-infection-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/8460113/pexels-photo-8460113.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician examining patient external auditory canal and tympanic membrane using a clinical otoscope",
+    "rationale": "Direct clinical visualization of otoscopic examination for otitis media and middle ear effusion",
+    "source": "Pexels Healthcare / ENT Clinical Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "uti-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7579815/pexels-photo-7579815.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical urinalysis diagnostics and culture sensitivity test tubes for recurrent urinary tract infections",
+    "rationale": "Direct objective laboratory context for urinary mucosal defense and recurrence prevention",
+    "source": "Pexels Healthcare / Diagnostic Laboratory Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "eosinophilia-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.unsplash.com/photo-1579154341184-22069e4614d2?auto=format&fit=crop&w=1200&h=800&q=82",
+    "description": "Clinical laboratory test tubes containing whole blood samples for complete blood count and eosinophil count",
+    "rationale": "Represents hematological laboratory diagnostics for peripheral eosinophilia and immune allergies",
+    "source": "Unsplash Medical Collection (Free Commercial License)",
+    "license": "Unsplash Free License"
+  },
+  {
+    "key": "anaemia-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.unsplash.com/photo-1655210913810-33acfa96d1e6?auto=format&fit=crop&w=1200&h=800&q=82",
+    "description": "Clinical hematology diagnostic apparatus and blood sample vials used for hemoglobin and ferritin analysis",
+    "rationale": "Direct clinical context of iron deficiency evaluation and red blood cell indices",
+    "source": "Unsplash Medical Collection (Free Commercial License)",
+    "license": "Unsplash Free License"
+  },
+  {
+    "key": "child-health-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4173256/pexels-photo-4173256.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Pediatrician gently examining a young child with parent present in child-friendly clinic room",
+    "rationale": "Authentic pediatric healthcare examination with gentle bedside manner and parental involvement",
+    "source": "Pexels Healthcare / Pediatric Clinic Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "erectile-dysfunction-mens-wellness-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4021787/pexels-photo-4021787.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting confidential men's clinical consultation in private medical office",
+    "rationale": "Respectful, professional medical environment for male vascular and neurogenic vitality",
+    "source": "Pexels Healthcare / Confidential Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "premature-ejaculation-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/4173255/pexels-photo-4173255.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician explaining neurogenic relaxation and sympathetic nervous system balance to patient",
+    "rationale": "Focuses on autonomic nervous regulation and compassionate medical guidance",
+    "source": "Pexels Healthcare / Clinical Advice Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "prostate-enlargement-support-primary",
+    "type": "Treatment Primary Photo",
+    "url": "https://images.pexels.com/photos/7089006/pexels-photo-7089006.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and male patient reviewing urinary flow chart and prostate health parameters",
+    "rationale": "Clinical visual context for benign prostatic hyperplasia (BPH) and bladder neck comfort",
+    "source": "Pexels Healthcare / Urology Clinic Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "hair-loss-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021755/pexels-photo-4021755.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Hair Loss",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Hair Loss",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "alopecia-areata-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021756/pexels-photo-4021756.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Alopecia Areata",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Alopecia Areata",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "dandruff-scalp-concerns-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021759/pexels-photo-4021759.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Dandruff & Scalp Concerns",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Dandruff & Scalp Concerns",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "acne-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021760/pexels-photo-4021760.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Acne",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Acne",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "eczema-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021761/pexels-photo-4021761.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Eczema",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Eczema",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "psoriasis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021762/pexels-photo-4021762.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Psoriasis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Psoriasis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "skin-allergy-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021763/pexels-photo-4021763.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Skin Allergy",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Skin Allergy",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "lichen-planus-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021765/pexels-photo-4021765.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Lichen Planus",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Lichen Planus",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "vitiligo-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021766/pexels-photo-4021766.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Vitiligo",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Vitiligo",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "hyperpigmentation-melasma-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021767/pexels-photo-4021767.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Hyperpigmentation / Melasma",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Hyperpigmentation / Melasma",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "pcos-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021768/pexels-photo-4021768.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for PCOS (Polycystic Ovary Syndrome)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for PCOS (Polycystic Ovary Syndrome)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "irregular-periods-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021770/pexels-photo-4021770.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Irregular Periods",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Irregular Periods",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "leucorrhoea-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021771/pexels-photo-4021771.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Leucorrhoea",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Leucorrhoea",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "uterine-fibroids-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021772/pexels-photo-4021772.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Uterine Fibroids",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Uterine Fibroids",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "endometriosis-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021774/pexels-photo-4021774.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Endometriosis Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Endometriosis Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "female-infertility-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Female Infertility Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Female Infertility Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "thyroid-fertility-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021777/pexels-photo-4021777.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Thyroid & Fertility Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Thyroid & Fertility Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "low-amh-guidance-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021778/pexels-photo-4021778.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Low AMH Guidance",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Low AMH Guidance",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "unexplained-infertility-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021779/pexels-photo-4021779.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Unexplained Infertility Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Unexplained Infertility Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "recurrent-miscarriage-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021781/pexels-photo-4021781.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Recurrent Miscarriage Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Recurrent Miscarriage Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "homeopathy-support-during-ivf-iui-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021783/pexels-photo-4021783.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Homeopathy Support During IVF / IUI",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Homeopathy Support During IVF / IUI",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "thyroid-concerns-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021784/pexels-photo-4021784.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Thyroid Concerns",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Thyroid Concerns",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "goitre-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021786/pexels-photo-4021786.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Goitre",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Goitre",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "diabetes-wellness-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4021789/pexels-photo-4021789.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Diabetes Wellness Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Diabetes Wellness Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "high-blood-pressure-wellness-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173220/pexels-photo-4173220.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for High Blood Pressure Wellness Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for High Blood Pressure Wellness Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "fatty-liver-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173221/pexels-photo-4173221.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Fatty Liver",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Fatty Liver",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "hepatitis-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173222/pexels-photo-4173222.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Hepatitis Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Hepatitis Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "acidity-gerd-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173223/pexels-photo-4173223.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Acidity & GERD",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Acidity & GERD",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gastritis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173224/pexels-photo-4173224.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Gastritis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Gastritis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "peptic-ulcer-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173225/pexels-photo-4173225.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Peptic Ulcer",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Peptic Ulcer",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "indigestion-dyspepsia-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173227/pexels-photo-4173227.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Indigestion & Dyspepsia",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Indigestion & Dyspepsia",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ibs-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173228/pexels-photo-4173228.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for IBS (Irritable Bowel Syndrome)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for IBS (Irritable Bowel Syndrome)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "constipation-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173229/pexels-photo-4173229.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Constipation",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Constipation",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "piles-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173230/pexels-photo-4173230.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Piles (Haemorrhoids)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Piles (Haemorrhoids)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "anal-fissure-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173231/pexels-photo-4173231.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Anal Fissure",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Anal Fissure",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "fistula-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173232/pexels-photo-4173232.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Fistula Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Fistula Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gallbladder-stone-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173233/pexels-photo-4173233.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Gallbladder Stone Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Gallbladder Stone Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kidney-stone-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173234/pexels-photo-4173234.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Kidney Stone Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Kidney Stone Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "asthma-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173235/pexels-photo-4173235.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Asthma",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Asthma",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "bronchitis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173236/pexels-photo-4173236.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Bronchitis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Bronchitis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "copd-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173237/pexels-photo-4173237.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for COPD Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for COPD Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "allergic-rhinitis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173238/pexels-photo-4173238.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Allergic Rhinitis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Allergic Rhinitis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sinusitis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173239/pexels-photo-4173239.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Sinusitis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Sinusitis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "tonsillitis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173240/pexels-photo-4173240.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Tonsillitis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Tonsillitis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "breathlessness-assessment-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173241/pexels-photo-4173241.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Breathlessness Assessment Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Breathlessness Assessment Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sun-allergy-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173242/pexels-photo-4173242.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Sun Allergy (Polymorphous Light Eruption)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Sun Allergy (Polymorphous Light Eruption)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "arthritis-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173243/pexels-photo-4173243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Arthritis",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Arthritis",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "rheumatoid-arthritis-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173244/pexels-photo-4173244.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Rheumatoid Arthritis Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Rheumatoid Arthritis Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "osteoarthritis-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173245/pexels-photo-4173245.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Osteoarthritis Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Osteoarthritis Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ankylosing-spondylitis-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173246/pexels-photo-4173246.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Ankylosing Spondylitis Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Ankylosing Spondylitis Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "sciatica-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173248/pexels-photo-4173248.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Sciatica",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Sciatica",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "low-back-pain-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173249/pexels-photo-4173249.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Low Back Pain",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Low Back Pain",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "gout-high-uric-acid-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173250/pexels-photo-4173250.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Gout & High Uric Acid",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Gout & High Uric Acid",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "varicose-veins-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Varicose Veins",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Varicose Veins",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "migraine-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173253/pexels-photo-4173253.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Migraine",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Migraine",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "tension-headache-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173254/pexels-photo-4173254.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Tension Headache",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Tension Headache",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "anxiety-sleep-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173257/pexels-photo-4173257.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Anxiety & Sleep Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Anxiety & Sleep Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "epilepsy-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173258/pexels-photo-4173258.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Epilepsy Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Epilepsy Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "ear-infection-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/4173259/pexels-photo-4173259.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Ear Infection Support (Otitis Media)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Ear Infection Support (Otitis Media)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "uti-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452200/pexels-photo-5452200.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for UTI Support (Recurrent Urinary Tract Infections)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for UTI Support (Recurrent Urinary Tract Infections)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "eosinophilia-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452201/pexels-photo-5452201.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Eosinophilia Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Eosinophilia Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "anaemia-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452202/pexels-photo-5452202.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Anaemia Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Anaemia Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "child-health-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452204/pexels-photo-5452204.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Child Health & Pediatric Wellness",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Child Health & Pediatric Wellness",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "erectile-dysfunction-mens-wellness-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452205/pexels-photo-5452205.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Erectile Dysfunction & Men’s Wellness",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Erectile Dysfunction & Men’s Wellness",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "premature-ejaculation-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452206/pexels-photo-5452206.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Premature Ejaculation Support",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Premature Ejaculation Support",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "prostate-enlargement-support-secondary",
+    "type": "Treatment Secondary Consultation Photo",
+    "url": "https://images.pexels.com/photos/5452209/pexels-photo-5452209.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor conducting in-depth clinical consultation and constitutional case-taking with patient for Prostate Enlargement Support (BPH)",
+    "rationale": "Provides clinical context of individualized homeopathic case analysis, trigger evaluation, and symptom monitoring for Prostate Enlargement Support (BPH)",
+    "source": "Pexels Healthcare / Clinical Consultation Shoot",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-skin-hair",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/5452211/pexels-photo-5452211.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Dermatologist conducting clinical scalp and dermal examination in private consultation room",
+    "rationale": "Authentic clinical representation of dermatological and trichological evaluation",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-womens-health",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/5327595/pexels-photo-5327595.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Female physician consulting patient warmly regarding hormonal balance and reproductive wellness",
+    "rationale": "Represents supportive, empathetic clinical environment for women's health",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-digestive-health",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/5452213/pexels-photo-5452213.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor performing abdominal examination and explaining gut motility in consultation",
+    "rationale": "Direct clinical context for gastroenterology and gut health management",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-respiratory-health",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/8460118/pexels-photo-8460118.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician examining respiratory lung sounds with clinical stethoscope",
+    "rationale": "Captures pulmonary auscultation and chest examination",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-joint-and-pain-care",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/6205527/pexels-photo-6205527.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physical medicine specialist evaluating joint mobility and musculoskeletal flexibility",
+    "rationale": "Clinical visual evidence of orthopedic and joint pain evaluation",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-general-wellness",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/7089001/pexels-photo-7089001.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Comprehensive clinical health check and doctor-patient vital sign review",
+    "rationale": "Represents whole-person general health assessment and constitutional harmony",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-child-health",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/8460139/pexels-photo-8460139.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Pediatric doctor in gentle consultation with young child patient and mother",
+    "rationale": "Gentle, comforting clinical care for infants, children, and pediatric immunity",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "category-mens-health",
+    "type": "Category Card Photo",
+    "url": "https://images.pexels.com/photos/8460100/pexels-photo-8460100.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor consulting male patient in private, confidential clinical office",
+    "rationale": "Represents dignified clinical consultation for male reproductive and vascular health",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "womens-health-hero",
+    "type": "Women's Health Feature Photo",
+    "url": "https://images.pexels.com/photos/5327581/pexels-photo-5327581.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Empathetic female healthcare consultation in a calm, modern medical clinic setting",
+    "rationale": "Sets an authentic, welcoming clinical tone for comprehensive women's health care",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "womens-health-lifestyle",
+    "type": "Women's Health Feature Photo",
+    "url": "https://images.pexels.com/photos/5327602/pexels-photo-5327602.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor discussing lifestyle pacing, sleep rhythm, and nutrition with female patient",
+    "rationale": "Direct clinical consultation regarding daily lifestyle support for hormonal harmony",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-hair-care-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579805/pexels-photo-7579805.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical dispensing amber glass dropper bottles for specialized homeopathic hair remedies",
+    "rationale": "Accurately documents clinical dispensing of constitutional dilution drops without shampoo product shots",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-skin-clear-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579808/pexels-photo-7579808.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical dispensary vials and organic botanical tinctures prepared for dermal soothing",
+    "rationale": "Real medical dispensary bottles representing customized dermatological dilution kits",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-pcos-support-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579816/pexels-photo-7579816.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Homeopathic clinical formulation bottles prepared for endocrine and cycle harmonization",
+    "rationale": "Professional dispensing context for personalized PCOS support protocols",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-digestive-care-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579819/pexels-photo-7579819.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Natural clinical dilution tinctures in amber dropper bottles for digestive wellness",
+    "rationale": "Authentic homeopathic dispensary formulation for gastrointestinal mucosal support",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-respiratory-wellness-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579824/pexels-photo-7579824.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical homeopathic medicine bottles prepared for bronchial and nasal ease",
+    "rationale": "Reflects authentic clinic preparation of constitutional respiratory remedies",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "kit-joint-mobility-kit",
+    "type": "Disease Kit Photo",
+    "url": "https://images.pexels.com/photos/7579828/pexels-photo-7579828.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Clinical dispensary formulations for joint mobility, flexibility, and anti-inflammatory relief",
+    "rationale": "Real clinic dispensing vials representing customized joint support protocols",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "blog-understanding-hair-fall-questions-to-ask",
+    "type": "Blog Article Featured Photo",
+    "url": "https://images.pexels.com/photos/5452220/pexels-photo-5452220.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor examining patient hair density and discussing follicular shedding questions",
+    "rationale": "Clinical discussion setting answering patient questions on hair thinning and genetics",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "blog-pcos-stress-and-everyday-wellness-habits",
+    "type": "Blog Article Featured Photo",
+    "url": "https://images.pexels.com/photos/5327607/pexels-photo-5327607.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician consulting patient on neuroendocrine stress axis, cortisol, and ovarian rhythm",
+    "rationale": "Direct clinical dialogue addressing everyday lifestyle and hormonal health",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "blog-supporting-digestive-wellness-when-to-speak-to-a-doctor",
+    "type": "Blog Article Featured Photo",
+    "url": "https://images.pexels.com/photos/5452222/pexels-photo-5452222.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor and patient reviewing digestive symptom timeline and red flag warning signs",
+    "rationale": "Clinical consultation on recognizing when gut symptoms require professional evaluation",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "blog-chronic-joint-pain-and-mobility-questions-to-ask",
+    "type": "Blog Article Featured Photo",
+    "url": "https://images.pexels.com/photos/6205511/pexels-photo-6205511.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Doctor demonstrating joint mobility exercises and answering questions on chronic pain",
+    "rationale": "Educational clinical consultation on joint preservation and anti-inflammatory habits",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  },
+  {
+    "key": "blog-seasonal-allergies-and-homeopathy-approach",
+    "type": "Blog Article Featured Photo",
+    "url": "https://images.pexels.com/photos/5452224/pexels-photo-5452224.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop",
+    "description": "Physician discussing environmental pollen triggers and constitutional desensitization with patient",
+    "rationale": "Clinical guidance on preparing for seasonal allergic rhinitis and immune balance",
+    "source": "Pexels Healthcare",
+    "license": "Pexels Commercial License"
+  }
+]

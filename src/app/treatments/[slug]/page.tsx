@@ -195,7 +195,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] bg-sage-50 overflow-hidden">
                   <Image
                     src={`/images/treatments/${treatment.slug}-primary.webp`}
-                    alt={`Medical illustration of clinical pathology, anatomy and symptom presentation for ${treatment.title} - Dr. Noor ul Qamar Homeopathy Care`}
+                    alt={`Clinical photograph and medical evaluation for ${treatment.title} - Dr. Noor ul Qamar Homeopathy Care`}
                     width={1200}
                     height={800}
                     priority
@@ -278,12 +278,12 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Secondary Supporting Protocol & Lifestyle Illustration */}
+              {/* Secondary Supporting Clinical Consultation & Care */}
               <div className="wellness-card p-6 sm:p-8 bg-white space-y-4 shadow-xs border border-sage-200/80">
                 <div className="flex items-center gap-2 text-forest-900">
                   <Sparkles className="w-5 h-5 text-gold-500" />
                   <h3 className="font-heading text-lg sm:text-xl font-normal">
-                    Holistic Constitutional Protocol &amp; Lifestyle Integration
+                    Clinical Consultation &amp; Constitutional Care Protocol
                   </h3>
                 </div>
                 <p className="text-xs sm:text-sm text-sage-700 leading-relaxed">
@@ -292,7 +292,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                 <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-sage-50 border border-sage-200/60 shadow-xs">
                   <Image
                     src={`/images/treatments/${treatment.slug}-secondary.webp`}
-                    alt={`Constitutional homeopathic clinical protocol and lifestyle integration diagram for ${treatment.title} - Dr. Noor ul Qamar`}
+                    alt={`Clinical consultation and constitutional homeopathic care for ${treatment.title} - Dr. Noor ul Qamar`}
                     width={1200}
                     height={800}
                     loading="lazy"
@@ -301,7 +301,7 @@ export default async function TreatmentDetailPage({ params }: PageProps) {
                   />
                 </div>
                 <p className="text-[11px] sm:text-xs text-sage-600 italic">
-                  Educational illustration: Every patient presents a unique physiological constitution requiring dedicated diagnostic dialogue.
+                  Clinical consultation: Every patient presents a unique physiological constitution requiring dedicated diagnostic dialogue.
                 </p>
               </div>
 

@@ -143,13 +143,13 @@ function getLabelTypography(
   }
 
   // Refined upper and lower bounds so labels are consistently bold and crisp across all brands
-  const maxFont = 5.6;
-  const minFont = 4.0;
+  const maxFont = 5.4;
+  const minFont = 3.6;
   const nameSize = Math.max(minFont, Math.min(maxFont, ideal)) * fontScale;
 
   // Balanced potency font size
-  const potBase = 5.2;
-  const potencySize = Math.max(4.4, potBase * fontScale);
+  const potBase = 4.8;
+  const potencySize = Math.max(3.8, potBase * fontScale);
 
   return {
     nameSize: Number(nameSize.toFixed(1)),
@@ -178,18 +178,18 @@ export function MedicineBottle({
   const words = cleanName.split(/\s+/);
   const isMultiWord = words.length > 1;
 
-  // Pixel-accurate sizes to ensure high readability and authentic look
+  // Compact, proportional sizes to maximize vertical space for multiple prescribed remedies
   const sizeClasses =
     size === "xs"
-      ? "w-[44px] sm:w-[48px] h-[68px] sm:h-[76px]"
+      ? "w-[30px] sm:w-[34px] h-[48px] sm:h-[54px]"
       : size === "sm"
-      ? "w-[52px] sm:w-[58px] h-[80px] sm:h-[90px]"
+      ? "w-[36px] sm:w-[40px] h-[56px] sm:h-[62px]"
       : size === "lg"
-      ? "w-[76px] sm:w-[84px] h-[118px] sm:h-[130px]"
-      : "w-[60px] sm:w-[68px] h-[94px] sm:h-[106px]";
+      ? "w-[54px] sm:w-[60px] h-[84px] sm:h-[92px]"
+      : "w-[42px] sm:w-[46px] h-[64px] sm:h-[70px]";
 
   const fontScale =
-    size === "xs" ? 0.8 : size === "sm" ? 0.9 : size === "lg" ? 1.2 : 1.0;
+    size === "xs" ? 0.70 : size === "sm" ? 0.78 : size === "lg" ? 1.05 : 0.86;
 
   // Uniform typography across all brands for consistent bold contrast
   const typo = getLabelTypography(cleanName, fontScale);
@@ -499,14 +499,14 @@ export function MedicineBottle({
       </div>
       {showBrand && (
         <span
-          className={`inline-flex items-center justify-center font-bold tracking-tight text-center mt-0.5 px-1 py-[1.5px] rounded bg-slate-50 border border-slate-200/70 text-slate-600 print:text-slate-900 print:bg-transparent print:border-none font-sans shrink-0 shadow-2xs ${
+          className={`inline-flex items-center justify-center font-bold tracking-tight text-center mt-0.5 px-1 py-[1px] rounded bg-slate-50 border border-slate-200/70 text-slate-600 print:text-slate-900 print:bg-transparent print:border-none font-sans shrink-0 shadow-2xs ${
             size === "xs"
-              ? "text-[6.5px] leading-none"
+              ? "text-[5.5px] sm:text-[6px] leading-none"
               : size === "sm"
-              ? "text-[7px] leading-none"
+              ? "text-[6px] sm:text-[6.5px] leading-none"
               : size === "lg"
-              ? "text-[8px] leading-none"
-              : "text-[7px] sm:text-[7.5px] leading-none"
+              ? "text-[7.5px] sm:text-[8px] leading-none"
+              : "text-[6.5px] sm:text-[7px] leading-none"
           }`}
         >
           {getBrandDisplayName(activeVariant)}
